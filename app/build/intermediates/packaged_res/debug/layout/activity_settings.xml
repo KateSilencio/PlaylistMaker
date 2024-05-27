@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="24dp">
+
+    <ImageButton
+        android:id="@+id/backward_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:paddingStart="@dimen/btn_backward"
+        android:paddingTop="@dimen/btn_backward"
+        android:paddingEnd="@dimen/btn_backward"
+        android:paddingBottom="@dimen/btn_backward"
+        android:src="@drawable/ic_backward"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/settings_sc_screen"
+        android:textSize="22sp"
+        android:textColor="@color/text_btn"
+        android:textStyle="bold"
+        android:paddingStart="12dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/theme"
+            android:textSize="@dimen/sizetext_points"
+            android:textColor="@color/points_color"
+            android:paddingStart="@dimen/top_padding"
+            android:paddingVertical="@dimen/vert_padding"/>
+
+        <Switch
+            android:id="@+id/switch_theme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:paddingVertical="11dp"
+            android:paddingEnd="12dp"
+            tools:ignore="UseSwitchCompatOrMaterialXml">
+
+        </Switch>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="@string/share"
+            android:textSize="@dimen/sizetext_points"
+            android:textColor="@color/points_color"
+            android:paddingStart="@dimen/top_padding"
+            android:paddingVertical="@dimen/vert_padding"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_share"
+            android:paddingVertical="@dimen/img_vert_padding"
+            android:paddingEnd="@dimen/img_end_padding"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="@string/write_support"
+            android:textSize="@dimen/sizetext_points"
+            android:textColor="@color/points_color"
+            android:paddingStart="@dimen/top_padding"
+            android:paddingVertical="@dimen/vert_padding"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_support"
+            android:paddingVertical="@dimen/img_vert_padding"
+            android:paddingEnd="@dimen/img_end_padding"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+
+            android:text="@string/agreement"
+            android:textSize="@dimen/sizetext_points"
+            android:textColor="@color/points_color"
+            android:paddingStart="@dimen/top_padding"
+            android:paddingVertical="@dimen/vert_padding"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_agreement"
+            android:paddingVertical="@dimen/img_vert_padding"
+            android:paddingEnd="@dimen/img_end_padding"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>
