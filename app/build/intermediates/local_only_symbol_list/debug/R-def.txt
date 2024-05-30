@@ -11,7 +11,9 @@ dimen img_end_padding
 dimen img_vert_padding
 dimen medium_padding
 dimen primary_text_size
+dimen radius
 dimen sizetext_points
+dimen text_size_main
 dimen top_padding
 dimen vert_padding
 drawable bground_shapes
