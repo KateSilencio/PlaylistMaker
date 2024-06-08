@@ -10,4 +10,10 @@
     <string name="share">Share app</string>
     <string name="write_support">Write to support</string>
     <string name="agreement">User agreement</string>
+
+    <string name="android_developer_link">https://practicum.yandex.ru/android_developer</string>
+    <string name="student_mail">silenci0.k89@gmail.com</string>
+    <string name="topic_mail">Message to the developers of Playlist Maker app</string>
+    <string name="message_mail">Thanks to the developers for the cool app!</string>
+    <string name="agreement_link">https://yandex.ru/legal/practicum_offer</string>
 </resources>

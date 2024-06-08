@@ -3,7 +3,7 @@
     <dimen name="medium_padding">8dp</dimen>
     <dimen name="primary_text_size">24sp</dimen>
 
-    <dimen name="text_size_main">22sp</dimen>
+    <dimen name="text_size_main">24sp</dimen>
     <dimen name="radius">16dp</dimen>
 
     <dimen name="btn_backward">24dp</dimen>
