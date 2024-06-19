@@ -10,6 +10,7 @@
     <dimen name="top_padding">16dp</dimen>
     <dimen name="vert_padding">20dp</dimen>
     <dimen name="img_vert_padding">20dp</dimen>
+    <dimen name="img_start_padding">12dp</dimen>
     <dimen name="img_end_padding">12dp</dimen>
     <dimen name="sizetext_points">16sp</dimen>
 </resources>
