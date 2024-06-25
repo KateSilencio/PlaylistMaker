@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,7 +18,6 @@ class MainActivity : AppCompatActivity() {
         val settingsBtn =
             findViewById<com.google.android.material.button.MaterialButton>(R.id.settings_btn)
 
-        //1. Анонимный класс
         val searchClickListener: View.OnClickListener = object : View.OnClickListener {
             override fun onClick(v: View?) {
                 val searchIntent = Intent(this@MainActivity, SearchActivity::class.java)
@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         }
         searchBtn.setOnClickListener(searchClickListener)
 
-        //2. Лямбда выражение
         mediaBtn.setOnClickListener {
             val mediaIntent = Intent(this, MediaActivity::class.java)
             startActivity(mediaIntent)

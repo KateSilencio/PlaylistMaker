@@ -13,4 +13,8 @@
     <dimen name="img_start_padding">12dp</dimen>
     <dimen name="img_end_padding">12dp</dimen>
     <dimen name="sizetext_points">16sp</dimen>
+
+    <dimen name="size_img_albom">45dp</dimen>
+    <dimen name="size_band_time">11sp</dimen>
+    <dimen name="additional_gap">4dp</dimen>
 </resources>
