@@ -1,42 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/backward_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingStart="@dimen/btn_backward"
-            android:paddingTop="@dimen/btn_backward"
-            android:paddingEnd="@dimen/btn_backward"
-            android:paddingBottom="@dimen/btn_backward"
-            android:src="@drawable/ic_backward"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingStart="12dp"
-            android:text="@string/settings_sc_screen"
-            android:textColor="@color/text_btn"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
+        android:paddingStart="@dimen/medium_padding"
+        android:paddingTop="@dimen/medium_padding"
+        android:paddingEnd="@dimen/medium_padding"
+        android:paddingBottom="@dimen/medium_padding"
+        app:navigationIcon="@drawable/ic_backward"
+        app:title="@string/settings"
+        app:titleTextAppearance="@style/TitleText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,14 +25,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingVertical="@dimen/vert_padding"
-            android:paddingStart="@dimen/top_padding"
-            android:text="@string/theme"
-            android:textColor="@color/points_color"
-            android:textSize="@dimen/sizetext_points" />
+            style="@style/TextSettingsScr"
+            android:text="@string/theme" />
 
         <Switch
             android:id="@+id/switch_theme"
@@ -66,79 +40,52 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/LayoutShare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            android:paddingVertical="@dimen/vert_padding"
-            android:paddingStart="@dimen/top_padding"
-            android:text="@string/share"
-            android:textColor="@color/points_color"
-            android:textSize="@dimen/sizetext_points" />
+            style="@style/TextSettingsScr"
+            android:text="@string/share" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/img_vert_padding"
-            android:paddingEnd="@dimen/img_end_padding"
+            style="@style/IconSettingsScr"
             android:src="@drawable/ic_share" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/LayoutSupport"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            android:paddingVertical="@dimen/vert_padding"
-            android:paddingStart="@dimen/top_padding"
-            android:text="@string/write_support"
-            android:textColor="@color/points_color"
-            android:textSize="@dimen/sizetext_points" />
+            style="@style/TextSettingsScr"
+            android:text="@string/write_support" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/img_vert_padding"
-            android:paddingEnd="@dimen/img_end_padding"
+            style="@style/IconSettingsScr"
             android:src="@drawable/ic_support" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/LayoutAgreement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-
-            android:paddingVertical="@dimen/vert_padding"
-            android:paddingStart="@dimen/top_padding"
-            android:text="@string/agreement"
-            android:textColor="@color/points_color"
-            android:textSize="@dimen/sizetext_points" />
+            style="@style/TextSettingsScr"
+            android:text="@string/agreement" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/img_vert_padding"
-            android:paddingEnd="@dimen/img_end_padding"
+            style="@style/IconSettingsScr"
             android:src="@drawable/ic_agreement" />
 
     </LinearLayout>

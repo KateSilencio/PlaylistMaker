@@ -3,13 +3,18 @@
     <dimen name="medium_padding">8dp</dimen>
     <dimen name="primary_text_size">24sp</dimen>
 
-    <dimen name="text_size_main">22sp</dimen>
+    <dimen name="text_size_main">24sp</dimen>
     <dimen name="radius">16dp</dimen>
 
     <dimen name="btn_backward">24dp</dimen>
     <dimen name="top_padding">16dp</dimen>
     <dimen name="vert_padding">20dp</dimen>
     <dimen name="img_vert_padding">20dp</dimen>
+    <dimen name="img_start_padding">12dp</dimen>
     <dimen name="img_end_padding">12dp</dimen>
     <dimen name="sizetext_points">16sp</dimen>
+
+    <dimen name="size_img_albom">45dp</dimen>
+    <dimen name="size_band_time">11sp</dimen>
+    <dimen name="additional_gap">4dp</dimen>
 </resources>
