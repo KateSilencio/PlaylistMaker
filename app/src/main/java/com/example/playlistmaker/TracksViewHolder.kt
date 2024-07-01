@@ -24,18 +24,9 @@ class TracksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         Glide.with(artworkUrl.context)
             .load(track.artworkUrl100)
             .centerCrop()
-            .transform(RoundedCorners(dpToPx(2f, artworkUrl.context)))
+            .transform(RoundedCorners(artworkUrl.context.dpToPx(2f)))
             .placeholder(R.drawable.ic_placeholder)
             .into(artworkUrl)
-    }
-
-    //конвертация dp в px
-    fun dpToPx(dp: Float, context: Context): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp,
-            context.resources.displayMetrics
-        ).toInt()
     }
 
 }

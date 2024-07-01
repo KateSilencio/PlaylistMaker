@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/top_padding">
+    android:paddingHorizontal="@dimen/top_padding"
+    android:paddingVertical="@dimen/medium_padding">
 
     <ImageView
         android:id="@+id/image_albom"
         android:layout_width="@dimen/size_img_albom"
         android:layout_height="@dimen/size_img_albom"
-        android:paddingVertical="@dimen/medium_padding"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

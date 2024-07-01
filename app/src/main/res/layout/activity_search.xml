@@ -32,6 +32,7 @@
             android:layout_marginVertical="@dimen/medium_padding"
             android:background="@drawable/bground_shapes"
             android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="@dimen/medium_padding"
             android:hint="@string/search"
             android:inputType="text"
             android:paddingHorizontal="@dimen/medium_padding"
