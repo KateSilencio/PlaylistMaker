@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingHorizontal="@dimen/top_padding"
+    android:paddingStart="@dimen/top_padding"
     android:paddingVertical="@dimen/medium_padding">
 
     <ImageView
@@ -58,7 +58,7 @@
         android:id="@+id/img_search_track"
         android:layout_width="@dimen/btn_backward"
         android:layout_height="@dimen/btn_backward"
-        android:layout_marginEnd="@dimen/img_vert_padding"
+        android:layout_marginEnd="@dimen/img_start_padding"
         android:src="@drawable/ic_agreement"
         style="@style/ImgTrackColor"
         app:layout_constraintBottom_toBottomOf="parent"
