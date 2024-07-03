@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ButtonStyleMainScr" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginHorizontal">16dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/text_btn</item>
+        <item name="android:textSize">@dimen/text_size_main</item>
+        <item name="cornerRadius">@dimen/radius</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">@dimen/medium_padding</item>
+        <item name="iconTint">@color/icon_color</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+    </style>
+
+    <style name="TextSettingsScr">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingVertical">@dimen/vert_padding</item>
+        <item name="android:paddingStart">@dimen/top_padding</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">@dimen/sizetext_points</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+    </style>
+
+    <style name="IconSettingsScr">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingVertical">@dimen/img_vert_padding</item>
+        <item name="android:paddingEnd">@dimen/img_end_padding</item>
+        <item name="android:tint">@color/icon_search_color</item>
+    </style>
+
+    <style name="TitleText">
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditSearch">
+        <item name="android:backgroundTint">@color/bground_edit_color</item>
+        <item name="android:textColorHint">@color/text_search_color</item>
+        <item name="android:drawableTint">@color/icon_search_color</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:maxLines">@integer/material_motion_duration_medium_1</item>
+        <item name="android:textSize">@dimen/sizetext_points</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
+
+    <style name="ClearBtn">
+        <item name="android:backgroundTint">@color/bground_edit_color</item>
+        <item name="tint">@color/icon_search_color</item>
+    </style>
+
+    <style name="TrackTitle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/sizetext_points</item>
+        <item name="android:textColor">@color/points_color</item>
+    </style>
+
+    <style name="SecondStrTrack">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/size_band_time</item>
+        <item name="android:textColor">@color/text_search_color</item>
+    </style>
+
+    <style name="ImgTrackColor">
+        <item name="tint">@color/icon_search_color</item>
+    </style>
+
+</resources>
