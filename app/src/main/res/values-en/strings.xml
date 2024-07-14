@@ -16,4 +16,8 @@
     <string name="topic_mail">Message to the developers of Playlist Maker app</string>
     <string name="message_mail">Thanks to the developers for the cool app!</string>
     <string name="agreement_link">https://yandex.ru/legal/practicum_offer</string>
+
+    <string name="msg_nothing_found">Nothing found</string>
+    <string name="msg_no_connection">Communication problems.\n\nUpload failed. Check\nyour internet connection</string>
+    <string name="txt_btn_update">Update</string>
 </resources>

@@ -15,4 +15,8 @@
     <string name="topic_mail">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="message_mail">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="agreement_link">https://yandex.ru/legal/practicum_offer</string>
+
+    <string name="msg_nothing_found">Ничего не нашлось</string>
+    <string name="msg_no_connection">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
+    <string name="txt_btn_update">Обновить</string>
 </resources>
