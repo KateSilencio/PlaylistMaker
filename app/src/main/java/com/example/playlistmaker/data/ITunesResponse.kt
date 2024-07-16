@@ -6,9 +6,9 @@ data class ITunesResponse(
     @SerializedName("resultCount")
     val resultCount: Int,
     @SerializedName("results")
-    val results: List<ResultFields>
+    val tracks: List<TracksFields>
 )
-data class ResultFields(
+data class TracksFields(
     @SerializedName("trackName")
     val trackName: String,
     @SerializedName("artistName")

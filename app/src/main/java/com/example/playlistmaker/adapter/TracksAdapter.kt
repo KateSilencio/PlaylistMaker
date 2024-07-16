@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
-import com.example.playlistmaker.data.ResultFields
+import com.example.playlistmaker.data.TracksFields
 
-class TracksAdapter(private val tracks: List<ResultFields>):    //List<Track>
+class TracksAdapter(private val tracks: List<TracksFields>):    //List<Track>
                     RecyclerView.Adapter<TracksViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
         return TracksViewHolder(LayoutInflater.from(parent.context)
