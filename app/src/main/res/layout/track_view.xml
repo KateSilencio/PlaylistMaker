@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/top_padding"
     android:paddingVertical="@dimen/medium_padding">
@@ -17,22 +18,40 @@
     <TextView
         android:id="@+id/track_name"
         style="@style/TrackTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/medium_padding"
         android:layout_marginTop="@dimen/medium_padding"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toStartOf="@+id/img_search_track"
         app:layout_constraintStart_toEndOf="@+id/image_albom"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Название трека" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/img_search_track"
+        app:layout_constraintStart_toEndOf="@+id/image_albom"
+        app:layout_constraintTop_toBottomOf="@+id/track_name">
+
     <TextView
         android:id="@+id/artist_name"
         style="@style/SecondStrTrack"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight = "1"
         android:layout_marginLeft="@dimen/medium_padding"
-        app:layout_constraintStart_toEndOf="@+id/image_albom"
-        app:layout_constraintTop_toBottomOf="@id/track_name"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dot"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_default="wrap"
         tools:text="Исполнитель" />
 
     <ImageView
@@ -42,17 +61,22 @@
         android:src="@drawable/ic_dot"
         style="@style/ImgTrackColor"
         app:layout_constraintStart_toEndOf="@+id/artist_name"
-        app:layout_constraintTop_toBottomOf="@+id/track_name" />
+        app:layout_constraintEnd_toStartOf="@id/track_time"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/track_time"
         style="@style/SecondStrTrack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/additional_gap"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/dot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Время трека" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
         android:id="@+id/img_search_track"

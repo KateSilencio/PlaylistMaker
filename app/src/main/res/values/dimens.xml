@@ -17,4 +17,10 @@
     <dimen name="size_img_albom">45dp</dimen>
     <dimen name="size_band_time">11sp</dimen>
     <dimen name="additional_gap">4dp</dimen>
+
+    <dimen name="top_margin_image_search">104dp</dimen>
+    <dimen name="size_text_error_msg">19sp</dimen>
+    <dimen name="size_update_btn_text">14sp</dimen>
+    <dimen name="radius_update_btn">54dp</dimen>
+    <dimen name="update_btn_padding">6dp</dimen>
 </resources>
