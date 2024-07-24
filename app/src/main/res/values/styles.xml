@@ -82,7 +82,7 @@
         <item name="android:src">@drawable/ic_no_connection_light</item>
     </style>
 
-    <style name="ErrorTextSearch">
+    <style name="TextSearch">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textColor">@color/main_color</item>
         <item name="android:textSize">@dimen/size_text_error_msg</item>

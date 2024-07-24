@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Новый атрибут для фона не главного экрана приложения -->
+    <declare-styleable name="ColorBackground">
+        <attr name="nonMainScrBrd" format="color" />
+
+    </declare-styleable>
+
+</resources>
