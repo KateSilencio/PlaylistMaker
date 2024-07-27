@@ -18,7 +18,7 @@ class TracksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val trackTime: TextView = itemView.requireViewById(R.id.track_time)
     val artworkUrl: ImageView = itemView.findViewById(R.id.image_albom)
 
-    fun bind(track: TracksFields) {        //track: Track
+    fun bind(track: TracksFields) {
         trackName.text = track.trackName
         artistName.text = track.artistName
         trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault())
@@ -31,5 +31,4 @@ class TracksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .placeholder(R.drawable.ic_placeholder)
             .into(artworkUrl)
     }
-
 }

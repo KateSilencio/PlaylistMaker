@@ -19,4 +19,6 @@
     <string name="msg_nothing_found">Ничего не нашлось</string>
     <string name="msg_no_connection">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>
     <string name="txt_btn_update">Обновить</string>
+    <string name="txt_history_search">Вы искали</string>
+    <string name="msg_clean_history">Очистить историю</string>
 </resources>

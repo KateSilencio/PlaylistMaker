@@ -82,7 +82,7 @@
         <item name="android:src">@drawable/ic_no_connection_light</item>
     </style>
 
-    <style name="ErrorTextSearch">
+    <style name="TextSearch">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textColor">@color/main_color</item>
         <item name="android:textSize">@dimen/size_text_error_msg</item>
@@ -95,6 +95,11 @@
         <item name="android:textSize">@dimen/size_update_btn_text</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="cornerRadius">@dimen/radius_update_btn</item>
+    </style>
+
+    <style name="SwitchColor">
+        <item name="thumbTint">@color/icon_search_color</item>
+        <item name="trackTint">@color/bground_edit_color</item>
     </style>
 
 </resources>

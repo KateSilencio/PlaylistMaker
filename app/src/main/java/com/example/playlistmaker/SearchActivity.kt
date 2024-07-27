@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.core.view.isVisible
@@ -21,8 +22,15 @@ import com.example.playlistmaker.data.TracksFields
 import com.example.playlistmaker.retrofit.ITunesSearchAPI
 import retrofit2.Call
 import retrofit2.Response
+import java.util.LinkedList
+
+const val SEARCH_HISTORY = "search_history"
+const val EDIT_HISTORY_KEY = "history_search_key"
 
 class SearchActivity : AppCompatActivity() {
+
+    //Для SharedPreferences
+    private lateinit var history: SearchHistory
 
     //View для запроса и работы с Retrofit
     private lateinit var recyclerView: RecyclerView
@@ -31,33 +39,92 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderNoConnection: LinearLayout
     private lateinit var updateButton: com.google.android.material.button.MaterialButton
 
+    //View для истории поиска
+    private lateinit var recyclerViewHistory: RecyclerView
+    private lateinit var clearHistoryBtn: com.google.android.material.button.MaterialButton
+    private var adapterHistory: TracksAdapter? = null
+    private var trackListHistory = LinkedList<TracksFields>()
+
     private val trackList = ArrayList<TracksFields>()
+
     companion object {
         private const val SEARCH_QUERY_KEY = "EditText"
         private var edit = ""
         private var lastRequestStr = ""
     }
 
+    @SuppressLint("MissingInflatedId", "NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        //Активация тулбара для окна Поиска
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_search)
+        val inputEditText = findViewById<EditText>(R.id.edit_text_search_id)
+        val clearButton = findViewById<ImageView>(R.id.clear_btn_id)
+        val searchedTracksView = findViewById<LinearLayout>(R.id.history_searched)
+        recyclerView = findViewById(R.id.recycler)
+        recyclerViewHistory = findViewById(R.id.recycler_history)
+        clearHistoryBtn = findViewById(R.id.clear_history_btn)
+        placeholderNothingFind = findViewById(R.id.nothing_find)
+        placeholderNoConnection = findViewById(R.id.no_connection)
+        updateButton = findViewById(R.id.update_btn)
+
+        //Активация тулбара для окна Поиска
         if (toolbar != null) {
             setSupportActionBar(toolbar)
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val inputEditText = findViewById<EditText>(R.id.edit_text_search_id)
-        val clearButton = findViewById<ImageView>(R.id.clear_btn_id)
         //Установить восстановленные данные в EditText
         if (savedInstanceState != null) {
             inputEditText.setText(edit)
         }
 
+        //установка RecyclerView, инициализация адаптера
+        adapter = TracksAdapter(trackList)
+        recyclerView.adapter = adapter
+
+        /*********** История поиска ************/
+        val sharedPrefs = getSharedPreferences(SEARCH_HISTORY, MODE_PRIVATE)
+        history = SearchHistory(sharedPrefs)
+
+        adapter.setOnClickListener { track ->
+            trackListHistory = history.mainLogicSaveTracks(track)
+
+            adapterHistory = TracksAdapter(trackListHistory)
+            recyclerViewHistory.adapter = adapterHistory
+
+        }
+
+        //Кнопка Очистить историю
+        clearHistoryBtn.setOnClickListener {
+            history.clearHistory()
+            trackListHistory = history.getTracks()
+            adapterHistory = TracksAdapter(trackListHistory)
+            recyclerViewHistory.adapter = adapterHistory
+            searchedTracksView.isVisible = false
+        }
+
+        //Работа с фокусом inputEditText для показа истории поиска
+        inputEditText.setOnFocusChangeListener { _, hasFocus ->
+            //для проверки не пустой истории
+            val json = sharedPrefs.getString(EDIT_HISTORY_KEY, null)
+
+            if (hasFocus && inputEditText.text.isEmpty() && json != null) {
+                trackListHistory = history.getTracks()
+                adapterHistory = TracksAdapter(trackListHistory)
+                recyclerViewHistory.adapter = adapterHistory
+
+                searchedTracksView.isVisible = true
+                onClearScreen()
+            } else {
+                searchedTracksView.isVisible = false
+                inputEditText.hint = ""
+            }
+        }
+
+        //Кнопка Очистить EditText
         clearButton.setOnClickListener {
-            //очистка строки поиска
             inputEditText.setText("")
             //очистка списка треков
             updateListTracks(emptyList())
@@ -75,7 +142,16 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val json = sharedPrefs.getString(EDIT_HISTORY_KEY, null)
 
+                if (inputEditText.hasFocus() && inputEditText.text.isEmpty() && json != null) {
+                    searchedTracksView.isVisible = true
+                    onClearScreen()
+
+                } else {
+                    searchedTracksView.isVisible = false
+                    inputEditText.hint = ""
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -88,18 +164,9 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
-        //установка RecyclerView, инициализация адаптера
-        recyclerView = findViewById(R.id.recycler)
-        adapter = TracksAdapter(trackList)
-        recyclerView.adapter = adapter
-
-        placeholderNothingFind = findViewById(R.id.nothing_find)
-        placeholderNoConnection = findViewById(R.id.no_connection)
-        updateButton = findViewById(R.id.update_btn)
-
         //Обработка кнопки Обновить
         //Последний запрос
-        updateButton.setOnClickListener{
+        updateButton.setOnClickListener {
             executeRequest(lastRequestStr)
         }
 
@@ -114,7 +181,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     //Обработка запроса для Retrofit
-    private fun executeRequest(inputText: String){
+    private fun executeRequest(inputText: String) {
 
         //Сохранение последнего запроса:
         lastRequestStr = inputText
@@ -122,13 +189,16 @@ class SearchActivity : AppCompatActivity() {
         ITunesSearchAPI.ITunesApiCreate.search(entity = "song", text = inputText)
             .enqueue(object : retrofit2.Callback<ITunesResponse> {
                 //Успешный ответ
-                override fun onResponse(call: Call<ITunesResponse>,
-                                        response: Response<ITunesResponse>) {
+                override fun onResponse(
+                    call: Call<ITunesResponse>,
+                    response: Response<ITunesResponse>
+                ) {
 
-                    if (response.isSuccessful){
-                        val result = response.body()?.tracks?: emptyList()     //Если ответ null, то вернет пустой список
+                    if (response.isSuccessful) {
+                        val result = response.body()?.tracks
+                            ?: emptyList()     //Если ответ null, то вернет пустой список
 
-                        if (result.isNotEmpty()){
+                        if (result.isNotEmpty()) {
                             //результат запроса не пустой:
                             updateListTracks(result)
                             onSuccess()
@@ -148,9 +218,11 @@ class SearchActivity : AppCompatActivity() {
                 }
 
                 //Ошибка сервера
-                override fun onFailure(call: Call<ITunesResponse>,
-                                       t: Throwable) {
-                    Log.d("FAIL", "Ошибка $t", t)
+                override fun onFailure(
+                    call: Call<ITunesResponse>,
+                    t: Throwable
+                ) {
+                    Log.e("FAIL", "Ошибка $t", t)
                     updateListTracks(emptyList())
                     onFailureResponse()
                 }
@@ -159,29 +231,33 @@ class SearchActivity : AppCompatActivity() {
 
     //Функция обновления списка в адаптере и установка видимости контейнеров
     @SuppressLint("NotifyDataSetChanged")
-    private fun updateListTracks(data: List<TracksFields>){
+    private fun updateListTracks(data: List<TracksFields>) {
         //очистка, доб результата в список, обновление адаптера
         trackList.clear()
         trackList.addAll(data)
         adapter.notifyDataSetChanged()
     }
+
     //Ф-ии управления видимостью контейнеров
-    private fun onSuccess(){
+    private fun onSuccess() {
         recyclerView.isVisible = true
         placeholderNothingFind.isVisible = false
         placeholderNoConnection.isVisible = false
     }
-    private fun onEmptyResponse(){
+
+    private fun onEmptyResponse() {
         recyclerView.isVisible = false
         placeholderNothingFind.isVisible = true
         placeholderNoConnection.isVisible = false
     }
-    private fun onFailureResponse(){
+
+    private fun onFailureResponse() {
         recyclerView.isVisible = false
         placeholderNothingFind.isVisible = false
         placeholderNoConnection.isVisible = true
     }
-    private fun onClearScreen(){
+
+    private fun onClearScreen() {
         recyclerView.isVisible = false
         placeholderNothingFind.isVisible = false
         placeholderNoConnection.isVisible = false

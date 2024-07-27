@@ -4,7 +4,7 @@
         <!-- Customize your light theme here. -->
         <item name="colorSurface">@color/background_main</item>
         <item name="colorOnSurface">@color/main_color</item>
-
+        <item name="nonMainScrBrd">@color/white</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 

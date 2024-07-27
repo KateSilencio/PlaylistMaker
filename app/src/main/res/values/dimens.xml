@@ -23,4 +23,5 @@
     <dimen name="size_update_btn_text">14sp</dimen>
     <dimen name="radius_update_btn">54dp</dimen>
     <dimen name="update_btn_padding">6dp</dimen>
+    <dimen name="btn_history_padding">10dp</dimen>
 </resources>
