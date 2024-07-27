@@ -39,6 +39,7 @@
             android:inputType="text"
             android:paddingHorizontal="@dimen/medium_padding"
             android:singleLine="true"
+            android:textCursorDrawable="@drawable/text_cursor"
             tools:ignore="TouchTargetSizeCheck"
             tools:text="Пример введенного текста" />
 

@@ -97,4 +97,9 @@
         <item name="cornerRadius">@dimen/radius_update_btn</item>
     </style>
 
+    <style name="SwitchColor">
+        <item name="thumbTint">@color/icon_search_color</item>
+        <item name="trackTint">@color/bground_edit_color</item>
+    </style>
+
 </resources>

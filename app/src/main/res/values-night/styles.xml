@@ -90,4 +90,8 @@
         <item name="cornerRadius">@dimen/radius_update_btn</item>
     </style>
 
+    <style name="SwitchColor">
+        <item name="thumbTint">@color/background_main</item>
+        <item name="trackTint">@color/yp_blue_light</item>
+    </style>
 </resources>
