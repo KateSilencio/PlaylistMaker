@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:background="?attr/nonMainScrBrd"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/top_padding"
-    android:paddingVertical="@dimen/medium_padding">
+    android:paddingStart="@dimen/top_padding16"
+    android:paddingVertical="@dimen/medium_padding8">
 
     <ImageView
         android:id="@+id/image_albom"
-        android:layout_width="@dimen/size_img_albom"
-        android:layout_height="@dimen/size_img_albom"
+        android:layout_width="@dimen/size_img_albom45"
+        android:layout_height="@dimen/size_img_albom45"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,8 +20,8 @@
         style="@style/TrackTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/medium_padding"
-        android:layout_marginTop="@dimen/medium_padding"
+        android:layout_marginLeft="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/medium_padding8"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintEnd_toStartOf="@+id/img_search_track"
@@ -42,7 +42,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight = "1"
-        android:layout_marginLeft="@dimen/medium_padding"
+        android:layout_marginLeft="@dimen/medium_padding8"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constraintHorizontal_bias="0.0"
@@ -56,8 +56,8 @@
 
     <ImageView
         android:id="@+id/dot"
-        android:layout_width="@dimen/img_start_padding"
-        android:layout_height="@dimen/img_end_padding"
+        android:layout_width="@dimen/img_start_padding12"
+        android:layout_height="@dimen/img_end_padding12"
         android:src="@drawable/ic_dot"
         style="@style/ImgTrackColor"
         app:layout_constraintStart_toEndOf="@+id/artist_name"
@@ -80,9 +80,9 @@
 
     <ImageView
         android:id="@+id/img_search_track"
-        android:layout_width="@dimen/btn_backward"
-        android:layout_height="@dimen/btn_backward"
-        android:layout_marginEnd="@dimen/img_start_padding"
+        android:layout_width="@dimen/btn_backward24"
+        android:layout_height="@dimen/btn_backward24"
+        android:layout_marginEnd="@dimen/img_start_padding12"
         android:src="@drawable/ic_agreement"
         style="@style/ImgTrackColor"
         app:layout_constraintBottom_toBottomOf="parent"

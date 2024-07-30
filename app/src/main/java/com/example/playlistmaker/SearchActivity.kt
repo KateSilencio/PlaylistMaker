@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -88,12 +89,19 @@ class SearchActivity : AppCompatActivity() {
         val sharedPrefs = getSharedPreferences(SEARCH_HISTORY, MODE_PRIVATE)
         history = SearchHistory(sharedPrefs)
 
+        //Нажатие основной список поиска
         adapter.setOnClickListener { track ->
             trackListHistory = history.mainLogicSaveTracks(track)
 
             adapterHistory = TracksAdapter(trackListHistory)
             recyclerViewHistory.adapter = adapterHistory
+        }
 
+        //Нажатие список истории поиска
+        adapterHistory?.setOnClickListener { track ->
+            val intent = Intent(this, MediaActivity::class.java)
+            intent.putExtra("TRACK", track)
+            startActivity(intent)
         }
 
         //Кнопка Очистить историю
@@ -147,7 +155,6 @@ class SearchActivity : AppCompatActivity() {
                 if (inputEditText.hasFocus() && inputEditText.text.isEmpty() && json != null) {
                     searchedTracksView.isVisible = true
                     onClearScreen()
-
                 } else {
                     searchedTracksView.isVisible = false
                     inputEditText.hint = ""
@@ -193,7 +200,6 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<ITunesResponse>,
                     response: Response<ITunesResponse>
                 ) {
-
                     if (response.isSuccessful) {
                         val result = response.body()?.tracks
                             ?: emptyList()     //Если ответ null, то вернет пустой список

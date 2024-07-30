@@ -21,18 +21,17 @@ class SearchHistory(private val sharedPref: SharedPreferences) {
             return getTracks()
         }
 
-        Log.d("CLICKHANDLER", "в самой функции mainLogicSaveTracks${tracks}")
-
         //3.Существует ли трек в списке
         val index = linkedListTracks.indexOf(tracks)
         if (index != -1) {
 
-            //4.Если трек не на первом месте - удаляем, иначе - ничего не делаем
+        //4.Если трек не на первом месте - удаляем, иначе - ничего не делаем
             if (index != 0) {
                 linkedListTracks.removeAt(index)
             } else return getTracks()
         }
 
+        Log.d("TRACKCLICK", "трек в начало ${tracks}")
         //5.Добавляем трек в начало
         linkedListTracks.addFirst(tracks)
 
@@ -43,7 +42,6 @@ class SearchHistory(private val sharedPref: SharedPreferences) {
 
         //7.Сохраняем измененный список в SP
         saveTracks(linkedListTracks)
-
         return getTracks()
     }
 
