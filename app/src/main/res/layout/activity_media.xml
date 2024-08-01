@@ -46,19 +46,6 @@
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.96" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/centralBorder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.47" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottomBorder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.73" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/textsBarrier"
@@ -74,9 +61,11 @@
         style="@style/AdditionInfoMedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/top_padding16"
+        android:layout_marginBottom="@dimen/img_vert_padding20"
         android:text="@string/country"
         app:layout_constraintStart_toStartOf="@id/leftBorder16"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTag="country_mediaTag"
         app:layout_constraintTop_toBottomOf="@id/genre_media" />
 
@@ -85,10 +74,12 @@
         style="@style/AdditionInfoMediaValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/top_padding16"
+        android:layout_marginBottom="@dimen/img_vert_padding20"
         app:layout_constraintEnd_toEndOf="@id/rightBorder16"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/country_media"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/genre_value_media"
         tools:text="Название страны" />
 
@@ -97,9 +88,10 @@
         style="@style/AdditionInfoMedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/top_padding16"
         android:text="@string/genre"
         app:layout_constraintStart_toStartOf="@id/leftBorder16"
+        app:layout_constraintBottom_toTopOf="@id/country_media"
         app:layout_constraintTag="genre_mediaTag"
         app:layout_constraintTop_toBottomOf="@id/year_media" />
 
@@ -108,10 +100,11 @@
         style="@style/AdditionInfoMediaValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/top_padding16"
         app:layout_constraintEnd_toEndOf="@id/rightBorder16"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/genre_media"
+        app:layout_constraintBottom_toTopOf="@id/country_value_media"
         app:layout_constraintTop_toBottomOf="@id/year_value_media"
         tools:text="Название жанра" />
 
@@ -120,9 +113,10 @@
         style="@style/AdditionInfoMedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/top_padding16"
         android:text="@string/year"
         app:layout_constraintStart_toStartOf="@id/leftBorder16"
+        app:layout_constraintBottom_toTopOf="@id/genre_media"
         app:layout_constraintTag="year_mediaTag"
         app:layout_constraintTop_toBottomOf="@id/albom_media" />
 
@@ -131,10 +125,11 @@
         style="@style/AdditionInfoMediaValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/top_padding16"
         app:layout_constraintEnd_toEndOf="@id/rightBorder16"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/year_media"
+        app:layout_constraintBottom_toTopOf="@id/genre_value_media"
         app:layout_constraintTop_toBottomOf="@id/albom_value_media"
         tools:text="ХХХХ" />
 
@@ -143,24 +138,26 @@
         style="@style/AdditionInfoMedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/top_padding16"
         android:text="@string/album"
         app:layout_constraintStart_toStartOf="@id/leftBorder16"
+        app:layout_constraintBottom_toTopOf="@id/year_media"
         app:layout_constraintTag="albom_mediaTag"
-        app:layout_constraintTop_toBottomOf="@id/duration_value_media" />
+        app:layout_constraintTop_toBottomOf="@id/duration_media" />
 
     <TextView
         android:id="@+id/albom_value_media"
         style="@style/AdditionInfoMediaValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/top_padding16"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constrainedWidth="true"
         app:layout_constraintEnd_toEndOf="@id/rightBorder16"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/albom_media"
+        app:layout_constraintBottom_toTopOf="@id/year_value_media"
         app:layout_constraintTop_toBottomOf="@id/duration_value_media"
         tools:text="Название альбома" />
 
@@ -169,9 +166,10 @@
         style="@style/AdditionInfoMedia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/medium_padding8"
         android:text="@string/duration"
         app:layout_constraintStart_toStartOf="@id/leftBorder16"
+        app:layout_constraintBottom_toTopOf="@id/albom_media"
         app:layout_constraintTag="duration_mediaTag"
         app:layout_constraintTop_toBottomOf="@id/time_media" />
 
@@ -180,11 +178,12 @@
         style="@style/AdditionInfoMediaValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/medium_padding8"
+        android:layout_marginTop="@dimen/gap_top_media36"
         app:layout_constraintEnd_toEndOf="@id/rightBorder16"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/duration_media"
         app:layout_constraintTop_toBottomOf="@id/time_media"
+        app:layout_constraintBottom_toTopOf="@id/albom_value_media"
         tools:text="00:00" />
 
     <TextView
@@ -196,6 +195,7 @@
         app:layout_constraintEnd_toEndOf="@id/rightBorder24"
         app:layout_constraintStart_toStartOf="@id/leftBorder24"
         app:layout_constraintTop_toBottomOf="@id/play_track_media"
+        app:layout_constraintBottom_toTopOf="@id/duration_media"
         tools:text="Время" />
 
     <ImageView
@@ -204,7 +204,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_track"
 
-        app:layout_constraintBottom_toBottomOf="@+id/bottomBorder"
+        app:layout_constraintBottom_toBottomOf="@+id/time_media"
         app:layout_constraintEnd_toStartOf="@id/play_track_media"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/leftBorder24"
@@ -214,8 +214,9 @@
         android:id="@+id/play_track_media"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_media30"
         android:src="@drawable/ic_play"
-        app:layout_constraintBottom_toBottomOf="@id/bottomBorder"
+        app:layout_constraintBottom_toTopOf="@id/time_media"
         app:layout_constraintEnd_toStartOf="@id/add_favorites_media"
         app:layout_constraintStart_toEndOf="@id/add_track_media"
         app:layout_constraintTop_toBottomOf="@id/artist_name_media" />
@@ -225,7 +226,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_favorites"
-        app:layout_constraintBottom_toBottomOf="@id/bottomBorder"
+        app:layout_constraintBottom_toBottomOf="@id/time_media"
         app:layout_constraintEnd_toEndOf="@id/rightBorder24"
         app:layout_constraintStart_toEndOf="@id/play_track_media"
         app:layout_constraintTop_toBottomOf="@id/artist_name_media" />
@@ -242,6 +243,7 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/leftBorder24"
         app:layout_constraintTop_toBottomOf="@id/track_name_media"
+        app:layout_constraintBottom_toTopOf="@id/play_track_media"
         tools:text="Название группы" />
 
     <TextView
@@ -257,7 +259,7 @@
         app:layout_constraintEnd_toEndOf="@id/rightBorder24"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="@id/leftBorder24"
-        app:layout_constraintTop_toTopOf="@id/centralBorder"
+        app:layout_constraintTop_toBottomOf="@id/album_cover_media"
         tools:text="Название песни" />
 
     <ImageView
@@ -266,7 +268,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/btn_backward24"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@id/centralBorder"
+        app:layout_constraintBottom_toTopOf="@id/track_name_media"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="@id/rightBorder24"
         app:layout_constraintStart_toStartOf="@id/leftBorder24"
@@ -274,14 +276,3 @@
         tools:src="@drawable/ic_placeholder" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!--
-    app:cornerRadius="@dimen/medium_padding8"
-
-    android:layout_marginTop="@dimen/gap_media54"
-    android:layout_marginTop="@dimen/gap_media30"
-            android:paddingStart="@dimen/medium_padding8"
-            android:paddingTop="@dimen/medium_padding8"
-            android:paddingEnd="@dimen/medium_padding8"
-            android:paddingBottom="@dimen/medium_padding8"
-    -->
