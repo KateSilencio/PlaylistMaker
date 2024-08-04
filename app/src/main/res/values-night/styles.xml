@@ -9,10 +9,10 @@
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/text_btn</item>
-        <item name="android:textSize">@dimen/text_size_main</item>
-        <item name="cornerRadius">@dimen/radius</item>
+        <item name="android:textSize">@dimen/text_size_main24sp</item>
+        <item name="cornerRadius">@dimen/radius16</item>
         <item name="iconGravity">textStart</item>
-        <item name="iconPadding">@dimen/medium_padding</item>
+        <item name="iconPadding">@dimen/medium_padding8</item>
         <item name="iconTint">@color/icon_color</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
     </style>
@@ -21,18 +21,18 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:paddingVertical">@dimen/vert_padding</item>
-        <item name="android:paddingStart">@dimen/top_padding</item>
+        <item name="android:paddingVertical">@dimen/vert_padding20</item>
+        <item name="android:paddingStart">@dimen/top_padding16</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
-        <item name="android:textSize">@dimen/sizetext_points</item>
+        <item name="android:textSize">@dimen/sizetext_points16sp</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
     </style>
 
     <style name="IconSettingsScr">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingVertical">@dimen/img_vert_padding</item>
-        <item name="android:paddingEnd">@dimen/img_end_padding</item>
+        <item name="android:paddingVertical">@dimen/img_vert_padding20</item>
+        <item name="android:paddingEnd">@dimen/img_end_padding12</item>
         <item name="android:tint">?attr/colorOnSurface</item>
     </style>
 
@@ -42,7 +42,7 @@
         <item name="android:drawableTint">@color/main_color</item>
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:maxLines">@integer/material_motion_duration_medium_1</item>
-        <item name="android:textSize">@dimen/sizetext_points</item>
+        <item name="android:textSize">@dimen/sizetext_points16sp</item>
         <item name="android:textColor">@color/main_color</item>
     </style>
 
@@ -53,13 +53,13 @@
 
     <style name="TrackTitle">
         <item name="android:fontFamily">@font/ys_display_regular</item>
-        <item name="android:textSize">@dimen/sizetext_points</item>
+        <item name="android:textSize">@dimen/sizetext_points16sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="SecondStrTrack">
         <item name="android:fontFamily">@font/ys_display_regular</item>
-        <item name="android:textSize">@dimen/size_band_time</item>
+        <item name="android:textSize">@dimen/size_band_time11sp</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
@@ -78,20 +78,32 @@
     <style name="TextSearch">
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/size_text_error_msg</item>
+        <item name="android:textSize">@dimen/size_text_error_msg19sp</item>
     </style>
 
     <style name="UpdateBtn">
         <item name="android:textAllCaps">false</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textColor">@color/main_color</item>
-        <item name="android:textSize">@dimen/size_update_btn_text</item>
+        <item name="android:textSize">@dimen/size_update_btn_text14sp</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
-        <item name="cornerRadius">@dimen/radius_update_btn</item>
+        <item name="cornerRadius">@dimen/radius_update_btn54</item>
     </style>
 
     <style name="SwitchColor">
         <item name="thumbTint">@color/background_main</item>
         <item name="trackTint">@color/yp_blue_light</item>
+    </style>
+
+    <style name="MediaNameTrackText">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/track_name_size</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MediaArtistNameText">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/size_update_btn_text14sp</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 </resources>

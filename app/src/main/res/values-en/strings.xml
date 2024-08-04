@@ -22,4 +22,10 @@
     <string name="txt_btn_update">Update</string>
     <string name="txt_history_search" translatable="false">You searched for:</string>
     <string name="msg_clean_history">Clear search history</string>
+
+    <string name="duration">Duration</string>
+    <string name="album">Album</string>
+    <string name="year">Year</string>
+    <string name="genre">Genre</string>
+    <string name="country">Country</string>
 </resources>

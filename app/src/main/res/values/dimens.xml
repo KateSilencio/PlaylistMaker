@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="medium_padding">8dp</dimen>
-    <dimen name="primary_text_size">24sp</dimen>
+    <dimen name="medium_padding8">8dp</dimen>
+    <dimen name="text_size_main24sp">24sp</dimen>
+    <dimen name="radius16">16dp</dimen>
 
-    <dimen name="text_size_main">24sp</dimen>
-    <dimen name="radius">16dp</dimen>
+    <dimen name="btn_backward24">24dp</dimen>
+    <dimen name="top_padding16">16dp</dimen>
+    <dimen name="vert_padding20">20dp</dimen>
+    <dimen name="img_vert_padding20">20dp</dimen>
+    <dimen name="img_start_padding12">12dp</dimen>
+    <dimen name="img_end_padding12">12dp</dimen>
+    <dimen name="sizetext_points16sp">16sp</dimen>
 
-    <dimen name="btn_backward">24dp</dimen>
-    <dimen name="top_padding">16dp</dimen>
-    <dimen name="vert_padding">20dp</dimen>
-    <dimen name="img_vert_padding">20dp</dimen>
-    <dimen name="img_start_padding">12dp</dimen>
-    <dimen name="img_end_padding">12dp</dimen>
-    <dimen name="sizetext_points">16sp</dimen>
+    <dimen name="size_img_albom45">45dp</dimen>
+    <dimen name="size_band_time11sp">11sp</dimen>
+    <dimen name="additional_gap4">4dp</dimen>
 
-    <dimen name="size_img_albom">45dp</dimen>
-    <dimen name="size_band_time">11sp</dimen>
-    <dimen name="additional_gap">4dp</dimen>
+    <dimen name="top_margin_image_search104">104dp</dimen>
+    <dimen name="size_text_error_msg19sp">19sp</dimen>
+    <dimen name="size_update_btn_text14sp">14sp</dimen>
+    <dimen name="radius_update_btn54">54dp</dimen>
+    <dimen name="update_btn_padding6">6dp</dimen>
+    <dimen name="btn_history_padding10">10dp</dimen>
 
-    <dimen name="top_margin_image_search">104dp</dimen>
-    <dimen name="size_text_error_msg">19sp</dimen>
-    <dimen name="size_update_btn_text">14sp</dimen>
-    <dimen name="radius_update_btn">54dp</dimen>
-    <dimen name="update_btn_padding">6dp</dimen>
-    <dimen name="btn_history_padding">10dp</dimen>
+    <dimen name="albom_size_media312">212dp</dimen>
+    <dimen name="track_name_size">22sp</dimen>
+    <dimen name="gap_media54">54dp</dimen>
+    <dimen name="gap_media30">30dp</dimen>
+    <dimen name="text_size_media13">13sp</dimen>
+    <dimen name="gap_top_media36">36dp</dimen>
 </resources>
