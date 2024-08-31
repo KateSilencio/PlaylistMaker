@@ -2,6 +2,8 @@ package com.example.playlistmaker.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View.OnClickListener
 import android.view.ViewGroup
@@ -9,12 +11,20 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.MediaActivity
 import com.example.playlistmaker.R
+import com.example.playlistmaker.SearchActivity
 import com.example.playlistmaker.data.TracksFields
 
 class TracksAdapter(
     private val tracks: List<TracksFields>
 ) : RecyclerView.Adapter<TracksViewHolder>() {
 
+    //Handler and Debounce
+    private var isClickAllowed = true
+    private val handler = Handler(Looper.getMainLooper())
+
+    companion object {
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
+    }
 
     private var onTrackClick: (TracksFields) -> Unit = {}
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
@@ -35,13 +45,24 @@ class TracksAdapter(
     override fun onBindViewHolder(holder: TracksViewHolder, position: Int) {
         holder.bind(tracks[position])
         holder.itemView.setOnClickListener {
-            onTrackClick(tracks[position])
+            if (clickDebounce()){
+                onTrackClick(tracks[position])
 
-            //для перехода в MediaActivity
-            val context = holder.itemView.context
-            val intent = Intent(context, MediaActivity::class.java)
-            intent.putExtra("TRACK", tracks[position])
-            context.startActivity(intent)
+                //для перехода в MediaActivity
+                val context = holder.itemView.context
+                val intent = Intent(context, MediaActivity::class.java)
+                intent.putExtra("TRACK", tracks[position])
+                context.startActivity(intent)
+            }
         }
+    }
+
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed({ isClickAllowed = true }, CLICK_DEBOUNCE_DELAY)
+        }
+        return current
     }
 }

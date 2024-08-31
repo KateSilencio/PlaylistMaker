@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -38,6 +40,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var adapter: TracksAdapter
     private lateinit var placeholderNothingFind: LinearLayout
     private lateinit var placeholderNoConnection: LinearLayout
+    private lateinit var progressBar: LinearLayout
     private lateinit var updateButton: com.google.android.material.button.MaterialButton
 
     //View для истории поиска
@@ -48,7 +51,12 @@ class SearchActivity : AppCompatActivity() {
 
     private val trackList = ArrayList<TracksFields>()
 
+    //Handler and Debounce
+    private val handler = Handler(Looper.getMainLooper())
+    private lateinit var searchRunnable: Runnable
+
     companion object {
+        private const val SEARCH_DEBOUNCE_DELAY = 2000L
         private const val SEARCH_QUERY_KEY = "EditText"
         private var edit = ""
         private var lastRequestStr = ""
@@ -69,6 +77,7 @@ class SearchActivity : AppCompatActivity() {
         placeholderNothingFind = findViewById(R.id.nothing_find)
         placeholderNoConnection = findViewById(R.id.no_connection)
         updateButton = findViewById(R.id.update_btn)
+        progressBar = findViewById(R.id.progress_bar)
 
         //Активация тулбара для окна Поиска
         if (toolbar != null) {
@@ -143,6 +152,15 @@ class SearchActivity : AppCompatActivity() {
             hideKeyB.hideSoftInputFromWindow(inputEditText.windowToken, 0)
         }
 
+        //отложенный запрос
+        searchRunnable = Runnable {
+            if (inputEditText.text.isNotEmpty()) {
+                executeRequest(inputEditText.text.toString())
+            } else {
+                onClearScreen()
+            }
+        }
+
         inputEditText.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -150,8 +168,11 @@ class SearchActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val json = sharedPrefs.getString(EDIT_HISTORY_KEY, null)
 
+                // Debounce пользовательского ввода
+                searchDebounce()
+
+                val json = sharedPrefs.getString(EDIT_HISTORY_KEY, null)
                 if (inputEditText.hasFocus() && inputEditText.text.isEmpty() && json != null) {
                     searchedTracksView.isVisible = true
                     onClearScreen()
@@ -159,11 +180,17 @@ class SearchActivity : AppCompatActivity() {
                     searchedTracksView.isVisible = false
                     inputEditText.hint = ""
                 }
+
+                if (inputEditText.text.isBlank()) {
+                    onClearScreen()
+                    return
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
                 if (s.isNullOrEmpty()) {
                     clearButton.isVisible = false
+                    onClearScreen()
                 } else {
                     clearButton.isVisible = true
                 }
@@ -192,7 +219,8 @@ class SearchActivity : AppCompatActivity() {
 
         //Сохранение последнего запроса:
         lastRequestStr = inputText
-
+        progressBar.isVisible = true
+        onClearScreen()
         ITunesSearchAPI.ITunesApiCreate.search(entity = "song", text = inputText)
             .enqueue(object : retrofit2.Callback<ITunesResponse> {
                 //Успешный ответ
@@ -200,6 +228,7 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<ITunesResponse>,
                     response: Response<ITunesResponse>
                 ) {
+                    progressBar.isVisible = false
                     if (response.isSuccessful) {
                         val result = response.body()?.tracks
                             ?: emptyList()     //Если ответ null, то вернет пустой список
@@ -228,11 +257,18 @@ class SearchActivity : AppCompatActivity() {
                     call: Call<ITunesResponse>,
                     t: Throwable
                 ) {
+                    progressBar.isVisible = false
                     Log.e("FAIL", "Ошибка $t", t)
                     updateListTracks(emptyList())
                     onFailureResponse()
                 }
             })
+    }
+
+    //Debounce пользовательского ввода
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
     }
 
     //Функция обновления списка в адаптере и установка видимости контейнеров

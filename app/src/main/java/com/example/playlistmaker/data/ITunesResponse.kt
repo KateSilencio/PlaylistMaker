@@ -28,7 +28,9 @@ data class TracksFields(
     @SerializedName("primaryGenreName")
     val primaryGenreName: String,
     @SerializedName("country")
-    val country: String
+    val country: String,
+    @SerializedName("previewUrl")
+    val previewUrl: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -38,7 +40,8 @@ data class TracksFields(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readString()?: ""
     )
 
     override fun describeContents(): Int {
@@ -54,6 +57,7 @@ data class TracksFields(
         dest.writeString(releaseDate)
         dest.writeString(primaryGenreName)
         dest.writeString(country)
+        dest.writeString(previewUrl)
     }
 
     companion object CREATOR : Parcelable.Creator<TracksFields> {
