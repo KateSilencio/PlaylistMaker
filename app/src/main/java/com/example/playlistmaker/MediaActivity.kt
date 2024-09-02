@@ -26,7 +26,6 @@ class MediaActivity : AppCompatActivity() {
         private const val STATE_PLAYING = 2
         private const val STATE_PAUSED = 3
 
-        private const val ZERO_SEC = "00:00"
         private const val DELAY_SEC = 300L
     }
 
@@ -34,9 +33,11 @@ class MediaActivity : AppCompatActivity() {
     private var mediaPlayer = MediaPlayer()
 
     //private lateinit var track: TracksFields
-    private lateinit var play: ImageView
-    private lateinit var time: TextView
-    private lateinit var urlMedia: String
+    private var play: ImageView?= null
+    private var time: TextView? = null
+    private var urlMedia: String? = null
+
+    private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
 
     //потоки
     private lateinit var runnable: Runnable
@@ -66,9 +67,8 @@ class MediaActivity : AppCompatActivity() {
         IntentCompat.getParcelableExtra(intent, "TRACK", TracksFields::class.java)?.let {
             trackName.text = it.trackName
             artistName.text = it.artistName
-            ZERO_SEC.also { time.text = it }
-            duration.text = SimpleDateFormat("mm:ss", Locale.getDefault())
-                .format(it.trackTimeMillis)
+            time?.text = dateFormat.format(0)
+            duration.text = dateFormat.format(it.trackTimeMillis)
             albumName.text = it.collectionName
             year.text = ZonedDateTime.parse(
                 it.releaseDate,
@@ -98,14 +98,14 @@ class MediaActivity : AppCompatActivity() {
             override fun run() {
                 if (playerState == STATE_PLAYING) {
                     val currentPosition = mediaPlayer.currentPosition
-                    time.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(currentPosition)
+                    time?.text = dateFormat.format(currentPosition)
                     handler.postDelayed(this, DELAY_SEC)
                 }
             }
         }
 
         preparePlayer()
-        play.setOnClickListener{
+        play?.setOnClickListener{
             playbackControl()
         }
     }
@@ -121,32 +121,33 @@ class MediaActivity : AppCompatActivity() {
     }
 
     private fun preparePlayer() {
-        mediaPlayer.setDataSource(urlMedia)
-        mediaPlayer.prepareAsync()
-        mediaPlayer.setOnPreparedListener {
-            play.isEnabled = true
-            playerState = STATE_PREPARED
-        }
+        urlMedia?.let {
+            mediaPlayer.setDataSource(it)
+            mediaPlayer.prepareAsync()
+            mediaPlayer.setOnPreparedListener {
+                play?.isEnabled = true
+                playerState = STATE_PREPARED
+            }
 
-        //отследить завершение воспроизведения
-        mediaPlayer.setOnCompletionListener {
-
-            ZERO_SEC.also { time.text = it }
-            handler.removeCallbacks(runnable)
-            play.setImageResource(R.drawable.ic_play)
-            playerState = STATE_PREPARED
+            //отследить завершение воспроизведения
+            mediaPlayer.setOnCompletionListener {
+                time?.text = dateFormat.format(0)
+                handler.removeCallbacks(runnable)
+                play?.setImageResource(R.drawable.ic_play)
+                playerState = STATE_PREPARED
+            }
         }
     }
 
     //изменение состояний плеера
     private fun startPlayer(){
-        play.setImageResource(R.drawable.ic_pause)
+        play?.setImageResource(R.drawable.ic_pause)
         mediaPlayer.start()
         handler.post(runnable)
         playerState = STATE_PLAYING
     }
     private fun pausePlayer(){
-        play.setImageResource(R.drawable.ic_play)
+        play?.setImageResource(R.drawable.ic_play)
         mediaPlayer.pause()
         handler.removeCallbacks(runnable)
         playerState = STATE_PAUSED

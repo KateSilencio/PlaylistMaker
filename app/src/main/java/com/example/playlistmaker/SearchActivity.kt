@@ -214,6 +214,11 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        handler.removeCallbacks(searchRunnable)
+    }
+
     //Обработка запроса для Retrofit
     private fun executeRequest(inputText: String) {
 
