@@ -151,6 +151,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/top_padding16"
+        android:layout_marginStart="@dimen/additional_gap4"
         android:ellipsize="end"
         android:maxLines="1"
         app:layout_constrainedWidth="true"
@@ -219,7 +220,20 @@
         app:layout_constraintBottom_toTopOf="@id/time_media"
         app:layout_constraintEnd_toStartOf="@id/add_favorites_media"
         app:layout_constraintStart_toEndOf="@id/add_track_media"
-        app:layout_constraintTop_toBottomOf="@id/artist_name_media" />
+        app:layout_constraintTop_toBottomOf="@id/artist_name_media"
+        android:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/pause_track_media"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_media30"
+        android:src="@drawable/ic_pause"
+        app:layout_constraintBottom_toTopOf="@id/time_media"
+        app:layout_constraintEnd_toStartOf="@id/add_favorites_media"
+        app:layout_constraintStart_toEndOf="@id/add_track_media"
+        app:layout_constraintTop_toBottomOf="@id/artist_name_media"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/add_favorites_media"

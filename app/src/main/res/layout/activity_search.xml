@@ -135,7 +135,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <TextView
                 style="@style/TextSearch"
@@ -163,6 +163,23 @@
                 android:layout_marginTop="@dimen/btn_backward24"
                 android:paddingVertical="@dimen/btn_history_padding10"
                 android:text="@string/msg_clean_history" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ProgressBar
+                android:layout_width="@dimen/size_img_albom45"
+                android:layout_height="@dimen/size_img_albom45"
+                android:layout_marginTop="@dimen/gap_top_progressbar140"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/background_main"/>
 
         </LinearLayout>
 

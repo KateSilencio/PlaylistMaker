@@ -29,4 +29,6 @@
     <dimen name="gap_media30">30dp</dimen>
     <dimen name="text_size_media13">13sp</dimen>
     <dimen name="gap_top_media36">36dp</dimen>
+
+    <dimen name="gap_top_progressbar140">140dp</dimen>
 </resources>
