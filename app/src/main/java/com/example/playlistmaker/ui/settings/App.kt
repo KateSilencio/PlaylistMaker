@@ -1,18 +1,26 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.settings
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
+import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.domain.sharedprefs.SharedPrefFunRepository
 
 class App : Application() {
 
     var darkTheme = false
+    private val sharedPrefFunRepository: SharedPrefFunRepository by lazy {
+        Creator.provideSharedPrefFunRepository()
+    }
 
     override fun onCreate() {
         super.onCreate()
+        Creator.initialize(this)
 
         //Восстанавливаем значение Switch
-        val sharedPrefs = getSharedPreferences(SWITCH_PREFERENCES, MODE_PRIVATE)
-        darkTheme = sharedPrefs.getBoolean(SWITCH_IS_CHECKED,false)
+        darkTheme = sharedPrefFunRepository.getBoolean(
+            SWITCH_PREFERENCES,
+            SWITCH_IS_CHECKED,
+            false)
 
         AppCompatDelegate.setDefaultNightMode(
             if (darkTheme) {

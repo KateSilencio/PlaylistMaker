@@ -1,21 +1,17 @@
-package com.example.playlistmaker.adapter
+package com.example.playlistmaker.ui.search
 
-import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
-import android.view.View.OnClickListener
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.MediaActivity
 import com.example.playlistmaker.R
-import com.example.playlistmaker.SearchActivity
-import com.example.playlistmaker.data.TracksFields
+import com.example.playlistmaker.domain.models.TracksParceling
+import com.example.playlistmaker.ui.media.MediaActivity
 
 class TracksAdapter(
-    private val tracks: List<TracksFields>
+    private val tracks: List<TracksParceling>
 ) : RecyclerView.Adapter<TracksViewHolder>() {
 
     //Handler and Debounce
@@ -26,7 +22,7 @@ class TracksAdapter(
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private var onTrackClick: (TracksFields) -> Unit = {}
+    private var onTrackClick: (TracksParceling) -> Unit = {}
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
         return TracksViewHolder(
             LayoutInflater.from(parent.context)
@@ -34,7 +30,7 @@ class TracksAdapter(
         )
     }
 
-    fun setOnClickListener(onClickListener: (TracksFields) -> Unit) {
+    fun setOnClickListener(onClickListener: (TracksParceling) -> Unit) {
         onTrackClick = onClickListener
     }
 

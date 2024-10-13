@@ -1,39 +1,40 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.search
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.adapter.TracksAdapter
-import com.example.playlistmaker.data.ITunesResponse
-import com.example.playlistmaker.data.TracksFields
-import com.example.playlistmaker.retrofit.ITunesSearchAPI
-import retrofit2.Call
-import retrofit2.Response
+import com.example.playlistmaker.R
+import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.domain.api.TracksInteractor
+import com.example.playlistmaker.domain.models.TracksParceling
+import com.example.playlistmaker.domain.models.TracksSearchRequest
+import com.example.playlistmaker.domain.sharedprefs.SearchHistoryLogicRepository
+import com.example.playlistmaker.ui.media.MediaActivity
 import java.util.LinkedList
-
-const val SEARCH_HISTORY = "search_history"
-const val EDIT_HISTORY_KEY = "history_search_key"
 
 class SearchActivity : AppCompatActivity() {
 
+    //***Clean Architecture***
+    //для запроса Retrofit
+    private val interactor = Creator.provideTracksInteractor()
     //Для SharedPreferences
-    private lateinit var history: SearchHistory
+    private val historyRepository: SearchHistoryLogicRepository by lazy {
+        Creator.provideSearchHistoryRepository()
+    }
 
     //View для запроса и работы с Retrofit
     private lateinit var recyclerView: RecyclerView
@@ -47,9 +48,9 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var recyclerViewHistory: RecyclerView
     private lateinit var clearHistoryBtn: com.google.android.material.button.MaterialButton
     private var adapterHistory: TracksAdapter? = null
-    private var trackListHistory = LinkedList<TracksFields>()
+    private var trackListHistory = LinkedList<TracksParceling>()
 
-    private val trackList = ArrayList<TracksFields>()
+    private val trackList = ArrayList<TracksParceling>()
 
     //Handler and Debounce
     private val handler = Handler(Looper.getMainLooper())
@@ -66,6 +67,7 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
+        Creator.initialize(this)
 
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_search)
         val inputEditText = findViewById<EditText>(R.id.edit_text_search_id)
@@ -95,12 +97,9 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
         /*********** История поиска ************/
-        val sharedPrefs = getSharedPreferences(SEARCH_HISTORY, MODE_PRIVATE)
-        history = SearchHistory(sharedPrefs)
-
         //Нажатие основной список поиска
         adapter.setOnClickListener { track ->
-            trackListHistory = history.mainLogicSaveTracks(track)
+            trackListHistory = historyRepository.saveTrack(track)
 
             adapterHistory = TracksAdapter(trackListHistory)
             recyclerViewHistory.adapter = adapterHistory
@@ -115,8 +114,8 @@ class SearchActivity : AppCompatActivity() {
 
         //Кнопка Очистить историю
         clearHistoryBtn.setOnClickListener {
-            history.clearHistory()
-            trackListHistory = history.getTracks()
+            historyRepository.clearHistory()
+            trackListHistory = historyRepository.getTracks()
             adapterHistory = TracksAdapter(trackListHistory)
             recyclerViewHistory.adapter = adapterHistory
             searchedTracksView.isVisible = false
@@ -125,15 +124,20 @@ class SearchActivity : AppCompatActivity() {
         //Работа с фокусом inputEditText для показа истории поиска
         inputEditText.setOnFocusChangeListener { _, hasFocus ->
             //для проверки не пустой истории
-            val json = sharedPrefs.getString(EDIT_HISTORY_KEY, null)
+            if (hasFocus && inputEditText.text.isEmpty()) {
 
-            if (hasFocus && inputEditText.text.isEmpty() && json != null) {
-                trackListHistory = history.getTracks()
-                adapterHistory = TracksAdapter(trackListHistory)
-                recyclerViewHistory.adapter = adapterHistory
+                trackListHistory = historyRepository.getTracks()
+                if (trackListHistory.isNotEmpty()) {
+                    trackListHistory = historyRepository.getTracks()
+                    adapterHistory = TracksAdapter(trackListHistory)
+                    recyclerViewHistory.adapter = adapterHistory
 
-                searchedTracksView.isVisible = true
-                onClearScreen()
+                    searchedTracksView.isVisible = true
+                    onClearScreen()
+                } else {
+                    searchedTracksView.isVisible = false
+                    inputEditText.hint = ""
+                }
             } else {
                 searchedTracksView.isVisible = false
                 inputEditText.hint = ""
@@ -164,23 +168,19 @@ class SearchActivity : AppCompatActivity() {
         inputEditText.addTextChangedListener(object : TextWatcher {
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
                 // Debounce пользовательского ввода
                 searchDebounce()
 
-                val json = sharedPrefs.getString(EDIT_HISTORY_KEY, null)
-                if (inputEditText.hasFocus() && inputEditText.text.isEmpty() && json != null) {
+                if (inputEditText.hasFocus() && inputEditText.text.isEmpty() && trackListHistory.isNotEmpty()) {
                     searchedTracksView.isVisible = true
                     onClearScreen()
                 } else {
                     searchedTracksView.isVisible = false
                     inputEditText.hint = ""
                 }
-
                 if (inputEditText.text.isBlank()) {
                     onClearScreen()
                     return
@@ -219,55 +219,39 @@ class SearchActivity : AppCompatActivity() {
         handler.removeCallbacks(searchRunnable)
     }
 
-    //Обработка запроса для Retrofit
+    //Обработка запроса для Retrofit +CA
     private fun executeRequest(inputText: String) {
-
         //Сохранение последнего запроса:
         lastRequestStr = inputText
         progressBar.isVisible = true
         onClearScreen()
-        ITunesSearchAPI.ITunesApiCreate.search(entity = "song", text = inputText)
-            .enqueue(object : retrofit2.Callback<ITunesResponse> {
-                //Успешный ответ
-                override fun onResponse(
-                    call: Call<ITunesResponse>,
-                    response: Response<ITunesResponse>
-                ) {
-                    progressBar.isVisible = false
-                    if (response.isSuccessful) {
-                        val result = response.body()?.tracks
-                            ?: emptyList()     //Если ответ null, то вернет пустой список
 
-                        if (result.isNotEmpty()) {
-                            //результат запроса не пустой:
-                            updateListTracks(result)
-                            onSuccess()
-                            Log.d("SUCCESS", "Успех ${response.code()}")
-                        } else {
-                            //результат запроса пустой:
+        val request = TracksSearchRequest(entity = "song", text = inputText)
+        interactor.searchTracks(request, object : TracksInteractor.TracksConsumer{
+            override fun consume(foundTracks: List<TracksParceling>) {
+                handler.post {
+                    progressBar.isVisible = false
+                        updateListTracks(foundTracks)
+                        onSuccess()
+                }
+            }
+
+            override fun onError(error: TracksInteractor.ErrorType) {
+                handler.post{
+                    progressBar.isVisible = false
+                    when (error){
+                        TracksInteractor.ErrorType.EMPTY_RESPONSE ->{
                             updateListTracks(emptyList())
                             onEmptyResponse()
-                            Log.d("EMPTY", "Пустой ${response.code()}")
                         }
-                    } else {
-                        //Неудачный запрос
-                        updateListTracks(emptyList())
-                        onFailureResponse()
-                        Log.d("ERROR", "Неудача ${response.code()}")
+                        TracksInteractor.ErrorType.FAILURE ->{
+                            updateListTracks(emptyList())
+                            onFailureResponse()
+                        }
                     }
                 }
-
-                //Ошибка сервера
-                override fun onFailure(
-                    call: Call<ITunesResponse>,
-                    t: Throwable
-                ) {
-                    progressBar.isVisible = false
-                    Log.e("FAIL", "Ошибка $t", t)
-                    updateListTracks(emptyList())
-                    onFailureResponse()
-                }
-            })
+            }
+        })
     }
 
     //Debounce пользовательского ввода
@@ -278,7 +262,7 @@ class SearchActivity : AppCompatActivity() {
 
     //Функция обновления списка в адаптере и установка видимости контейнеров
     @SuppressLint("NotifyDataSetChanged")
-    private fun updateListTracks(data: List<TracksFields>) {
+    private fun updateListTracks(data: List<TracksParceling>) {
         //очистка, доб результата в список, обновление адаптера
         trackList.clear()
         trackList.addAll(data)

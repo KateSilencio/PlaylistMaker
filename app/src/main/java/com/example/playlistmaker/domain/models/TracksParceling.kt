@@ -1,17 +1,10 @@
-package com.example.playlistmaker.data
+package com.example.playlistmaker.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-data class ITunesResponse(
-    @SerializedName("resultCount")
-    val resultCount: Int,
-    @SerializedName("results")
-    val tracks: List<TracksFields>
-)
-
-data class TracksFields(
+data class TracksParceling(
     @SerializedName("trackName")
     val trackName: String,
     @SerializedName("artistName")
@@ -45,7 +38,7 @@ data class TracksFields(
     )
 
     override fun describeContents(): Int {
-        TODO("Not yet implemented")
+        return 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -60,16 +53,13 @@ data class TracksFields(
         dest.writeString(previewUrl)
     }
 
-    companion object CREATOR : Parcelable.Creator<TracksFields> {
-        override fun createFromParcel(parcel: Parcel): TracksFields {
-            return TracksFields(parcel)
+    companion object CREATOR : Parcelable.Creator<TracksParceling> {
+        override fun createFromParcel(parcel: Parcel): TracksParceling {
+            return TracksParceling(parcel)
         }
 
-        override fun newArray(size: Int): Array<TracksFields?> {
+        override fun newArray(size: Int): Array<TracksParceling?> {
             return arrayOfNulls(size)
         }
     }
-
-    //для замены конца ссылки обложки
-    fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/', "512x512bb.jpg")
 }
