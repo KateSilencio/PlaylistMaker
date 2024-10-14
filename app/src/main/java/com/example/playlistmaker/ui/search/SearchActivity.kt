@@ -19,10 +19,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.data.sharedprefs.usecases.SearchHistoryUseCase
 import com.example.playlistmaker.domain.api.TracksInteractor
 import com.example.playlistmaker.domain.models.TracksParceling
 import com.example.playlistmaker.domain.models.TracksSearchRequest
-import com.example.playlistmaker.domain.sharedprefs.SearchHistoryLogicRepository
 import com.example.playlistmaker.ui.media.MediaActivity
 import java.util.LinkedList
 
@@ -32,8 +32,8 @@ class SearchActivity : AppCompatActivity() {
     //для запроса Retrofit
     private val interactor = Creator.provideTracksInteractor()
     //Для SharedPreferences
-    private val historyRepository: SearchHistoryLogicRepository by lazy {
-        Creator.provideSearchHistoryRepository()
+    private val searchHistoryUseCase: SearchHistoryUseCase by lazy {
+        Creator.provideSearchHistoryUseCase()
     }
 
     //View для запроса и работы с Retrofit
@@ -99,7 +99,7 @@ class SearchActivity : AppCompatActivity() {
         /*********** История поиска ************/
         //Нажатие основной список поиска
         adapter.setOnClickListener { track ->
-            trackListHistory = historyRepository.saveTrack(track)
+            trackListHistory = searchHistoryUseCase.saveTrack(track)
 
             adapterHistory = TracksAdapter(trackListHistory)
             recyclerViewHistory.adapter = adapterHistory
@@ -114,8 +114,8 @@ class SearchActivity : AppCompatActivity() {
 
         //Кнопка Очистить историю
         clearHistoryBtn.setOnClickListener {
-            historyRepository.clearHistory()
-            trackListHistory = historyRepository.getTracks()
+            searchHistoryUseCase.clearHistory()
+            trackListHistory = searchHistoryUseCase.getTracks()
             adapterHistory = TracksAdapter(trackListHistory)
             recyclerViewHistory.adapter = adapterHistory
             searchedTracksView.isVisible = false
@@ -126,9 +126,9 @@ class SearchActivity : AppCompatActivity() {
             //для проверки не пустой истории
             if (hasFocus && inputEditText.text.isEmpty()) {
 
-                trackListHistory = historyRepository.getTracks()
+                trackListHistory = searchHistoryUseCase.getTracks()
                 if (trackListHistory.isNotEmpty()) {
-                    trackListHistory = historyRepository.getTracks()
+                    trackListHistory = searchHistoryUseCase.getTracks()
                     adapterHistory = TracksAdapter(trackListHistory)
                     recyclerViewHistory.adapter = adapterHistory
 

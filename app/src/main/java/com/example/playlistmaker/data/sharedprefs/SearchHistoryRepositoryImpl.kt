@@ -2,11 +2,12 @@ package com.example.playlistmaker.data.sharedprefs
 
 import com.example.playlistmaker.domain.models.TracksParceling
 import com.example.playlistmaker.domain.sharedprefs.SearchHistoryLogicRepository
+import com.example.playlistmaker.domain.sharedprefs.SharedPrefFunRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.LinkedList
 
-class SearchHistoryRepositoryImpl(private val sharedPref: SharedPrefFunRepositoryImpl) :
+class SearchHistoryRepositoryImpl(private val sharedPref: SharedPrefFunRepository) :
     SearchHistoryLogicRepository {
 
     private val gson = Gson()

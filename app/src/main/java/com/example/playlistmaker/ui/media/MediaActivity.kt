@@ -1,7 +1,6 @@
 package com.example.playlistmaker.ui.media
 
 import android.icu.text.SimpleDateFormat
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -13,6 +12,8 @@ import androidx.core.content.IntentCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
+import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.domain.api.media.MediaPlayerRepository
 import com.example.playlistmaker.domain.mapper.TrackMapper
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.domain.models.TracksParceling
@@ -33,7 +34,10 @@ class MediaActivity : AppCompatActivity() {
     }
 
     private var playerState = STATE_DEFAULT
-    private var mediaPlayer = MediaPlayer()
+
+    private val mediaPlayer: MediaPlayerRepository by lazy {
+        Creator.provideMediaPlayerRepository()
+    }
 
     private var albumCover: ImageView? = null
     private var trackName: TextView? = null
@@ -85,7 +89,7 @@ class MediaActivity : AppCompatActivity() {
         runnable = object : Runnable {
             override fun run() {
                 if (playerState == STATE_PLAYING) {
-                    val currentPosition = mediaPlayer.currentPosition
+                    val currentPosition = mediaPlayer.getCurrentPosition()
                     time?.text = dateFormat.format(currentPosition)
                     handler.postDelayed(this, DELAY_SEC)
                 }
@@ -105,13 +109,12 @@ class MediaActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release()
+        mediaPlayer.onRelease()
     }
 
     private fun preparePlayer() {
         urlMedia?.let {
-            mediaPlayer.setDataSource(it)
-            mediaPlayer.prepareAsync()
+            mediaPlayer.onPrepare(it)
             mediaPlayer.setOnPreparedListener {
                 play?.isEnabled = true
                 playerState = STATE_PREPARED
@@ -130,14 +133,14 @@ class MediaActivity : AppCompatActivity() {
     //изменение состояний плеера
     private fun startPlayer() {
         play?.setImageResource(R.drawable.ic_pause)
-        mediaPlayer.start()
+        mediaPlayer.onStart()
         handler.post(runnable)
         playerState = STATE_PLAYING
     }
 
     private fun pausePlayer() {
         play?.setImageResource(R.drawable.ic_play)
-        mediaPlayer.pause()
+        mediaPlayer.onPause()
         handler.removeCallbacks(runnable)
         playerState = STATE_PAUSED
     }
