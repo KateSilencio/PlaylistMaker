@@ -11,6 +11,8 @@ import com.example.playlistmaker.data.sharedprefs.usecases.SearchHistoryUseCaseI
 import com.example.playlistmaker.domain.api.TracksInteractor
 import com.example.playlistmaker.domain.api.TracksRepository
 import com.example.playlistmaker.domain.api.media.MediaPlayerRepository
+import com.example.playlistmaker.domain.api.media.usecase.MediaPlayerUseCase
+import com.example.playlistmaker.domain.api.media.usecase.MediaPlayerUseCaseImpl
 import com.example.playlistmaker.domain.impl.TracksInteractorImpl
 import com.example.playlistmaker.domain.sharedprefs.SearchHistoryLogicRepository
 
@@ -46,5 +48,10 @@ object Creator {
 
     fun provideMediaPlayerRepository(): MediaPlayerRepository {
         return MediaPlayerRepositoryImpl()
+    }
+
+    fun provideMediaPlayerUseCase(): MediaPlayerUseCase {
+        val mediaPlayerRepository = provideMediaPlayerRepository()
+        return MediaPlayerUseCaseImpl(mediaPlayerRepository)
     }
 }

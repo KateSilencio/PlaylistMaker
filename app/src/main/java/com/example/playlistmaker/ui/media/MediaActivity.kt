@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.domain.api.media.MediaPlayerRepository
+import com.example.playlistmaker.domain.api.media.usecase.MediaPlayerUseCase
 import com.example.playlistmaker.domain.mapper.TrackMapper
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.domain.models.TracksParceling
@@ -35,8 +35,8 @@ class MediaActivity : AppCompatActivity() {
 
     private var playerState = STATE_DEFAULT
 
-    private val mediaPlayer: MediaPlayerRepository by lazy {
-        Creator.provideMediaPlayerRepository()
+    private val mediaPlayer: MediaPlayerUseCase by lazy {
+        Creator.provideMediaPlayerUseCase()
     }
 
     private var albumCover: ImageView? = null
@@ -109,12 +109,12 @@ class MediaActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.onRelease()
+        mediaPlayer.releaseMedia()
     }
 
     private fun preparePlayer() {
         urlMedia?.let {
-            mediaPlayer.onPrepare(it)
+            mediaPlayer.prepareMedia(it)
             mediaPlayer.setOnPreparedListener {
                 play?.isEnabled = true
                 playerState = STATE_PREPARED
@@ -133,14 +133,14 @@ class MediaActivity : AppCompatActivity() {
     //изменение состояний плеера
     private fun startPlayer() {
         play?.setImageResource(R.drawable.ic_pause)
-        mediaPlayer.onStart()
+        mediaPlayer.startMedia()
         handler.post(runnable)
         playerState = STATE_PLAYING
     }
 
     private fun pausePlayer() {
         play?.setImageResource(R.drawable.ic_play)
-        mediaPlayer.onPause()
+        mediaPlayer.pauseMedia()
         handler.removeCallbacks(runnable)
         playerState = STATE_PAUSED
     }
