@@ -10,11 +10,12 @@
     <string name="write_support">Написать в поддержку</string>
     <string name="agreement">Пользовательское соглашение</string>
 
-    <string name="android_developer_link">https://practicum.yandex.ru/android_developer</string>
+    <string name="android_developer_link">https://practicum.yandex.ru/android-developer</string>
     <string name="student_mail">silenci0.k89@gmail.com</string>
     <string name="topic_mail">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="message_mail">Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="agreement_link">https://yandex.ru/legal/practicum_offer</string>
+    <string name="no_apps_available">Нет доступных приложений для открытия ссылки</string>
 
     <string name="msg_nothing_found">Ничего не нашлось</string>
     <string name="msg_no_connection">Проблемы со связью\n\nЗагрузка не удалась. Проверьте\nподключение к интернету</string>

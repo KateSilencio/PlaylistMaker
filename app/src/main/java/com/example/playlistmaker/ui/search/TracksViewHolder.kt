@@ -1,4 +1,4 @@
-package com.example.playlistmaker.adapter
+package com.example.playlistmaker.ui.search
 
 import android.icu.text.SimpleDateFormat
 import android.view.View
@@ -8,7 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.data.TracksFields
+import com.example.playlistmaker.domain.models.TracksParceling
+import com.example.playlistmaker.ui.dpToPx
 import java.util.Locale
 
 class TracksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -18,7 +19,7 @@ class TracksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val trackTime: TextView = itemView.requireViewById(R.id.track_time)
     val artworkUrl: ImageView = itemView.findViewById(R.id.image_albom)
 
-    fun bind(track: TracksFields) {
+    fun bind(track: TracksParceling) {
         trackName.text = track.trackName
         artistName.text = track.artistName
         trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault())

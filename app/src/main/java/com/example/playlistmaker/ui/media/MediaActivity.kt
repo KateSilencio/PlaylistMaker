@@ -1,19 +1,23 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.ui.media
 
 import android.icu.text.SimpleDateFormat
-import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.playlistmaker.adapter.dpToPx
-import com.example.playlistmaker.data.TracksFields
+import com.example.playlistmaker.R
+import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.domain.api.media.usecase.MediaPlayerUseCase
+import com.example.playlistmaker.domain.mapper.TrackMapper
+import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.domain.models.TracksParceling
+import com.example.playlistmaker.ui.dpToPx
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -30,11 +34,22 @@ class MediaActivity : AppCompatActivity() {
     }
 
     private var playerState = STATE_DEFAULT
-    private var mediaPlayer = MediaPlayer()
 
-    //private lateinit var track: TracksFields
-    private var play: ImageView?= null
+    private val mediaPlayer: MediaPlayerUseCase by lazy {
+        Creator.provideMediaPlayerUseCase()
+    }
+
+    private var albumCover: ImageView? = null
+    private var trackName: TextView? = null
+    private var artistName: TextView? = null
+    private var duration: TextView? = null
+    private var albumName: TextView? = null
+    private var year: TextView? = null
+    private var genre: TextView? = null
+    private var play: ImageView? = null
     private var time: TextView? = null
+    private var country: TextView? = null
+
     private var urlMedia: String? = null
 
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
@@ -49,43 +64,20 @@ class MediaActivity : AppCompatActivity() {
 
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_media)
 
-        val albumCover = findViewById<ImageView>(R.id.album_cover_media)
-        val trackName = findViewById<TextView>(R.id.track_name_media)
-        val artistName = findViewById<TextView>(R.id.artist_name_media)
+        albumCover = findViewById(R.id.album_cover_media)
+        trackName = findViewById(R.id.track_name_media)
+        artistName = findViewById(R.id.artist_name_media)
         time = findViewById(R.id.time_media)
-        val duration = findViewById<TextView>(R.id.duration_value_media)
-        val albumName = findViewById<TextView>(R.id.albom_value_media)
-        val year = findViewById<TextView>(R.id.year_value_media)
-        val genre = findViewById<TextView>(R.id.genre_value_media)
-        val country = findViewById<TextView>(R.id.country_value_media)
-
+        duration = findViewById(R.id.duration_value_media)
+        albumName = findViewById(R.id.albom_value_media)
+        year = findViewById(R.id.year_value_media)
+        genre = findViewById(R.id.genre_value_media)
+        country = findViewById(R.id.country_value_media)
         play = findViewById(R.id.play_track_media)
 
-        //track = intent.getParcelableExtra<TracksFields>("TRACK") ?:
-        //  throw IllegalArgumentException("Track data not found")
-
-        IntentCompat.getParcelableExtra(intent, "TRACK", TracksFields::class.java)?.let {
-            trackName.text = it.trackName
-            artistName.text = it.artistName
-            time?.text = dateFormat.format(0)
-            duration.text = dateFormat.format(it.trackTimeMillis)
-            albumName.text = it.collectionName
-            year.text = ZonedDateTime.parse(
-                it.releaseDate,
-                DateTimeFormatter.ISO_ZONED_DATE_TIME
-            ).year.toString()
-            genre.text = it.primaryGenreName
-            country.text = it.country
-            urlMedia = it.previewUrl
-
-            val artworkUrl512 = it.getCoverArtwork()
-
-            Glide.with(albumCover.context)
-                .load(artworkUrl512)
-                .centerCrop()
-                .transform(RoundedCorners(albumCover.context.dpToPx(2f)))
-                .placeholder(R.drawable.ic_placeholder)
-                .into(albumCover)
+        IntentCompat.getParcelableExtra(intent, "TRACK", TracksParceling::class.java)?.let {
+            val track = TrackMapper.toDomain(it)
+            showDetailsTrack(track)
         }
 
         //Активация тулбара для окна Медиа
@@ -97,7 +89,7 @@ class MediaActivity : AppCompatActivity() {
         runnable = object : Runnable {
             override fun run() {
                 if (playerState == STATE_PLAYING) {
-                    val currentPosition = mediaPlayer.currentPosition
+                    val currentPosition = mediaPlayer.getCurrentPosition()
                     time?.text = dateFormat.format(currentPosition)
                     handler.postDelayed(this, DELAY_SEC)
                 }
@@ -105,7 +97,7 @@ class MediaActivity : AppCompatActivity() {
         }
 
         preparePlayer()
-        play?.setOnClickListener{
+        play?.setOnClickListener {
             playbackControl()
         }
     }
@@ -117,13 +109,12 @@ class MediaActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release()
+        mediaPlayer.releaseMedia()
     }
 
     private fun preparePlayer() {
         urlMedia?.let {
-            mediaPlayer.setDataSource(it)
-            mediaPlayer.prepareAsync()
+            mediaPlayer.prepareMedia(it)
             mediaPlayer.setOnPreparedListener {
                 play?.isEnabled = true
                 playerState = STATE_PREPARED
@@ -140,29 +131,54 @@ class MediaActivity : AppCompatActivity() {
     }
 
     //изменение состояний плеера
-    private fun startPlayer(){
+    private fun startPlayer() {
         play?.setImageResource(R.drawable.ic_pause)
-        mediaPlayer.start()
+        mediaPlayer.startMedia()
         handler.post(runnable)
         playerState = STATE_PLAYING
     }
-    private fun pausePlayer(){
+
+    private fun pausePlayer() {
         play?.setImageResource(R.drawable.ic_play)
-        mediaPlayer.pause()
+        mediaPlayer.pauseMedia()
         handler.removeCallbacks(runnable)
         playerState = STATE_PAUSED
     }
 
-    private fun playbackControl(){
-        when(playerState){
-            STATE_PLAYING->{
+    private fun playbackControl() {
+        when (playerState) {
+            STATE_PLAYING -> {
                 pausePlayer()
             }
-            STATE_PREPARED, STATE_PAUSED->{
+
+            STATE_PREPARED, STATE_PAUSED -> {
                 startPlayer()
             }
         }
     }
+
+    private fun showDetailsTrack(track: Track) {
+        trackName?.text = track.trackName
+        artistName?.text = track.artistName
+        time?.text = dateFormat.format(0)
+        duration?.text = dateFormat.format(track.trackTimeMillis)
+        albumName?.text = track.collectionName
+        year?.text = ZonedDateTime.parse(
+            track.releaseDate,
+            DateTimeFormatter.ISO_ZONED_DATE_TIME
+        ).year.toString()
+        genre?.text = track.primaryGenreName
+        country?.text = track.country
+        urlMedia = track.previewUrl
+
+        Glide.with(albumCover!!.context)
+            .load(track.artworkUrl)
+            .centerCrop()
+            .transform(RoundedCorners(albumCover!!.context.dpToPx(2f)))
+            .placeholder(R.drawable.ic_placeholder)
+            .into(albumCover!!)
+    }
+
     //Обработка кнопки Назад
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == android.R.id.home) finish()
