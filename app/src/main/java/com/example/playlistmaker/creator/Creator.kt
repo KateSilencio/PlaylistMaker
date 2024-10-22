@@ -1,31 +1,39 @@
 package com.example.playlistmaker.creator
 
 import android.content.Context
-import com.example.playlistmaker.data.media.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.data.network.RetrofitNetworkClient
 import com.example.playlistmaker.data.network.TrackRepositoryImpl
 import com.example.playlistmaker.data.sharedprefs.SearchHistoryRepositoryImpl
 import com.example.playlistmaker.data.sharedprefs.SharedPrefFunRepositoryImpl
-import com.example.playlistmaker.data.sharedprefs.usecases.SearchHistoryUseCase
-import com.example.playlistmaker.data.sharedprefs.usecases.SearchHistoryUseCaseImpl
 import com.example.playlistmaker.domain.api.TracksInteractor
 import com.example.playlistmaker.domain.api.TracksRepository
-import com.example.playlistmaker.domain.api.media.MediaPlayerRepository
-import com.example.playlistmaker.domain.api.media.usecase.MediaPlayerUseCase
-import com.example.playlistmaker.domain.api.media.usecase.MediaPlayerUseCaseImpl
 import com.example.playlistmaker.domain.impl.TracksInteractorImpl
 import com.example.playlistmaker.domain.sharedprefs.SearchHistoryLogicRepository
+import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
+import com.example.playlistmaker.player.domain.MediaPlayerRepository
+import com.example.playlistmaker.player.domain.usecase.MediaPlayerInteractor
+import com.example.playlistmaker.player.domain.usecase.MediaPlayerInteractorImpl
+import com.example.playlistmaker.search.domain.usecases.SearchHistoryUseCase
+import com.example.playlistmaker.search.domain.usecases.SearchHistoryUseCaseImpl
+import com.example.playlistmaker.settings.data.ExternalNavigationImpl
+import com.example.playlistmaker.settings.data.sharedpref.SettingsRepositoryImpl
+import com.example.playlistmaker.settings.domain.ExternalNavigation
+import com.example.playlistmaker.settings.domain.sharedpref.SettingsRepository
+import com.example.playlistmaker.settings.domain.sharedpref.usecase.SettingsInteractor
+import com.example.playlistmaker.settings.domain.sharedpref.usecase.SettingsInteractorImpl
+import com.example.playlistmaker.settings.domain.usecase.ExternalNavigationInteractor
+import com.example.playlistmaker.settings.domain.usecase.ExternalNavigationInteractorImpl
 
 object Creator {
 
-    private lateinit var context: Context
+    private lateinit var appContext: Context
 
     fun initialize(context: Context){
-        this.context = context.applicationContext
+        this.appContext = context.applicationContext
     }
 
     fun provideSharedPrefFunRepository(): SharedPrefFunRepositoryImpl {
-        return SharedPrefFunRepositoryImpl(context)
+        return SharedPrefFunRepositoryImpl(appContext)
     }
 
     fun provideSearchHistoryRepository(): SearchHistoryLogicRepository {
@@ -43,15 +51,26 @@ object Creator {
     }
 
     fun provideTracksInteractor(): TracksInteractor{
-        return TracksInteractorImpl(getTracksRepository(), context)
+        return TracksInteractorImpl(getTracksRepository(), appContext)
+    }
+
+    //____________________________________________________
+    fun provideSettingsInteractor(context: Context): SettingsInteractor{
+        val settingsRepository: SettingsRepository = SettingsRepositoryImpl(context)
+        return SettingsInteractorImpl(settingsRepository)
+    }
+
+    fun provideExternalNavigationInteractor(context: Context):ExternalNavigationInteractor{
+        val externalNavigation: ExternalNavigation = ExternalNavigationImpl(context)
+        return ExternalNavigationInteractorImpl(externalNavigation)
     }
 
     fun provideMediaPlayerRepository(): MediaPlayerRepository {
         return MediaPlayerRepositoryImpl()
     }
 
-    fun provideMediaPlayerUseCase(): MediaPlayerUseCase {
+    fun provideMediaPlayerInteractor(): MediaPlayerInteractor {
         val mediaPlayerRepository = provideMediaPlayerRepository()
-        return MediaPlayerUseCaseImpl(mediaPlayerRepository)
+        return MediaPlayerInteractorImpl(mediaPlayerRepository)
     }
 }

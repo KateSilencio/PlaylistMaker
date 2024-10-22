@@ -18,14 +18,6 @@ class SharedPrefFunRepositoryImpl(private val context: Context): SharedPrefFunRe
         return getSharedPreferences(name).getString(key, null)
     }
 
-    override fun saveBoolean(name:String,key: String, value: Boolean){
-        getSharedPreferences(name).edit().putBoolean(key,value).apply()
-    }
-
-    override fun getBoolean(name: String,key: String,value: Boolean): Boolean {
-        return getSharedPreferences(name).getBoolean(key,value)
-    }
-
     override fun remove(name:String,key: String) {
         getSharedPreferences(name).edit().remove(key).apply()
     }
