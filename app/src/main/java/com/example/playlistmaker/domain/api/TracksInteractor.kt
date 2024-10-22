@@ -12,6 +12,7 @@ interface TracksInteractor {
     }
 
     enum class ErrorType{
+        SUCCESS,
         FAILURE,
         EMPTY_RESPONSE
     }

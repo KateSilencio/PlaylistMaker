@@ -30,7 +30,7 @@ class SearchViewModel(
     private val handler = Handler(Looper.getMainLooper())
 
     init {
-        //searchState.value = SearchState(historyTracks = searchHistoryUseCase.getTracks())
+       // searchState.value = SearchState(historyTracks = searchHistoryUseCase.getTracks())
 
         val initialHistoryTracks = searchHistoryUseCase.getTracks()
         searchState.value = SearchState(historyTracks = initialHistoryTracks)
@@ -90,7 +90,7 @@ class SearchViewModel(
                 searchState.postValue(searchState.value?.copy(      //handler.post
                     tracks = foundTracks,
                     isProgressBarVisible = false,
-                    errorType = null))
+                    errorType = TracksInteractor.ErrorType.SUCCESS))
             }
 
             override fun onError(error: TracksInteractor.ErrorType) {

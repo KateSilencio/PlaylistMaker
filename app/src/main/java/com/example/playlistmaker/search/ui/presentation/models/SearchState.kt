@@ -11,3 +11,9 @@ data class SearchState(
     var isClearScreenFlag: Boolean = false
 )
 
+/*enum class ResponseTypeSearch{
+    SUCCESS,
+    EMPTY_RESPONSE,
+    FAILURE
+}*/
+

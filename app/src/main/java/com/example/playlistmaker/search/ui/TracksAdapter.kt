@@ -12,7 +12,7 @@ import com.example.playlistmaker.player.domain.models.TracksParceling
 import com.example.playlistmaker.player.ui.MediaActivity
 
 class TracksAdapter(
-    private var tracks: List<TracksParceling>
+    private var tracks: MutableList<TracksParceling>
 ) : RecyclerView.Adapter<TracksViewHolder>() {
 
     //Handler and Debounce
@@ -65,7 +65,8 @@ class TracksAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateTracks(newTracks: List<TracksParceling>) {
-        tracks = newTracks
+        tracks.clear()
+        tracks.addAll(newTracks)
         notifyDataSetChanged()
     }
 }

@@ -126,18 +126,20 @@ class SearchActivity : AppCompatActivity() {
         inputEditText.setOnFocusChangeListener { _, hasFocus ->
             //для проверки не пустой истории
             if (hasFocus && inputEditText.text.isEmpty()) {
+
                 searchViewModel.getTracksFromHistory()
-                if (trackListHistory.isNotEmpty()) {
-                    searchViewModel.getTracksFromHistory()
-                    searchViewModel.searchStateLive.observe(this) { state ->
+                searchViewModel.searchStateLive.observe(this) { state ->
+                    if (searchViewModel.searchStateLive.value?.historyTracks.isNullOrEmpty()) {
+                        searchViewModel.getTracksFromHistory()
                         adapterHistory!!.updateTracks(state.historyTracks)
                         recyclerViewHistory.adapter = adapterHistory
                         searchedTracksView.isVisible = true
                         onClearScreen()
+
+                    } else {
+                        searchedTracksView.isVisible = false
+                        inputEditText.hint = ""
                     }
-                } else {
-                    searchedTracksView.isVisible = false
-                    inputEditText.hint = ""
                 }
             } else {
                 searchedTracksView.isVisible = false
@@ -166,13 +168,14 @@ class SearchActivity : AppCompatActivity() {
 
                 // Debounce пользовательского ввода
                 searchViewModel.onDebounce(inputEditText.text.toString()) //s.toString() ???
+                observersForExecuteRequest()
                 searchViewModel.searchStateLive.observe(this@SearchActivity) { searchState ->
                     if (searchState.isClearScreenFlag) {
                         onClearScreen()
                         searchViewModel.searchStateLive.value?.isClearScreenFlag = false
                     }
                 }
-                observersForExecuteRequest()
+
 
                 if (inputEditText.hasFocus() && inputEditText.text.isEmpty() && trackListHistory.isNotEmpty()) {
                     searchedTracksView.isVisible = true
@@ -249,7 +252,7 @@ class SearchActivity : AppCompatActivity() {
             searchState.errorType.let { error ->
                 when (error) {
                     //Успех
-                    null -> {
+                    TracksInteractor.ErrorType.SUCCESS -> {
                         updateListTracks(searchState.tracks)
                         onSuccess()
                     }
@@ -263,6 +266,8 @@ class SearchActivity : AppCompatActivity() {
                         updateListTracks(emptyList())
                         onFailureResponse()
                     }
+
+                    else -> {}
                 }
             }
         }
