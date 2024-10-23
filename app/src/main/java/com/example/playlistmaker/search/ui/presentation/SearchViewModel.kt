@@ -69,9 +69,6 @@ class SearchViewModel(
             if (inputText.isNotEmpty()) {
                 executeRequest(inputText)
             }
-//            else {
-//                searchState.value = SearchState.NoData
-//            }
         }
         handler.postDelayed(runnable, SEARCH_DEBOUNCE_DELAY)
     }
@@ -100,14 +97,5 @@ class SearchViewModel(
         }
     }
 }
-    /*
-      //Используется при нажатии на основной список поиска
-      fun onSaveTrackInHistory(track: TracksParceling) {
-          val updatedHistory = searchHistoryUseCase.saveTrack(track)
-          searchState.value = searchState.value?.copy(historyTracks = updatedHistory)
 
-          Log.d("AAA", "History tracks in onSaveTrackInHistory : $updatedHistory")
-      }
-
-      }*/
 

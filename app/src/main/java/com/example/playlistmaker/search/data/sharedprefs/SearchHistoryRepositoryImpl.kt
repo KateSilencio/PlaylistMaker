@@ -1,6 +1,5 @@
 package com.example.playlistmaker.search.data.sharedprefs
 
-import android.util.Log
 import com.example.playlistmaker.player.domain.models.TracksParceling
 import com.example.playlistmaker.search.domain.sharedprefs.SearchHistoryLogicRepository
 import com.example.playlistmaker.search.domain.sharedprefs.SharedPrefFunRepository
@@ -58,7 +57,6 @@ class SearchHistoryRepositoryImpl(private val sharedPref: SharedPrefFunRepositor
             ?: return LinkedList<TracksParceling>()
         return json.let {
             val typeList = object : TypeToken<LinkedList<TracksParceling>>() {}.type
-            Log.d("BBB", "historyRepository : ${sharedPref.getString(SEARCH_HISTORY, EDIT_HISTORY_KEY)}")
             gson.fromJson(it, typeList)
         }
     }

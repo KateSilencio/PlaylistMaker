@@ -1,7 +1,7 @@
 package com.example.playlistmaker.search.domain.api
 
-import com.example.playlistmaker.search.domain.models.TracksSearchRequest
 import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.search.domain.models.TracksSearchRequest
 
 interface TracksInteractor {
     fun searchTracks(request: TracksSearchRequest, consumer: TracksConsumer)
@@ -12,7 +12,6 @@ interface TracksInteractor {
     }
 
     enum class ErrorType{
-        SUCCESS,
         FAILURE,
         EMPTY_RESPONSE
     }

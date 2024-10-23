@@ -27,7 +27,8 @@ class RetrofitNetworkClient: NetworkClient {
             }
         } catch (ex: Exception){
             Response().apply {
-                resultCode = 400
+                resultCode = null
+                //resultCode = 400
                 Log.e("FAIL", "Ошибка $resultCode")
             }
         }
