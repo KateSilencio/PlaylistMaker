@@ -1,7 +1,7 @@
 package com.example.playlistmaker.search.domain.usecases
 
-import com.example.playlistmaker.domain.sharedprefs.SearchHistoryLogicRepository
 import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.search.domain.sharedprefs.SearchHistoryLogicRepository
 import java.util.LinkedList
 
 class SearchHistoryUseCaseImpl(private val historyRepository: SearchHistoryLogicRepository) :

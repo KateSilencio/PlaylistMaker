@@ -1,10 +1,10 @@
-package com.example.playlistmaker.domain.impl
+package com.example.playlistmaker.search.domain.impl
 
 import android.content.Context
 import android.util.Log
-import com.example.playlistmaker.domain.api.TracksInteractor
-import com.example.playlistmaker.domain.api.TracksRepository
-import com.example.playlistmaker.domain.models.TracksSearchRequest
+import com.example.playlistmaker.search.domain.api.TracksInteractor
+import com.example.playlistmaker.search.domain.api.TracksRepository
+import com.example.playlistmaker.search.domain.models.TracksSearchRequest
 import java.util.concurrent.Executors
 
 class TracksInteractorImpl(

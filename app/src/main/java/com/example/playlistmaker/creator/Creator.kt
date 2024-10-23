@@ -1,14 +1,14 @@
 package com.example.playlistmaker.creator
 
 import android.content.Context
-import com.example.playlistmaker.data.network.RetrofitNetworkClient
-import com.example.playlistmaker.data.network.TrackRepositoryImpl
-import com.example.playlistmaker.data.sharedprefs.SearchHistoryRepositoryImpl
-import com.example.playlistmaker.data.sharedprefs.SharedPrefFunRepositoryImpl
-import com.example.playlistmaker.domain.api.TracksInteractor
-import com.example.playlistmaker.domain.api.TracksRepository
-import com.example.playlistmaker.domain.impl.TracksInteractorImpl
-import com.example.playlistmaker.domain.sharedprefs.SearchHistoryLogicRepository
+import com.example.playlistmaker.search.data.network.RetrofitNetworkClient
+import com.example.playlistmaker.search.data.network.TrackRepositoryImpl
+import com.example.playlistmaker.search.data.sharedprefs.SearchHistoryRepositoryImpl
+import com.example.playlistmaker.search.data.sharedprefs.SharedPrefFunRepositoryImpl
+import com.example.playlistmaker.search.domain.api.TracksInteractor
+import com.example.playlistmaker.search.domain.api.TracksRepository
+import com.example.playlistmaker.search.domain.impl.TracksInteractorImpl
+import com.example.playlistmaker.search.domain.sharedprefs.SearchHistoryLogicRepository
 import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.player.domain.usecase.MediaPlayerInteractor
@@ -46,11 +46,11 @@ object Creator {
         return SearchHistoryUseCaseImpl(historyRepository)
     }
 
-    private fun getTracksRepository(): TracksRepository{
+    private fun getTracksRepository(): TracksRepository {
         return TrackRepositoryImpl(RetrofitNetworkClient())
     }
 
-    fun provideTracksInteractor(): TracksInteractor{
+    fun provideTracksInteractor(): TracksInteractor {
         return TracksInteractorImpl(getTracksRepository(), appContext)
     }
 

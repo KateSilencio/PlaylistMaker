@@ -1,6 +1,5 @@
 package com.example.playlistmaker.search.ui
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
@@ -63,7 +62,6 @@ class TracksAdapter(
         return current
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     fun updateTracks(newTracks: List<TracksParceling>) {
         tracks.clear()
         tracks.addAll(newTracks)

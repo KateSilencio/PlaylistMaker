@@ -1,4 +1,4 @@
-package com.example.playlistmaker.domain.impl
+package com.example.playlistmaker.search.domain.impl
 
 import android.content.Context
 import android.net.ConnectivityManager

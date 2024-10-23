@@ -2,11 +2,9 @@ package com.example.playlistmaker.search.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.MenuItem
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -19,11 +17,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.domain.api.TracksInteractor
 import com.example.playlistmaker.player.domain.models.TracksParceling
-import com.example.playlistmaker.player.ui.MediaActivity
 import com.example.playlistmaker.search.ui.presentation.SearchViewModel
 import com.example.playlistmaker.search.ui.presentation.SearchViewModelFactory
+import com.example.playlistmaker.search.ui.presentation.models.SearchState
 import java.util.LinkedList
 
 class SearchActivity : AppCompatActivity() {
@@ -37,6 +34,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderNoConnection: LinearLayout
     private lateinit var progressBar: LinearLayout
     private lateinit var updateButton: com.google.android.material.button.MaterialButton
+    private lateinit var searchedTracksView: LinearLayout
 
     //View для истории поиска
     private lateinit var recyclerViewHistory: RecyclerView
@@ -57,7 +55,7 @@ class SearchActivity : AppCompatActivity() {
 
         val inputEditText = findViewById<EditText>(R.id.edit_text_search_id)
         val clearButton = findViewById<ImageView>(R.id.clear_btn_id)
-        val searchedTracksView = findViewById<LinearLayout>(R.id.history_searched)
+        searchedTracksView = findViewById(R.id.history_searched)
         recyclerView = findViewById(R.id.recycler)
         recyclerViewHistory = findViewById(R.id.recycler_history)
         clearHistoryBtn = findViewById(R.id.clear_history_btn)
@@ -74,6 +72,8 @@ class SearchActivity : AppCompatActivity() {
             )
         )[SearchViewModel::class.java]
 
+        observers()
+
         //Активация тулбара для окна Поиска
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_search)
         if (toolbar != null) {
@@ -86,100 +86,40 @@ class SearchActivity : AppCompatActivity() {
             inputEditText.setText(edit)
         }
 
-        //установка RecyclerView, инициализация адаптера
-        adapter = TracksAdapter(trackList)
-        recyclerView.adapter = adapter
-
-        //Нажатие основной список поиска
-        adapter.setOnClickListener { track ->
-            searchViewModel.onSaveTrackInHistory(track)
-            searchViewModel.searchStateLive.observe(this) { state ->
-                // Обновляем адаптер с текущими треками
-                adapter.updateTracks(state.tracks)
-                Log.d("AAA", " tracks in adapter.setOnClickListener : $state.tracks")
-                // Обновляем адаптер истории с обновленной историей
-                Log.d("AAA", "historyTracks in adapter.setOnClickListener : $state.historyTracks")
-                adapterHistory?.updateTracks(state.historyTracks)
-                recyclerViewHistory.adapter = adapterHistory
+        // Обработка нажатия на кнопку "Done" на клавиатуре
+        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                searchViewModel.executeRequest(inputEditText.text.toString())
+                true
             }
-        }
-
-        //********** История поиска ***********
-        //Нажатие список истории поиска
-        adapterHistory?.setOnClickListener { track ->
-            val intent = Intent(this, MediaActivity::class.java)
-            intent.putExtra("TRACK", track)
-            startActivity(intent)
+            false
         }
 
         //Кнопка Очистить историю
         clearHistoryBtn.setOnClickListener {
             searchViewModel.clearHistory()
-            searchViewModel.searchStateLive.observe(this) { state ->
-                adapterHistory!!.updateTracks(state.historyTracks)
-                recyclerViewHistory.adapter = adapterHistory
-                searchedTracksView.isVisible = false
-            }
         }
 
-        //Работа с фокусом inputEditText для показа истории поиска
-        inputEditText.setOnFocusChangeListener { _, hasFocus ->
-            //для проверки не пустой истории
-            if (hasFocus && inputEditText.text.isEmpty()) {
+        //установка RecyclerView, инициализация адаптера
+        adapter = TracksAdapter(trackList)
+        recyclerView.adapter = adapter
 
-                searchViewModel.getTracksFromHistory()
-                searchViewModel.searchStateLive.observe(this) { state ->
-                    if (searchViewModel.searchStateLive.value?.historyTracks.isNullOrEmpty()) {
-                        searchViewModel.getTracksFromHistory()
-                        adapterHistory!!.updateTracks(state.historyTracks)
-                        recyclerViewHistory.adapter = adapterHistory
-                        searchedTracksView.isVisible = true
-                        onClearScreen()
-
-                    } else {
-                        searchedTracksView.isVisible = false
-                        inputEditText.hint = ""
-                    }
-                }
-            } else {
-                searchedTracksView.isVisible = false
-                inputEditText.hint = ""
-            }
-        }
-
-        //Кнопка Очистить EditText
-        clearButton.setOnClickListener {
-            inputEditText.setText("")
-            //очистка списка треков
-            updateListTracks(emptyList())
-            onClearScreen()
-            //скрытие клавиатуры
-            val hideKeyB =
-                inputEditText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            hideKeyB.hideSoftInputFromWindow(inputEditText.windowToken, 0)
+        // Нажатие основной список поиска
+        adapter.setOnClickListener { track ->
+            searchViewModel.onSaveTrackInHistory(track)
         }
 
         inputEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
+            //Работа с фокусом inputEditText для показа истории поиска
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
-                // Debounce пользовательского ввода
-                searchViewModel.onDebounce(inputEditText.text.toString()) //s.toString() ???
-                observersForExecuteRequest()
-                searchViewModel.searchStateLive.observe(this@SearchActivity) { searchState ->
-                    if (searchState.isClearScreenFlag) {
-                        onClearScreen()
-                        searchViewModel.searchStateLive.value?.isClearScreenFlag = false
-                    }
-                }
+                searchViewModel.onDebounce(inputEditText.text.toString())
+                //список истории проверяется в onShowHistory
+                if (inputEditText.hasFocus() && inputEditText.text.isEmpty()) {
 
-
-                if (inputEditText.hasFocus() && inputEditText.text.isEmpty() && trackListHistory.isNotEmpty()) {
-                    searchedTracksView.isVisible = true
-                    onClearScreen()
+                    searchViewModel.onShowHistory()
                 } else {
                     searchedTracksView.isVisible = false
                     inputEditText.hint = ""
@@ -201,23 +141,131 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
+        //Кнопка Очистить EditText
+        clearButton.setOnClickListener {
+            inputEditText.setText("")
+            //очистка списка треков
+            updateListTracks(emptyList())
+            onClearScreen()
+            //скрытие клавиатуры
+            val hideKeyB =
+                inputEditText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            hideKeyB.hideSoftInputFromWindow(inputEditText.windowToken, 0)
+        }
 
         //Обработка кнопки Обновить Последний запрос
         updateButton.setOnClickListener {
             searchViewModel.updateRequest()
-            observersForExecuteRequest()
         }
 
-        // Обработка нажатия на кнопку "Done" на клавиатуре
-        inputEditText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                searchViewModel.executeRequest(inputEditText.text.toString())
-                observersForExecuteRequest()
-                true
-            }
-            false
-        }
+        //Нажатие основной список поиска
+//        adapter.setOnClickListener { track ->
+//            searchViewModel.onSaveTrackInHistory(track)
+//            searchViewModel.searchStateLive.observe(this) { state ->
+//                // Обновляем адаптер с текущими треками
+//                //adapter.updateTracks(state.tracks)
+//                updateListTracks(state.tracks)
+//                Log.d("AAA", " tracks in adapter.setOnClickListener : $state.tracks")
+//                // Обновляем адаптер истории с обновленной историей
+//                Log.d("AAA", "historyTracks in adapter.setOnClickListener : $state.historyTracks")
+//                //adapterHistory?.updateTracks(state.historyTracks)
+//                updateHistoryListTracks(state.historyTracks)
+//                recyclerViewHistory.adapter = adapterHistory
+//            }
+//        }
 
+        //********** История поиска ***********
+        //Нажатие список истории поиска
+//        adapterHistory?.setOnClickListener { track ->
+//            val intent = Intent(this, MediaActivity::class.java)
+//            intent.putExtra("TRACK", track)
+//            startActivity(intent)
+//        }
+
+    }
+
+    private fun observers() {
+        searchViewModel.searchStateLive.observe(this) { state ->
+            renderState(state)
+        }
+    }
+
+    private fun renderState(state: SearchState) {
+        when (state) {
+            is SearchState.Loading -> showLoading()
+            is SearchState.NoData -> showNoData()
+            is SearchState.NothingFound -> showNothingFound()
+            is SearchState.ConnectionError -> showConnectionError(state.error)
+            is SearchState.TrackSearchResults -> showSearchResults(state.results)
+            is SearchState.TrackSearchHistory -> showSearchHistory(state.history)
+            else -> {/*Заглушка для дефолтного состояния*/}
+        }
+    }
+
+    private fun showSearchResults(results: List<TracksParceling>) {
+        updateListTracks(results)
+        progressBar.isVisible = false
+        recyclerView.isVisible = true
+        placeholderNothingFind.isVisible = false
+        placeholderNoConnection.isVisible = false
+    }
+
+    private fun showLoading() {
+        progressBar.isVisible = true
+        recyclerView.isVisible = false
+        placeholderNothingFind.isVisible = false
+        placeholderNoConnection.isVisible = false
+    }
+
+    private fun showNoData() {
+        progressBar.isVisible = false
+        recyclerView.isVisible = false
+        placeholderNothingFind.isVisible = false
+        placeholderNoConnection.isVisible = false
+        //adapterHistory!!.updateTracks(state.historyTracks)
+//      updateHistoryListTracks(state.historyTracks)
+//      recyclerViewHistory.adapter = adapterHistory
+        searchedTracksView.isVisible = false
+    }
+
+    //Ф-ии управления видимостью контейнеров
+    private fun onClearScreen() {
+        recyclerView.isVisible = false
+        placeholderNothingFind.isVisible = false
+        placeholderNoConnection.isVisible = false
+    }
+    private fun showNothingFound() {
+        progressBar.isVisible = false
+        recyclerView.isVisible = false
+        placeholderNothingFind.isVisible = true
+        placeholderNoConnection.isVisible = false
+    }
+
+    private fun showConnectionError(error: Int) {
+        progressBar.isVisible = false
+        recyclerView.isVisible = false
+        placeholderNothingFind.isVisible = false
+        placeholderNoConnection.isVisible = true
+    }
+
+    private fun showSearchHistory(history: MutableList<TracksParceling>){
+        if (adapterHistory == null){
+            adapterHistory = TracksAdapter(history)
+            recyclerViewHistory.adapter = adapterHistory
+        } else {
+            adapterHistory?.updateTracks(history)
+        }
+        searchedTracksView.isVisible = true
+        recyclerView.isVisible = false
+    }
+
+    //Функция обновления списка в адаптере и установка видимости контейнеров
+    @SuppressLint("NotifyDataSetChanged")
+    private fun updateListTracks(data: List<TracksParceling>) {
+        //очистка, доб результата в список, обновление адаптера
+        trackList.clear()
+        trackList.addAll(data)
+        adapter.notifyDataSetChanged()
     }
 
     //Сохранение EditText
@@ -238,56 +286,7 @@ class SearchActivity : AppCompatActivity() {
         return true
 
     }
-
-    private fun observersForExecuteRequest() {
-
-        searchViewModel.searchStateLive.observe(this) { searchState ->
-            progressBar.isVisible = true  //searchState.isProgressBarVisible
-
-            if (searchState.isClearScreenFlag) {
-                onClearScreen()
-                searchViewModel.searchStateLive.value?.isClearScreenFlag = false
-            }
-
-            searchState.errorType.let { error ->
-                when (error) {
-                    //Успех
-                    TracksInteractor.ErrorType.SUCCESS -> {
-                        updateListTracks(searchState.tracks)
-                        onSuccess()
-                    }
-                    //Пустой запрос
-                    TracksInteractor.ErrorType.EMPTY_RESPONSE -> {
-                        updateListTracks(emptyList())
-                        onEmptyResponse()
-                    }
-                    //Ошибка сети
-                    TracksInteractor.ErrorType.FAILURE -> {
-                        updateListTracks(emptyList())
-                        onFailureResponse()
-                    }
-
-                    else -> {}
-                }
-            }
-        }
-    }
-
-    //Функция обновления списка в адаптере и установка видимости контейнеров
-    @SuppressLint("NotifyDataSetChanged")
-    private fun updateListTracks(data: List<TracksParceling>) {
-        //очистка, доб результата в список, обновление адаптера
-        trackList.clear()
-        trackList.addAll(data)
-        adapter.notifyDataSetChanged()
-    }
-
-    //Ф-ии управления видимостью контейнеров
-    private fun onClearScreen() {
-        recyclerView.isVisible = false
-        placeholderNothingFind.isVisible = false
-        placeholderNoConnection.isVisible = false
-    }
+    //_____________________________________________________________________________
 
     private fun onSuccess() {
         recyclerView.isVisible = true
@@ -309,7 +308,6 @@ class SearchActivity : AppCompatActivity() {
         placeholderNoConnection.isVisible = true
         progressBar.isVisible = false
     }
-
 }
 
 //*****************************************************************

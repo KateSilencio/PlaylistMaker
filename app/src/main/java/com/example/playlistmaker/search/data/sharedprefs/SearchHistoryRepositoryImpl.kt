@@ -1,9 +1,9 @@
-package com.example.playlistmaker.data.sharedprefs
+package com.example.playlistmaker.search.data.sharedprefs
 
 import android.util.Log
-import com.example.playlistmaker.domain.sharedprefs.SearchHistoryLogicRepository
-import com.example.playlistmaker.domain.sharedprefs.SharedPrefFunRepository
 import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.search.domain.sharedprefs.SearchHistoryLogicRepository
+import com.example.playlistmaker.search.domain.sharedprefs.SharedPrefFunRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.LinkedList

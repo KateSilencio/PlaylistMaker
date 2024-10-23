@@ -1,4 +1,4 @@
-package com.example.playlistmaker.domain.sharedprefs
+package com.example.playlistmaker.search.domain.sharedprefs
 
 import com.example.playlistmaker.player.domain.models.TracksParceling
 import java.util.LinkedList
