@@ -2,9 +2,9 @@ package com.example.playlistmaker.search.data.sharedprefs
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.playlistmaker.search.domain.sharedprefs.SharedPrefFunRepository
+import com.example.playlistmaker.search.domain.datastore.DataStoreFunRepository
 
-class SharedPrefFunRepositoryImpl(private val context: Context): SharedPrefFunRepository {
+class DataStoreFunRepositoryImpl(private val context: Context): DataStoreFunRepository {
 
     private fun getSharedPreferences(key: String):SharedPreferences{
         return context.getSharedPreferences(key,Context.MODE_PRIVATE)

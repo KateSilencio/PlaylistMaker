@@ -1,9 +1,11 @@
-package com.example.playlistmaker.settings.ui
+package com.example.playlistmaker
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.settings.domain.sharedpref.usecase.SettingsInteractor
+import com.example.playlistmaker.settings.domain.datastore.interactor.SettingsInteractor
+import com.example.playlistmaker.settings.ui.SWITCH_IS_CHECKED
+import com.example.playlistmaker.settings.ui.SWITCH_PREFERENCES
 
 class App : Application() {
 

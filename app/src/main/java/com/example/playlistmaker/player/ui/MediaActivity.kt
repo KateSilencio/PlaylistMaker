@@ -14,7 +14,7 @@ import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.player.domain.mapper.TrackMapper
 import com.example.playlistmaker.player.domain.models.Track
-import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.player.ui.presenter.MediaViewModel
 import com.example.playlistmaker.player.ui.presenter.MediaViewModelFactory
 import java.text.SimpleDateFormat
@@ -23,6 +23,10 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class MediaActivity : AppCompatActivity() {
+
+    companion object {
+        private const val TRACK_KEY = "TRACK"
+    }
 
     private lateinit var mediaViewModel: MediaViewModel
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
@@ -70,8 +74,8 @@ class MediaActivity : AppCompatActivity() {
         }
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        IntentCompat.getParcelableExtra(intent, "TRACK", TracksParceling::class.java)?.let {
-            val track = TrackMapper.toDomain(it)
+        IntentCompat.getParcelableExtra(intent, TRACK_KEY, TracksData::class.java)?.let {
+            val track = TrackMapper.convertToTrack(it)
             mediaViewModel.preparePlayer(track)
         }
 
@@ -90,7 +94,6 @@ class MediaActivity : AppCompatActivity() {
         play?.setOnClickListener {
             mediaViewModel.playbackControl()
         }
-
     }
 
     private fun showDetailsTrack(track: Track) {

@@ -5,15 +5,15 @@ import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.search.domain.api.TracksInteractor
 import com.example.playlistmaker.search.domain.models.TracksSearchRequest
-import com.example.playlistmaker.search.domain.usecases.SearchHistoryUseCase
+import com.example.playlistmaker.search.domain.interactor.SearchHistoryInteractor
 import com.example.playlistmaker.search.ui.presentation.models.SearchState
 
 class SearchViewModel(
     private val tracksInteractor: TracksInteractor,
-    private val searchHistoryUseCase: SearchHistoryUseCase
+    private val searchHistoryInteractor: SearchHistoryInteractor
 ) : ViewModel() {
 
     companion object {
@@ -40,7 +40,7 @@ class SearchViewModel(
 
         val request = TracksSearchRequest(entity = "song", text = inputText)
         tracksInteractor.searchTracks(request, object : TracksInteractor.TracksConsumer {
-            override fun consume(foundTracks: List<TracksParceling>) {
+            override fun consume(foundTracks: List<TracksData>) {
                 if (foundTracks.isEmpty()) {
                     searchState.postValue(SearchState.NothingFound)
                 } else {
@@ -56,7 +56,7 @@ class SearchViewModel(
 
     //Используется при нажатии Очистить историю
     fun clearHistory() {
-        searchHistoryUseCase.clearHistory()
+        searchHistoryInteractor.clearHistory()
         searchState.value = SearchState.NoData
     }
 
@@ -73,13 +73,13 @@ class SearchViewModel(
         handler.postDelayed(runnable, SEARCH_DEBOUNCE_DELAY)
     }
 
-    fun onSaveTrackInHistory(track: TracksParceling) {
-        searchHistoryUseCase.saveTrack(track)
+    fun onSaveTrackInHistory(track: TracksData) {
+        searchHistoryInteractor.saveTrack(track)
         onShowHistory()
     }
 
     fun onShowHistory() {
-        val history = searchHistoryUseCase.getTracks()
+        val history = searchHistoryInteractor.getTracks()
         if (history.isNotEmpty()){
             searchState.value = SearchState.TrackSearchHistory(history)
         }

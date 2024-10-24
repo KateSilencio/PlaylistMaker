@@ -1,20 +1,20 @@
 package com.example.playlistmaker.player.domain.mapper
 
 import com.example.playlistmaker.player.domain.models.Track
-import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.player.domain.models.TracksData
 
 object TrackMapper {
-    fun toDomain(tracksParceling: TracksParceling): Track {
+    fun convertToTrack(tracksData: TracksData): Track {
         return Track(
-            trackName = tracksParceling.trackName,
-            artistName = tracksParceling.artistName,
-            trackTimeMillis = tracksParceling.trackTimeMillis,
-            artworkUrl = tracksParceling.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"),
-            collectionName = tracksParceling.collectionName,
-            releaseDate = tracksParceling.releaseDate,
-            primaryGenreName = tracksParceling.primaryGenreName,
-            country = tracksParceling.country,
-            previewUrl = tracksParceling.previewUrl
+            trackName = tracksData.trackName,
+            artistName = tracksData.artistName,
+            trackTimeMillis = tracksData.trackTimeMillis,
+            artworkUrl = tracksData.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"),
+            collectionName = tracksData.collectionName,
+            releaseDate = tracksData.releaseDate,
+            primaryGenreName = tracksData.primaryGenreName,
+            country = tracksData.country,
+            previewUrl = tracksData.previewUrl
         )
     }
 }

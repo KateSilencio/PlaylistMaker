@@ -1,19 +1,19 @@
 package com.example.playlistmaker.search.data.sharedprefs
 
-import com.example.playlistmaker.player.domain.models.TracksParceling
-import com.example.playlistmaker.search.domain.sharedprefs.SearchHistoryLogicRepository
-import com.example.playlistmaker.search.domain.sharedprefs.SharedPrefFunRepository
+import com.example.playlistmaker.player.domain.models.TracksData
+import com.example.playlistmaker.search.domain.datastore.SearchHistoryLogicRepository
+import com.example.playlistmaker.search.domain.datastore.DataStoreFunRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.LinkedList
 
-class SearchHistoryRepositoryImpl(private val sharedPref: SharedPrefFunRepository) :
+class SearchHistoryRepositoryImpl(private val sharedPref: DataStoreFunRepository) :
     SearchHistoryLogicRepository {
 
     private val gson = Gson()
-    override fun saveTrack(track: TracksParceling): LinkedList<TracksParceling> {
+    override fun saveTrack(track: TracksData): LinkedList<TracksData> {
 
-        fun saveTracks(tracks: LinkedList<TracksParceling>) {
+        fun saveTracks(tracks: LinkedList<TracksData>) {
             val json = Gson().toJson(tracks)
             sharedPref.saveString(SEARCH_HISTORY, EDIT_HISTORY_KEY, json)
         }
@@ -52,11 +52,11 @@ class SearchHistoryRepositoryImpl(private val sharedPref: SharedPrefFunRepositor
 
     }
 
-    override fun getTracks(): LinkedList<TracksParceling> {
+    override fun getTracks(): LinkedList<TracksData> {
         val json = sharedPref.getString(SEARCH_HISTORY, EDIT_HISTORY_KEY)
-            ?: return LinkedList<TracksParceling>()
+            ?: return LinkedList<TracksData>()
         return json.let {
-            val typeList = object : TypeToken<LinkedList<TracksParceling>>() {}.type
+            val typeList = object : TypeToken<LinkedList<TracksData>>() {}.type
             gson.fromJson(it, typeList)
         }
     }

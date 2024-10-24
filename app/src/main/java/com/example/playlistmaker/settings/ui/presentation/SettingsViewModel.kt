@@ -3,8 +3,8 @@ package com.example.playlistmaker.settings.ui.presentation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.playlistmaker.settings.domain.sharedpref.usecase.SettingsInteractor
-import com.example.playlistmaker.settings.domain.usecase.ExternalNavigationInteractor
+import com.example.playlistmaker.settings.domain.datastore.interactor.SettingsInteractor
+import com.example.playlistmaker.settings.domain.interactor.ExternalNavigationInteractor
 
 class SettingsViewModel(
     private val settingsInteractor: SettingsInteractor,

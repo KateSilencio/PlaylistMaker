@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.creator.Creator
-import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.search.ui.presentation.SearchViewModel
 import com.example.playlistmaker.search.ui.presentation.SearchViewModelFactory
 import com.example.playlistmaker.search.ui.presentation.models.SearchState
@@ -40,8 +40,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var recyclerViewHistory: RecyclerView
     private lateinit var clearHistoryBtn: com.google.android.material.button.MaterialButton
     private var adapterHistory: TracksAdapter? = null
-    private var trackListHistory = LinkedList<TracksParceling>()
-    private val trackList = ArrayList<TracksParceling>()
+    private var trackListHistory = LinkedList<TracksData>()
+    private val trackList = ArrayList<TracksData>()
 
     companion object {
         private var edit = ""
@@ -190,7 +190,7 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun showSearchResults(results: List<TracksParceling>) {
+    private fun showSearchResults(results: List<TracksData>) {
         updateListTracks(results)
         progressBar.isVisible = false
         recyclerView.isVisible = true
@@ -210,9 +210,6 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.isVisible = false
         placeholderNothingFind.isVisible = false
         placeholderNoConnection.isVisible = false
-        //adapterHistory!!.updateTracks(state.historyTracks)
-//      updateHistoryListTracks(state.historyTracks)
-//      recyclerViewHistory.adapter = adapterHistory
         searchedTracksView.isVisible = false
     }
 
@@ -236,7 +233,7 @@ class SearchActivity : AppCompatActivity() {
         placeholderNoConnection.isVisible = true
     }
 
-    private fun showSearchHistory(history: MutableList<TracksParceling>){
+    private fun showSearchHistory(history: MutableList<TracksData>){
         if (adapterHistory == null){
             adapterHistory = TracksAdapter(history)
             recyclerViewHistory.adapter = adapterHistory
@@ -249,7 +246,7 @@ class SearchActivity : AppCompatActivity() {
 
     //Функция обновления списка в адаптере и установка видимости контейнеров
     @SuppressLint("NotifyDataSetChanged")
-    private fun updateListTracks(data: List<TracksParceling>) {
+    private fun updateListTracks(data: List<TracksData>) {
         //очистка, доб результата в список, обновление адаптера
         trackList.clear()
         trackList.addAll(data)
@@ -273,28 +270,6 @@ class SearchActivity : AppCompatActivity() {
         if (item.itemId == android.R.id.home) finish()
         return true
 
-    }
-    //_____________________________________________________________________________
-
-    private fun onSuccess() {
-        recyclerView.isVisible = true
-        placeholderNothingFind.isVisible = false
-        placeholderNoConnection.isVisible = false
-        progressBar.isVisible = false
-    }
-
-    private fun onEmptyResponse() {
-        recyclerView.isVisible = false
-        placeholderNothingFind.isVisible = true
-        placeholderNoConnection.isVisible = false
-        progressBar.isVisible = false
-    }
-
-    private fun onFailureResponse() {
-        recyclerView.isVisible = false
-        placeholderNothingFind.isVisible = false
-        placeholderNoConnection.isVisible = true
-        progressBar.isVisible = false
     }
 }
 

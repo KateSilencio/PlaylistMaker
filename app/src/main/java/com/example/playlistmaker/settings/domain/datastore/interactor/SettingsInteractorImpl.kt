@@ -1,6 +1,6 @@
-package com.example.playlistmaker.settings.domain.sharedpref.usecase
+package com.example.playlistmaker.settings.domain.datastore.interactor
 
-import com.example.playlistmaker.settings.domain.sharedpref.SettingsRepository
+import com.example.playlistmaker.settings.domain.datastore.SettingsRepository
 
 class SettingsInteractorImpl(
     private val settingsRepository: SettingsRepository

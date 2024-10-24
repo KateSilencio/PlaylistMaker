@@ -1,4 +1,4 @@
-package com.example.playlistmaker.settings.domain.sharedpref.usecase
+package com.example.playlistmaker.settings.domain.datastore.interactor
 
 interface SettingsInteractor {
 

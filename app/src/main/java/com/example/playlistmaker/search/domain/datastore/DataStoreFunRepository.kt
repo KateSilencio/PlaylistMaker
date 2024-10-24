@@ -1,6 +1,6 @@
-package com.example.playlistmaker.search.domain.sharedprefs
+package com.example.playlistmaker.search.domain.datastore
 
-interface SharedPrefFunRepository {
+interface DataStoreFunRepository {
 
     fun saveString(name:String,key: String, value: String)
 

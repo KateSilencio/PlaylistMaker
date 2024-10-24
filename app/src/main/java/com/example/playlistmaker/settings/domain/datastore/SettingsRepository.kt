@@ -1,4 +1,4 @@
-package com.example.playlistmaker.settings.domain.sharedpref
+package com.example.playlistmaker.settings.domain.datastore
 
 interface SettingsRepository {
 

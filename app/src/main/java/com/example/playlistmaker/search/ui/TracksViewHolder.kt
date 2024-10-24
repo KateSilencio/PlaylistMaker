@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.player.ui.dpToPx
 import java.util.Locale
 
@@ -19,7 +19,7 @@ class TracksViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val trackTime: TextView = itemView.requireViewById(R.id.track_time)
     val artworkUrl: ImageView = itemView.findViewById(R.id.image_albom)
 
-    fun bind(track: TracksParceling) {
+    fun bind(track: TracksData) {
         trackName.text = track.trackName
         artistName.text = track.artistName
         trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault())

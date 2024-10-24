@@ -7,11 +7,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
-import com.example.playlistmaker.player.domain.models.TracksParceling
+import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.player.ui.MediaActivity
 
 class TracksAdapter(
-    private var tracks: MutableList<TracksParceling>
+    private var tracks: MutableList<TracksData>
 ) : RecyclerView.Adapter<TracksViewHolder>() {
 
     //Handler and Debounce
@@ -22,7 +22,7 @@ class TracksAdapter(
         private const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 
-    private var onTrackClick: (TracksParceling) -> Unit = {}
+    private var onTrackClick: (TracksData) -> Unit = {}
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
         return TracksViewHolder(
             LayoutInflater.from(parent.context)
@@ -30,7 +30,7 @@ class TracksAdapter(
         )
     }
 
-    fun setOnClickListener(onClickListener: (TracksParceling) -> Unit) {
+    fun setOnClickListener(onClickListener: (TracksData) -> Unit) {
         onTrackClick = onClickListener
     }
 
@@ -62,7 +62,7 @@ class TracksAdapter(
         return current
     }
 
-    fun updateTracks(newTracks: List<TracksParceling>) {
+    fun updateTracks(newTracks: List<TracksData>) {
         tracks.clear()
         tracks.addAll(newTracks)
         notifyDataSetChanged()

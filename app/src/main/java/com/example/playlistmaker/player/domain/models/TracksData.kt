@@ -2,27 +2,18 @@ package com.example.playlistmaker.player.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
 
-data class TracksParceling(
-    @SerializedName("trackName")
+data class TracksData(
+
     val trackName: String,
-    @SerializedName("artistName")
     val artistName: String,
-    @SerializedName("trackTimeMillis")
     val trackTimeMillis: Int,
-    @SerializedName("artworkUrl100")
     val artworkUrl100: String,
 
-    @SerializedName("collectionName")
     val collectionName: String,
-    @SerializedName("releaseDate")
     val releaseDate: String,
-    @SerializedName("primaryGenreName")
     val primaryGenreName: String,
-    @SerializedName("country")
     val country: String,
-    @SerializedName("previewUrl")
     val previewUrl: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -53,12 +44,12 @@ data class TracksParceling(
         dest.writeString(previewUrl)
     }
 
-    companion object CREATOR : Parcelable.Creator<TracksParceling> {
-        override fun createFromParcel(parcel: Parcel): TracksParceling {
-            return TracksParceling(parcel)
+    companion object CREATOR : Parcelable.Creator<TracksData> {
+        override fun createFromParcel(parcel: Parcel): TracksData {
+            return TracksData(parcel)
         }
 
-        override fun newArray(size: Int): Array<TracksParceling?> {
+        override fun newArray(size: Int): Array<TracksData?> {
             return arrayOfNulls(size)
         }
     }

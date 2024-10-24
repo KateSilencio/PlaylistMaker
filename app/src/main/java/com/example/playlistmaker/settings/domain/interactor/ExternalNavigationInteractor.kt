@@ -1,4 +1,4 @@
-package com.example.playlistmaker.settings.domain.usecase
+package com.example.playlistmaker.settings.domain.interactor
 
 interface ExternalNavigationInteractor {
 
