@@ -1,6 +1,7 @@
-package com.example.playlistmaker.search.domain.interactor
+package com.example.playlistmaker.search.domain.impl
 
 import com.example.playlistmaker.player.domain.models.TracksData
+import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
 import com.example.playlistmaker.search.domain.datastore.SearchHistoryLogicRepository
 import java.util.LinkedList
 

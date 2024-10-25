@@ -13,8 +13,8 @@ import com.example.playlistmaker.search.domain.api.TracksInteractor
 import com.example.playlistmaker.search.domain.api.TracksRepository
 import com.example.playlistmaker.search.domain.datastore.SearchHistoryLogicRepository
 import com.example.playlistmaker.search.domain.impl.TracksInteractorImpl
-import com.example.playlistmaker.search.domain.interactor.SearchHistoryInteractor
-import com.example.playlistmaker.search.domain.interactor.SearchHistoryInteractorImpl
+import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
+import com.example.playlistmaker.search.domain.impl.SearchHistoryInteractorImpl
 import com.example.playlistmaker.settings.data.ExternalNavigationImpl
 import com.example.playlistmaker.settings.data.sharedpref.SettingsRepositoryImpl
 import com.example.playlistmaker.settings.domain.ExternalNavigation

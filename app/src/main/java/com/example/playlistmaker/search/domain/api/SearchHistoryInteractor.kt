@@ -1,4 +1,4 @@
-package com.example.playlistmaker.search.domain.interactor
+package com.example.playlistmaker.search.domain.api
 
 import com.example.playlistmaker.player.domain.models.TracksData
 import java.util.LinkedList

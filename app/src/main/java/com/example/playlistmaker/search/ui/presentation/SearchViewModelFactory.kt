@@ -3,7 +3,7 @@ package com.example.playlistmaker.search.ui.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.playlistmaker.search.domain.api.TracksInteractor
-import com.example.playlistmaker.search.domain.interactor.SearchHistoryInteractor
+import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
 
 class SearchViewModelFactory(
     private val tracksInteractor: TracksInteractor,

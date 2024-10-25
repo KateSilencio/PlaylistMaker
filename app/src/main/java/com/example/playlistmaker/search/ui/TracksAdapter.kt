@@ -14,12 +14,14 @@ class TracksAdapter(
     private var tracks: MutableList<TracksData>
 ) : RecyclerView.Adapter<TracksViewHolder>() {
 
+
     //Handler and Debounce
     private var isClickAllowed = true
     private val handler = Handler(Looper.getMainLooper())
 
     companion object {
         private const val CLICK_DEBOUNCE_DELAY = 1000L
+        private const val TRACK_KEY = "TRACK"
     }
 
     private var onTrackClick: (TracksData) -> Unit = {}
@@ -47,7 +49,7 @@ class TracksAdapter(
                 //для перехода в MediaActivity
                 val context = holder.itemView.context
                 val intent = Intent(context, MediaActivity::class.java)
-                intent.putExtra("TRACK", tracks[position])
+                intent.putExtra(TRACK_KEY, tracks[position])
                 context.startActivity(intent)
             }
         }

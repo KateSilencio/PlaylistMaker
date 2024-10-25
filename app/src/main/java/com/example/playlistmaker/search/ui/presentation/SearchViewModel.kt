@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.search.domain.api.TracksInteractor
 import com.example.playlistmaker.search.domain.models.TracksSearchRequest
-import com.example.playlistmaker.search.domain.interactor.SearchHistoryInteractor
+import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
 import com.example.playlistmaker.search.ui.presentation.models.SearchState
 
 class SearchViewModel(
