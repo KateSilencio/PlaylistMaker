@@ -1,16 +1,18 @@
 package com.example.playlistmaker.search.data.sharedprefs
 
 import com.example.playlistmaker.player.domain.models.TracksData
-import com.example.playlistmaker.search.domain.datastore.SearchHistoryLogicRepository
 import com.example.playlistmaker.search.domain.datastore.DataStoreFunRepository
+import com.example.playlistmaker.search.domain.datastore.SearchHistoryLogicRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.LinkedList
 
-class SearchHistoryRepositoryImpl(private val sharedPref: DataStoreFunRepository) :
+class SearchHistoryRepositoryImpl(
+    private val sharedPref: DataStoreFunRepository,
+    private val gson: Gson) :
     SearchHistoryLogicRepository {
 
-    private val gson = Gson()
+    //private val gson = Gson()
     override fun saveTrack(track: TracksData): LinkedList<TracksData> {
 
         fun saveTracks(tracks: LinkedList<TracksData>) {

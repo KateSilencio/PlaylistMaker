@@ -14,7 +14,10 @@ class ExternalNavigationImpl(private val context: Context): ExternalNavigation {
             putExtra(Intent.EXTRA_TEXT, link)
             type = "text/plain"
         }
-        val shareChooserIntent = Intent.createChooser(shareIntent, null)
+        val shareChooserIntent = Intent.createChooser(shareIntent, null).apply {
+            // Добавляем флаг к chooser Intent
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         if (shareChooserIntent.resolveActivity(context.packageManager) != null) {
             context.startActivity(shareChooserIntent)
         }
@@ -26,13 +29,18 @@ class ExternalNavigationImpl(private val context: Context): ExternalNavigation {
             putExtra(Intent.EXTRA_EMAIL, arrayOf(email))
             putExtra(Intent.EXTRA_SUBJECT,subject)
             putExtra(Intent.EXTRA_TEXT,text)
+            //контекст не является активностью - добавляем флаг
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(this)
         }
     }
 
     override fun openAgreementLink(url: String) {
         val site = Uri.parse(url)
-        val agreementIntent = Intent(Intent.ACTION_VIEW, site)
+        val agreementIntent = Intent(Intent.ACTION_VIEW, site).apply {
+            //контекст не является активностью - добавляем флаг
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         if (agreementIntent.resolveActivity(context.packageManager)!=null){
             context.startActivity(agreementIntent)
         } else {
