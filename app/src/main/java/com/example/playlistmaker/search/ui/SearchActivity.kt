@@ -97,6 +97,7 @@ class SearchActivity : AppCompatActivity() {
         adapter.setOnClickListener { track ->
             searchViewModel.onSaveTrackInHistory(track)
             searchedTracksView.isVisible = false
+            recyclerView.isVisible = true
         }
 
         inputEditText.addTextChangedListener(object : TextWatcher {
