@@ -13,7 +13,6 @@ class TracksInteractorImpl(
 ) :
     TracksInteractor {
 
-    //private val executor = Executors.newCachedThreadPool()
     override fun searchTracks(
         request: TracksSearchRequest,
         consumer: TracksInteractor.TracksConsumer

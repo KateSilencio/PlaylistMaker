@@ -34,7 +34,6 @@ val dataModule = module {
     single<NetworkClient> { RetrofitNetworkClient(ITunesApiCreate = get()) }
     single<TracksRepository> { TrackRepositoryImpl(networkClient = get()) }
     //для передачи контекста в sharedPref
-    //single { androidContext() }
     single<DataStoreFunRepository> { DataStoreFunRepositoryImpl(context = get()) }
     //для передачи в SearchHistoryRepositoryImpl
     single { Gson() }

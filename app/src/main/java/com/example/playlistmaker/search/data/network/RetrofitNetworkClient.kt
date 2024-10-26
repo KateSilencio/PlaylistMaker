@@ -6,15 +6,7 @@ import com.example.playlistmaker.search.data.dto.Response
 import com.example.playlistmaker.search.domain.models.TracksSearchRequest
 
 class RetrofitNetworkClient(private val ITunesApiCreate: ITunesSearchAPI) : NetworkClient {
-//class RetrofitNetworkClient: NetworkClient {
-//        private val baseUrl = "https://itunes.apple.com"
-//
-//        private val retrofit = Retrofit.Builder()
-//            .baseUrl(baseUrl)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
 
-        //val ITunesApiCreate = retrofit.create(ITunesSearchAPI::class.java)
     override fun doRequest(request: TracksSearchRequest): Response {
         return try {
             val response = ITunesApiCreate.search(request.entity,request.text).execute()

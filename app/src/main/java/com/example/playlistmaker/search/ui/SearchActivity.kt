@@ -96,6 +96,7 @@ class SearchActivity : AppCompatActivity() {
         // Нажатие основной список поиска
         adapter.setOnClickListener { track ->
             searchViewModel.onSaveTrackInHistory(track)
+            searchedTracksView.isVisible = false
         }
 
         inputEditText.addTextChangedListener(object : TextWatcher {
@@ -107,8 +108,8 @@ class SearchActivity : AppCompatActivity() {
                 searchViewModel.onDebounce(inputEditText.text.toString())
                 //список истории проверяется в onShowHistory
                 if (inputEditText.hasFocus() && inputEditText.text.isEmpty()) {
-
                     searchViewModel.onShowHistory()
+                    inputEditText.hint = getString(R.string.search)
                 } else {
                     searchedTracksView.isVisible = false
                     inputEditText.hint = ""
@@ -149,6 +150,7 @@ class SearchActivity : AppCompatActivity() {
         //Кнопка Очистить EditText
             clearButton.setOnClickListener {
                 inputEditText.setText("")
+                inputEditText.hint = getString(R.string.search)
                 //очистка списка треков
                 updateListTracks(emptyList())
                 //searchedTracksView.isVisible = true
