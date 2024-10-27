@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/nonMainScrBrd"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_media_lib"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/medium_padding8"
+        android:paddingTop="@dimen/medium_padding8"
+        android:paddingEnd="@dimen/medium_padding8"
+        android:paddingBottom="@dimen/medium_padding8"
+        app:navigationIcon="@drawable/ic_backward"
+        app:title="@string/media"
+        app:titleTextAppearance="@style/TitleText" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        style="@style/TabLayoutMediaLib"
+
+        android:backgroundTint="?attr/nonMainScrBrd"
+        app:tabPaddingEnd="@dimen/gap_media30"
+        app:tabPaddingStart="@dimen/gap_media30"
+        app:tabGravity="center"
+        app:tabMode="scrollable" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

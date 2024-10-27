@@ -1,5 +1,7 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.medialib.ui.presentation.FavoriteTracksViewModel
+import com.example.playlistmaker.medialib.ui.presentation.PlaylistsViewModel
 import com.example.playlistmaker.player.ui.presenter.MediaViewModel
 import com.example.playlistmaker.search.ui.presentation.SearchViewModel
 import com.example.playlistmaker.settings.ui.presentation.SettingsViewModel
@@ -18,5 +20,14 @@ val viewModelModule = module {
 // ### Экран медиаплеер ###
     viewModel {
         MediaViewModel(mediaPlayerInteractor = get())
+    }
+// ### Фрагмент Избранные треки ###
+    viewModel {
+        FavoriteTracksViewModel()
+    }
+
+// ### Фрагмент Плейлисты ###
+    viewModel {
+        PlaylistsViewModel()
     }
 }

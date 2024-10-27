@@ -17,6 +17,9 @@
         android:theme="@style/Base.Theme.PlaylistMaker"
         tools:targetApi="31">
         <activity
+            android:name=".medialib.ui.MediaLibActivity"
+            android:exported="false"/>
+        <activity
             android:name=".player.ui.MediaActivity"
             android:exported="false" />
         <activity
