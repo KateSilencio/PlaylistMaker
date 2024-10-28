@@ -13,19 +13,17 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.search.ui.presentation.SearchViewModel
-import com.example.playlistmaker.search.ui.presentation.SearchViewModelFactory
 import com.example.playlistmaker.search.ui.presentation.models.SearchState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.LinkedList
 
 class SearchActivity : AppCompatActivity() {
 
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel by viewModel<SearchViewModel>()
 
     //View для запроса и работы с Retrofit
     private lateinit var recyclerView: RecyclerView
@@ -51,7 +49,6 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-        Creator.initialize(this)
 
         val inputEditText = findViewById<EditText>(R.id.edit_text_search_id)
         val clearButton = findViewById<ImageView>(R.id.clear_btn_id)
@@ -63,14 +60,6 @@ class SearchActivity : AppCompatActivity() {
         placeholderNoConnection = findViewById(R.id.no_connection)
         updateButton = findViewById(R.id.update_btn)
         progressBar = findViewById(R.id.progress_bar)
-
-        searchViewModel = ViewModelProvider(
-            this,
-            SearchViewModelFactory(
-                Creator.provideTracksInteractor(),
-                Creator.provideSearchHistoryUseCase()
-            )
-        )[SearchViewModel::class.java]
 
         observers()
 
@@ -107,6 +96,8 @@ class SearchActivity : AppCompatActivity() {
         // Нажатие основной список поиска
         adapter.setOnClickListener { track ->
             searchViewModel.onSaveTrackInHistory(track)
+            searchedTracksView.isVisible = false
+            recyclerView.isVisible = true
         }
 
         inputEditText.addTextChangedListener(object : TextWatcher {
@@ -118,8 +109,8 @@ class SearchActivity : AppCompatActivity() {
                 searchViewModel.onDebounce(inputEditText.text.toString())
                 //список истории проверяется в onShowHistory
                 if (inputEditText.hasFocus() && inputEditText.text.isEmpty()) {
-
                     searchViewModel.onShowHistory()
+                    inputEditText.hint = getString(R.string.search)
                 } else {
                     searchedTracksView.isVisible = false
                     inputEditText.hint = ""
@@ -160,11 +151,12 @@ class SearchActivity : AppCompatActivity() {
         //Кнопка Очистить EditText
             clearButton.setOnClickListener {
                 inputEditText.setText("")
+                inputEditText.hint = getString(R.string.search)
                 //очистка списка треков
                 updateListTracks(emptyList())
-                searchedTracksView.isVisible = true
-                recyclerView.isVisible = false
-                //onClearScreen()
+                //searchedTracksView.isVisible = true
+                //recyclerView.isVisible = false
+                onClearScreen()
                 //скрытие клавиатуры
                 val hideKeyB =
                     inputEditText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

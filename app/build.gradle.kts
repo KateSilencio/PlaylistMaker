@@ -37,9 +37,16 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    viewBinding {
+        enable = true
+    }
 }
 
 dependencies {
+    implementation ("androidx.viewpager2:viewpager2:1.1.0")
+    implementation ("io.insert-koin:koin-android:4.0.0")
+    implementation ("io.insert-koin:koin-core:4.0.0")
     implementation ("androidx.activity:activity-ktx:1.9.3")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

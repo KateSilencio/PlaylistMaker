@@ -31,4 +31,6 @@
     <dimen name="gap_top_media36">36dp</dimen>
 
     <dimen name="gap_top_progressbar140">140dp</dimen>
+
+    <dimen name="gap_top_new_playlist_btn46">46dp</dimen>
 </resources>

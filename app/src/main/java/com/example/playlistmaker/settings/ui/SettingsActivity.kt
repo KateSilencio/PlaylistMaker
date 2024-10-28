@@ -5,34 +5,22 @@ import android.view.MenuItem
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.playlistmaker.App
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
+import com.example.playlistmaker.app.App
 import com.example.playlistmaker.settings.ui.presentation.SettingsViewModel
-import com.example.playlistmaker.settings.ui.presentation.SettingsViewModelFactory
 import com.google.android.material.switchmaterial.SwitchMaterial
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 const val SWITCH_PREFERENCES = "practicum_example_preferences"
 const val SWITCH_IS_CHECKED = "switch_is_checked"
 
 class SettingsActivity : AppCompatActivity() {
 
-    private lateinit var settingsViewModel: SettingsViewModel
+    private val settingsViewModel by viewModel<SettingsViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-
-        Creator.initialize(this)
-
-        settingsViewModel = ViewModelProvider(
-            this,
-            SettingsViewModelFactory(
-                Creator.provideSettingsInteractor(context = this),
-                Creator.provideExternalNavigationInteractor(context = this)
-            )
-        )[SettingsViewModel::class.java]
 
         //Активация тулбара для окна Настройки
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_settings)

@@ -7,16 +7,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.IntentCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.R
-import com.example.playlistmaker.creator.Creator
 import com.example.playlistmaker.player.domain.mapper.TrackMapper
 import com.example.playlistmaker.player.domain.models.Track
 import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.player.ui.presenter.MediaViewModel
-import com.example.playlistmaker.player.ui.presenter.MediaViewModelFactory
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
@@ -28,7 +26,8 @@ class MediaActivity : AppCompatActivity() {
         private const val TRACK_KEY = "TRACK"
     }
 
-    private lateinit var mediaViewModel: MediaViewModel
+    private val mediaViewModel by viewModel<MediaViewModel>()
+
     private val dateFormat by lazy { SimpleDateFormat("mm:ss", Locale.getDefault()) }
 
     private var albumCover: ImageView? = null
@@ -47,7 +46,6 @@ class MediaActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_media)
-        Creator.initialize(this)
 
         albumCover = findViewById(R.id.album_cover_media)
         trackName = findViewById(R.id.track_name_media)
@@ -59,13 +57,6 @@ class MediaActivity : AppCompatActivity() {
         genre = findViewById(R.id.genre_value_media)
         country = findViewById(R.id.country_value_media)
         play = findViewById(R.id.play_track_media)
-
-        mediaViewModel = ViewModelProvider(
-            this,
-            MediaViewModelFactory(
-                Creator.provideMediaPlayerInteractor()
-            )
-        )[MediaViewModel::class.java]
 
         //Активация тулбара для окна Медиа
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_media)

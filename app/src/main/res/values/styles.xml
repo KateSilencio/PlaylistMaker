@@ -88,6 +88,12 @@
         <item name="android:textSize">@dimen/size_text_error_msg19sp</item>
     </style>
 
+    <style name="TextMediaLibNoData">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textColor">@color/points_color</item>
+        <item name="android:textSize">@dimen/size_text_error_msg19sp</item>
+    </style>
+
     <style name="UpdateBtn">
         <item name="android:textAllCaps">false</item>
         <item name="android:backgroundTint">@color/main_color</item>
@@ -124,6 +130,12 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textSize">@dimen/text_size_media13</item>
         <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="TabLayoutMediaLib" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textSize">@dimen/size_update_btn_text14sp</item>
+        <item name="tabTextColor">?attr/colorOnSurface</item>
     </style>
 
 </resources>
