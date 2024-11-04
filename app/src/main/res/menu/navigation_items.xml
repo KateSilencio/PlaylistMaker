@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/searchNavViewItem"
+        android:id="@+id/searchFragment"
         android:icon="@drawable/ic_search"
         android:title="@string/search"/>
     <item
-        android:id="@+id/mediaLibNavViewItem"
+        android:id="@+id/mediaLibFragment"
         android:icon="@drawable/ic_media"
         android:title="@string/media"/>
     <item
-        android:id="@+id/settingsNavViewItem"
+        android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
         android:title="@string/settings"/>
 </menu>

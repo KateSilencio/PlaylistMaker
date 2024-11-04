@@ -25,26 +25,5 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         bottomNavView.setupWithNavController(navController)
 
-        if (savedInstanceState == null) {
-            bottomNavView.selectedItemId = R.id.mediaLibNavViewItem
-        }
-
-        bottomNavView.setOnItemSelectedListener { item ->
-            when (item.itemId){
-                R.id.searchNavViewItem -> {
-                    navController.navigate(R.id.searchFragment)
-                    true
-                }
-                R.id.mediaLibNavViewItem -> {
-                    navController.navigate(R.id.mediaLibFragment)
-                    true
-                }
-                R.id.settingsNavViewItem -> {
-                    navController.navigate(R.id.settingsFragment)
-                    true
-                }
-                else -> false
-            }
-        }
     }
 }
