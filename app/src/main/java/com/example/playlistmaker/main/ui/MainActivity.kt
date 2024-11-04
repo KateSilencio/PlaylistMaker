@@ -25,5 +25,13 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         bottomNavView.setupWithNavController(navController)
 
+        // Cлушатель для управления отступами
+        binding.mainFragmentContainerView.setOnApplyWindowInsetsListener { gap, insets ->
+
+            val bottomNavHeight = bottomNavView.height
+            //отступ снизу для контейнера фрагментов
+            gap.setPadding(0, 0, 0, bottomNavHeight)
+            insets
+        }
     }
 }
