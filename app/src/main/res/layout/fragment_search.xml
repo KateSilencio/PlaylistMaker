@@ -6,19 +6,13 @@
     android:layout_height="match_parent"
     android:background="?attr/nonMainScrBrd"
     android:orientation="vertical"
-    tools:context=".search.ui.SearchActivity">
+    tools:context=".search.ui.SearchFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/medium_padding8"
-        android:paddingTop="@dimen/medium_padding8"
-        android:paddingEnd="@dimen/medium_padding8"
-        android:paddingBottom="@dimen/medium_padding8"
-        app:navigationIcon="@drawable/ic_backward"
         app:title="@string/search"
-        app:titleTextAppearance="@style/TitleText" />
+        app:titleTextAppearance="@style/TitleText"/>
 
     <FrameLayout
         android:layout_width="match_parent"

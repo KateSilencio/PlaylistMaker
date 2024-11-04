@@ -33,4 +33,7 @@
     <dimen name="gap_top_progressbar140">140dp</dimen>
 
     <dimen name="gap_top_new_playlist_btn46">46dp</dimen>
+    <dimen name="nav_items_menu56">56dp</dimen>
+    <dimen name="gap_nav_items1">1dp</dimen>
+    <dimen name="botnavview_text_size12">12sp</dimen>
 </resources>
