@@ -19,7 +19,6 @@ class PlayistsFragment: Fragment() {
     companion object{
         fun newInstance() = PlayistsFragment()
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,5 +37,4 @@ class PlayistsFragment: Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

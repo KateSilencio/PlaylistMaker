@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    android:orientation="vertical">
+    tools:context=".main.ui.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/mainFragmentContainerView"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main_navigation_graph" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/gap_nav_items1"
+        android:background="@color/bground_edit_color"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        style="@style/BottomNavViewMain"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:gravity="center_horizontal"
-        android:text="@string/app_name"
-        android:textColor="@color/white"
-        android:fontFamily="@font/ys_display_medium"
-        android:textSize="@dimen/text_size_main24sp" />
+        app:itemIconTint="@color/bnv_item_color_selector"
+        app:itemTextColor="@color/bnv_item_color_selector"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/navigation_items" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/ButtonStyleMainScr"
-        android:id="@+id/search_btn"
-        android:layout_marginTop="24dp"
-        android:text="@string/search"
-        app:icon="@drawable/ic_search" />
+    <!--    style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"-->
+    <!--    app:itemActiveIndicatorStyle="@style/ShapeAppearance.Material3.Corner.None"-->
 
-    <com.google.android.material.button.MaterialButton
-        style="@style/ButtonStyleMainScr"
-        android:id="@+id/media_btn"
-        android:layout_marginVertical="16dp"
-        android:text="@string/media"
-        app:icon="@drawable/ic_media" />
-
-    <com.google.android.material.button.MaterialButton
-        style="@style/ButtonStyleMainScr"
-        android:id="@+id/settings_btn"
-        android:layout_marginBottom="28dp"
-        android:text="@string/settings"
-        app:icon="@drawable/ic_settings" />
-</LinearLayout>
+    <!--    app:itemActiveIndicatorStyle="@android:color/transparent"-->

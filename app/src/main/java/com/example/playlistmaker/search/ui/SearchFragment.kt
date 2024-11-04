@@ -5,38 +5,43 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.MenuItem
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
+import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.search.ui.presentation.SearchViewModel
 import com.example.playlistmaker.search.ui.presentation.models.SearchState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.util.LinkedList
 
-class SearchActivity : AppCompatActivity() {
+class SearchFragment : Fragment() {
 
     private val searchViewModel by viewModel<SearchViewModel>()
+    private lateinit var binding: FragmentSearchBinding
 
-    //View для запроса и работы с Retrofit
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: TracksAdapter
-    private lateinit var placeholderNothingFind: LinearLayout
-    private lateinit var placeholderNoConnection: LinearLayout
-    private lateinit var progressBar: LinearLayout
-    private lateinit var updateButton: com.google.android.material.button.MaterialButton
+    //для инициализации View
+    private lateinit var inputEditText: EditText
+    private lateinit var clearButton: ImageView
     private lateinit var searchedTracksView: LinearLayout
-
-    //View для истории поиска
+    private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewHistory: RecyclerView
     private lateinit var clearHistoryBtn: com.google.android.material.button.MaterialButton
+    private lateinit var placeholderNothingFind: LinearLayout
+    private lateinit var placeholderNoConnection: LinearLayout
+    private lateinit var updateButton: com.google.android.material.button.MaterialButton
+    private lateinit var progressBar: LinearLayout
+
+    private lateinit var adapter: TracksAdapter
     private var adapterHistory: TracksAdapter? = null
     private var trackListHistory = LinkedList<TracksData>()
     private val trackList = ArrayList<TracksData>()
@@ -46,29 +51,35 @@ class SearchActivity : AppCompatActivity() {
         private const val SEARCH_QUERY_KEY = "EditText"
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentSearchBinding.inflate(inflater,container,false)
+        return binding.root
+    }
 
-        val inputEditText = findViewById<EditText>(R.id.edit_text_search_id)
-        val clearButton = findViewById<ImageView>(R.id.clear_btn_id)
-        searchedTracksView = findViewById(R.id.history_searched)
-        recyclerView = findViewById(R.id.recycler)
-        recyclerViewHistory = findViewById(R.id.recycler_history)
-        clearHistoryBtn = findViewById(R.id.clear_history_btn)
-        placeholderNothingFind = findViewById(R.id.nothing_find)
-        placeholderNoConnection = findViewById(R.id.no_connection)
-        updateButton = findViewById(R.id.update_btn)
-        progressBar = findViewById(R.id.progress_bar)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        //инициализация View
+        inputEditText = binding.editTextSearchId
+        clearButton = binding.clearBtnId
+        searchedTracksView = binding.historySearched
+        recyclerView = binding.recycler
+        recyclerViewHistory = binding.recyclerHistory
+        clearHistoryBtn = binding.clearHistoryBtn
+        placeholderNothingFind = binding.nothingFind
+        placeholderNoConnection = binding.noConnection
+        updateButton = binding.updateBtn
+        progressBar = binding.progressBar
+
+        //установка RecyclerView, инициализация адаптера
+        adapter = TracksAdapter(trackList)
+        recyclerView.adapter = adapter
 
         observers()
-
-        //Активация тулбара для окна Поиска
-        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_search)
-        if (toolbar != null) {
-            setSupportActionBar(toolbar)
-        }
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         //Установить восстановленные данные в EditText
         if (savedInstanceState != null) {
@@ -88,10 +99,6 @@ class SearchActivity : AppCompatActivity() {
         clearHistoryBtn.setOnClickListener {
             searchViewModel.clearHistory()
         }
-
-        //установка RecyclerView, инициализация адаптера
-        adapter = TracksAdapter(trackList)
-        recyclerView.adapter = adapter
 
         // Нажатие основной список поиска
         adapter.setOnClickListener { track ->
@@ -132,16 +139,16 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
-//Работа с фокусом inputEditText для показа истории поиска
-            inputEditText.setOnFocusChangeListener { _, hasFocus ->
-                //для проверки не пустой истории
-                if (hasFocus && inputEditText.text.isEmpty()) {
-                        searchViewModel.onShowHistory()
-                    } else {
-                        searchedTracksView.isVisible = false
-                        inputEditText.hint = ""
-                    }
+        //Работа с фокусом inputEditText для показа истории поиска
+        inputEditText.setOnFocusChangeListener { _, hasFocus ->
+            //для проверки не пустой истории
+            if (hasFocus && inputEditText.text.isEmpty()) {
+                searchViewModel.onShowHistory()
+            } else {
+                searchedTracksView.isVisible = false
+                inputEditText.hint = ""
             }
+        }
 
         //Обработка кнопки Обновить Последний запрос
         updateButton.setOnClickListener {
@@ -149,23 +156,22 @@ class SearchActivity : AppCompatActivity() {
         }
 
         //Кнопка Очистить EditText
-            clearButton.setOnClickListener {
-                inputEditText.setText("")
-                inputEditText.hint = getString(R.string.search)
-                //очистка списка треков
-                updateListTracks(emptyList())
-                //searchedTracksView.isVisible = true
-                //recyclerView.isVisible = false
-                onClearScreen()
-                //скрытие клавиатуры
-                val hideKeyB =
-                    inputEditText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                hideKeyB.hideSoftInputFromWindow(inputEditText.windowToken, 0)
-            }
+        clearButton.setOnClickListener {
+            inputEditText.setText("")
+            inputEditText.hint = getString(R.string.search)
+            //очистка списка треков
+            updateListTracks(emptyList())
+            onClearScreen()
+            //скрытие клавиатуры
+            val hideKeyB =
+                inputEditText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            hideKeyB.hideSoftInputFromWindow(inputEditText.windowToken, 0)
+        }
+
     }
 
     private fun observers() {
-        searchViewModel.searchStateLive.observe(this) { state ->
+        searchViewModel.searchStateLive.observe(viewLifecycleOwner) { state ->
             renderState(state)
         }
     }
@@ -252,17 +258,19 @@ class SearchActivity : AppCompatActivity() {
     }
 
     //Восстановление EditText
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        edit = savedInstanceState.getString(SEARCH_QUERY_KEY).toString()
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        if (savedInstanceState != null) {
+            edit = savedInstanceState.getString(SEARCH_QUERY_KEY, "")
+            inputEditText.setText(edit) // Установите текст в EditText
+        }
     }
 
     //Обработка кнопки Назад
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) finish()
-        return true
-
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        if (item.itemId == android.R.id.home) finish()
+//        return true
+//    }
 }
 
 

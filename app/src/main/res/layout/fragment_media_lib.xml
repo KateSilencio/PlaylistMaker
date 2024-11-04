@@ -5,19 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/nonMainScrBrd"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.playlistmaker.medialib.ui.MediaLibFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_media_lib"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="@dimen/medium_padding8"
-        android:paddingTop="@dimen/medium_padding8"
-        android:paddingEnd="@dimen/medium_padding8"
-        android:paddingBottom="@dimen/medium_padding8"
-        app:navigationIcon="@drawable/ic_backward"
         app:title="@string/media"
-        app:titleTextAppearance="@style/TitleText" />
+        app:titleTextAppearance="@style/TitleText"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
