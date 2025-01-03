@@ -20,7 +20,7 @@ val domainModule = module {
     single<ExecutorService> { Executors.newCachedThreadPool() }
 
     factory <SearchHistoryInteractor> { SearchHistoryInteractorImpl(historyRepository = get()) }
-    factory<TracksInteractor> { TracksInteractorImpl(repository = get(), executor = get()) }
+    factory<TracksInteractor> { TracksInteractorImpl(repository = get())}
 
 // ### для экрана настройки ###
     factory<SettingsInteractor> { SettingsInteractorImpl(settingsRepository = get()) }

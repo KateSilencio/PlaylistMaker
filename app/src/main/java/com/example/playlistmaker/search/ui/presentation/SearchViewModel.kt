@@ -1,15 +1,18 @@
 package com.example.playlistmaker.search.ui.presentation
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.playlistmaker.player.domain.models.TracksData
-import com.example.playlistmaker.search.domain.api.TracksInteractor
-import com.example.playlistmaker.search.domain.models.TracksSearchRequest
 import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
+import com.example.playlistmaker.search.domain.api.TracksInteractor
+import com.example.playlistmaker.search.domain.models.SearchResultNetwork
+import com.example.playlistmaker.search.domain.models.TracksSearchRequest
 import com.example.playlistmaker.search.ui.presentation.models.SearchState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchViewModel(
     private val tracksInteractor: TracksInteractor,
@@ -24,9 +27,7 @@ class SearchViewModel(
     private val searchState = MutableLiveData<SearchState>()
     val searchStateLive: LiveData<SearchState> = searchState
 
-    //потоки
-    private lateinit var runnable: Runnable
-    private val handler = Handler(Looper.getMainLooper())
+    private var searchJob: Job? = null
 
     init {
         //Дефолтное состояние при включении
@@ -35,23 +36,31 @@ class SearchViewModel(
 
     fun executeRequest(inputText: String) {
         lastRequestStr = inputText
-
         searchState.value = SearchState.Loading
 
         val request = TracksSearchRequest(entity = "song", text = inputText)
-        tracksInteractor.searchTracks(request, object : TracksInteractor.TracksConsumer {
-            override fun consume(foundTracks: List<TracksData>) {
-                if (foundTracks.isEmpty()) {
-                    searchState.postValue(SearchState.NothingFound)
-                } else {
-                    searchState.postValue(SearchState.TrackSearchResults(foundTracks))
+
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            tracksInteractor.searchTracks(request).collect{ result ->
+                when(result){
+                    is SearchResultNetwork.Success -> {
+                        val foundTracks = result.tracks
+                        if (foundTracks.isEmpty()) {
+                            searchState.postValue(SearchState.NothingFound)
+                        } else {
+                            searchState.postValue(SearchState.TrackSearchResults(foundTracks))
+                        }
+                    }
+                    is SearchResultNetwork.Empty -> {
+                        searchState.postValue(SearchState.NothingFound)
+                    }
+                    is SearchResultNetwork.Error ->{
+                        searchState.postValue(SearchState.ConnectionError(400))
+                    }
                 }
             }
-
-            override fun onError(error: TracksInteractor.ErrorType) {
-                searchState.postValue(SearchState.ConnectionError(400))
-            }
-        })
+        }
     }
 
     //Используется при нажатии Очистить историю
@@ -61,16 +70,14 @@ class SearchViewModel(
     }
 
     fun onDebounce(inputText: String) {
-        // удалим предыдущий runnable, если он существует
-        if (::runnable.isInitialized) {
-            handler.removeCallbacks(runnable)
-        }
-        runnable = Runnable {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_DELAY)
             if (inputText.isNotEmpty()) {
                 executeRequest(inputText)
             }
         }
-        handler.postDelayed(runnable, SEARCH_DEBOUNCE_DELAY)
+
     }
 
     fun onSaveTrackInHistory(track: TracksData) {
@@ -92,9 +99,7 @@ class SearchViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        if (::runnable.isInitialized) {
-            handler.removeCallbacks(runnable)
-        }
+        searchJob?.cancel()
     }
 }
 
