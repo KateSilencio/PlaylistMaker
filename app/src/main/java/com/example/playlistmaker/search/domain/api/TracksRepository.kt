@@ -4,5 +4,5 @@ import com.example.playlistmaker.search.domain.models.SearchResultNetwork
 import com.example.playlistmaker.search.domain.models.TracksSearchRequest
 
 interface TracksRepository {
-    fun searchTracks(request: TracksSearchRequest): SearchResultNetwork
+    suspend fun searchTracks(request: TracksSearchRequest): SearchResultNetwork
 }

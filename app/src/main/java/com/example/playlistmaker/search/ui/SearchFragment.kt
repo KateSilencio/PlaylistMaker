@@ -22,7 +22,6 @@ import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.search.ui.presentation.SearchViewModel
 import com.example.playlistmaker.search.ui.presentation.models.SearchState
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.LinkedList
 
 class SearchFragment : Fragment() {
 
@@ -43,7 +42,6 @@ class SearchFragment : Fragment() {
 
     private lateinit var adapter: TracksAdapter
     private var adapterHistory: TracksAdapter? = null
-    private var trackListHistory = LinkedList<TracksData>()
     private val trackList = ArrayList<TracksData>()
 
     companion object {

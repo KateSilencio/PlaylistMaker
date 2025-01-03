@@ -6,7 +6,6 @@ import com.example.playlistmaker.player.domain.MediaPlayerRepository
 class MediaPlayerRepositoryImpl(private val mediaPlayer: MediaPlayer = MediaPlayer()):
     MediaPlayerRepository {
 
-    //private val mediaPlayer = MediaPlayer()
     override fun onPrepare(url: String) {
         //сброс состояния
         mediaPlayer.reset()
