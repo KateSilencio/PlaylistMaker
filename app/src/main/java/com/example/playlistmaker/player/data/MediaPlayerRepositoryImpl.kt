@@ -3,7 +3,7 @@ package com.example.playlistmaker.player.data
 import android.media.MediaPlayer
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 
-class MediaPlayerRepositoryImpl(private val mediaPlayer: MediaPlayer = MediaPlayer()):
+class MediaPlayerRepositoryImpl(private val mediaPlayer: MediaPlayer):
     MediaPlayerRepository {
 
     override fun onPrepare(url: String) {

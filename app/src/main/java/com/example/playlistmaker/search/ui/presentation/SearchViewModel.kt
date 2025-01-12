@@ -21,6 +21,7 @@ class SearchViewModel(
 
     companion object {
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
+        private const val CLICK_DEBOUNCE_DELAY = 1000L
         private var lastRequestStr = ""
     }
 
@@ -28,6 +29,7 @@ class SearchViewModel(
     val searchStateLive: LiveData<SearchState> = searchState
 
     private var searchJob: Job? = null
+    private var clickJob: Job? = null
 
     init {
         //Дефолтное состояние при включении
@@ -76,6 +78,15 @@ class SearchViewModel(
             if (inputText.isNotEmpty()) {
                 executeRequest(inputText)
             }
+        }
+
+    }
+
+    fun onTrackClick(track: TracksData, trackSelected: (TracksData) -> Unit){
+        clickJob?.cancel()
+        clickJob = viewModelScope.launch {
+            delay(CLICK_DEBOUNCE_DELAY)
+            trackSelected(track)
         }
 
     }
