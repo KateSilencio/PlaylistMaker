@@ -1,5 +1,7 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.medialib.domain.impl.FavoriteTracksInteractorImpl
+import com.example.playlistmaker.medialib.domain.interactor.FavoriteTracksInteractor
 import com.example.playlistmaker.player.domain.interactor.MediaPlayerInteractor
 import com.example.playlistmaker.player.domain.interactor.MediaPlayerInteractorImpl
 import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
@@ -28,5 +30,8 @@ val domainModule = module {
 
 // ### для экрана плеер ###
     factory<MediaPlayerInteractor> { MediaPlayerInteractorImpl(mediaPlayerRepository = get()) }
+
+// ### MediaLibrary ###
+    factory<FavoriteTracksInteractor>{ FavoriteTracksInteractorImpl(favoriteTracksRepository = get())}
 
 }

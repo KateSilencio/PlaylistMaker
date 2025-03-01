@@ -15,4 +15,9 @@ class TracksInteractorImpl(
     ): Flow<SearchResultNetwork> {
         return repository.searchTracks(request)
     }
+
+    //нужна ли эта функция в presentation???
+    override suspend fun getFavoriteTracksByID(): List<Int> {
+        return repository.getFavoriteTracksByID()
+    }
 }

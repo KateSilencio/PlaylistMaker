@@ -5,7 +5,7 @@ import java.util.LinkedList
 
 interface SearchHistoryInteractor {
 
-    fun saveTrack(track: TracksData): LinkedList<TracksData>
-    fun getTracks(): LinkedList<TracksData>
+    suspend fun saveTrack(track: TracksData): LinkedList<TracksData>
+    suspend fun getTracks(): LinkedList<TracksData>
     fun clearHistory()
 }

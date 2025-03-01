@@ -92,16 +92,19 @@ class SearchViewModel(
     }
 
     fun onSaveTrackInHistory(track: TracksData) {
-        searchHistoryInteractor.saveTrack(track)
-        onShowHistory()
+        viewModelScope.launch {
+            searchHistoryInteractor.saveTrack(track)
+            onShowHistory()
+        }
     }
 
     fun onShowHistory() {
-        val history = searchHistoryInteractor.getTracks()
-        if (history.isNotEmpty()){
-            searchState.value = SearchState.TrackSearchHistory(history)
+        viewModelScope.launch {
+            val history = searchHistoryInteractor.getTracks()
+            if (history.isNotEmpty()) {
+                searchState.value = SearchState.TrackSearchHistory(history)
+            }
         }
-
     }
 
     fun updateRequest(){

@@ -6,4 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface TracksInteractor {
     suspend fun searchTracks(request: TracksSearchRequest): Flow<SearchResultNetwork>
+
+    //нужна ли эта функция в presentation???
+    suspend fun getFavoriteTracksByID(): List<Int>
 }

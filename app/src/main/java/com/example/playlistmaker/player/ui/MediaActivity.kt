@@ -40,7 +40,7 @@ class MediaActivity : AppCompatActivity() {
     private var play: ImageView? = null
     private var time: TextView? = null
     private var country: TextView? = null
-
+    private var favorite: ImageView? = null
     private var urlMedia: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +57,7 @@ class MediaActivity : AppCompatActivity() {
         genre = findViewById(R.id.genre_value_media)
         country = findViewById(R.id.country_value_media)
         play = findViewById(R.id.play_track_media)
+        favorite = findViewById((R.id.add_favorites_media))
 
         //Активация тулбара для окна Медиа
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar_media)
@@ -80,10 +81,22 @@ class MediaActivity : AppCompatActivity() {
                         R.drawable.ic_play
                 )
                 time?.text = state.currentTime
+
+                favorite?.setImageResource(
+                    if (it.isFavorite)
+                        R.drawable.ic_favorites
+                    else
+                        R.drawable.ic_add_favorites
+                )
             }
         })
+
         play?.setOnClickListener {
             mediaViewModel.playbackControl()
+        }
+
+        favorite?.setOnClickListener{
+            mediaViewModel.onFavoriteClicked()
         }
     }
 
@@ -100,7 +113,6 @@ class MediaActivity : AppCompatActivity() {
         genre?.text = track.primaryGenreName
         country?.text = track.country
         urlMedia = track.previewUrl
-
         Glide.with(albumCover!!.context)
             .load(track.artworkUrl)
             .centerCrop()

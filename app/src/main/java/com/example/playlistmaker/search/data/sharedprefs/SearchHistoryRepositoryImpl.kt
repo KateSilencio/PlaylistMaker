@@ -1,19 +1,22 @@
 package com.example.playlistmaker.search.data.sharedprefs
 
+import com.example.playlistmaker.medialib.domain.FavoriteTracksRepository
 import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.search.domain.datastore.DataStoreFunRepository
 import com.example.playlistmaker.search.domain.datastore.SearchHistoryLogicRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.coroutines.flow.first
 import java.util.LinkedList
 
 class SearchHistoryRepositoryImpl(
     private val sharedPref: DataStoreFunRepository,
-    private val gson: Gson) :
-    SearchHistoryLogicRepository {
+    private val gson: Gson,
+    private val favoriteTracksRepository: FavoriteTracksRepository
+) : SearchHistoryLogicRepository {
 
     //private val gson = Gson()
-    override fun saveTrack(track: TracksData): LinkedList<TracksData> {
+    override suspend fun saveTrack(track: TracksData): LinkedList<TracksData> {
 
         fun saveTracks(tracks: LinkedList<TracksData>) {
             val json = Gson().toJson(tracks)
@@ -54,13 +57,23 @@ class SearchHistoryRepositoryImpl(
 
     }
 
-    override fun getTracks(): LinkedList<TracksData> {
+    override suspend fun getTracks(): LinkedList<TracksData> {
         val json = sharedPref.getString(SEARCH_HISTORY, EDIT_HISTORY_KEY)
             ?: return LinkedList<TracksData>()
-        return json.let {
-            val typeList = object : TypeToken<LinkedList<TracksData>>() {}.type
-            gson.fromJson(it, typeList)
+
+        val tracks = gson.fromJson<LinkedList<TracksData>>(json,object : TypeToken<LinkedList<TracksData>>() {}.type)
+        val favoriteTracks = favoriteTracksRepository
+            .getAllFavoriteTracks()
+            .first()
+            .map { it.trackID }
+        tracks.forEach { track ->
+            track.isFavorite = favoriteTracks.contains(track.trackID)
         }
+        return tracks
+//        return json.let {
+//            val typeList = object : TypeToken<LinkedList<TracksData>>() {}.type
+//            gson.fromJson(it, typeList)
+//        }
     }
 
     override fun clearHistory() {

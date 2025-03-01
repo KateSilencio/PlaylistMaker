@@ -206,9 +206,10 @@
         android:src="@drawable/ic_add_track"
 
         app:layout_constraintBottom_toBottomOf="@+id/time_media"
-        app:layout_constraintEnd_toStartOf="@id/play_track_media"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder24"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="@id/leftBorder24"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintTop_toBottomOf="@id/artist_name_media" />
 
     <ImageView
@@ -218,8 +219,9 @@
         android:layout_marginTop="@dimen/gap_media30"
         android:src="@drawable/ic_play"
         app:layout_constraintBottom_toTopOf="@id/time_media"
-        app:layout_constraintEnd_toStartOf="@id/add_favorites_media"
-        app:layout_constraintStart_toEndOf="@id/add_track_media"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder24"
+        app:layout_constraintStart_toEndOf="@id/leftBorder24"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@id/artist_name_media"
         android:visibility="visible"/>
 
@@ -230,8 +232,9 @@
         android:layout_marginTop="@dimen/gap_media30"
         android:src="@drawable/ic_pause"
         app:layout_constraintBottom_toTopOf="@id/time_media"
-        app:layout_constraintEnd_toStartOf="@id/add_favorites_media"
-        app:layout_constraintStart_toEndOf="@id/add_track_media"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder24"
+        app:layout_constraintStart_toEndOf="@id/leftBorder24"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@id/artist_name_media"
         android:visibility="gone"/>
 
@@ -242,8 +245,10 @@
         android:src="@drawable/ic_add_favorites"
         app:layout_constraintBottom_toBottomOf="@id/time_media"
         app:layout_constraintEnd_toEndOf="@id/rightBorder24"
-        app:layout_constraintStart_toEndOf="@id/play_track_media"
-        app:layout_constraintTop_toBottomOf="@id/artist_name_media" />
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/leftBorder24"
+        app:layout_constraintTop_toBottomOf="@id/artist_name_media"
+        android:visibility="visible"/>
 
     <TextView
         android:id="@+id/artist_name_media"

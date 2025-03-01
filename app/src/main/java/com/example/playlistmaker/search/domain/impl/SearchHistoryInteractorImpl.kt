@@ -7,11 +7,11 @@ import java.util.LinkedList
 
 class SearchHistoryInteractorImpl(private val historyRepository: SearchHistoryLogicRepository) :
     SearchHistoryInteractor {
-    override fun saveTrack(track: TracksData): LinkedList<TracksData> {
+    override suspend fun saveTrack(track: TracksData): LinkedList<TracksData> {
         return historyRepository.saveTrack(track)
     }
 
-    override fun getTracks(): LinkedList<TracksData> {
+    override suspend fun getTracks(): LinkedList<TracksData> {
         return historyRepository.getTracks()
     }
 

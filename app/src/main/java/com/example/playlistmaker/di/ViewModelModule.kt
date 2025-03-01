@@ -19,11 +19,11 @@ val viewModelModule = module {
     }
 // ### Экран медиаплеер ###
     viewModel {
-        MediaViewModel(mediaPlayerInteractor = get())
+        MediaViewModel(mediaPlayerInteractor = get(), favoriteTracksInteractor = get())
     }
 // ### Фрагмент Избранные треки ###
     viewModel {
-        FavoriteTracksViewModel()
+        FavoriteTracksViewModel(favoriteTracksInteractor = get())
     }
 
 // ### Фрагмент Плейлисты ###
