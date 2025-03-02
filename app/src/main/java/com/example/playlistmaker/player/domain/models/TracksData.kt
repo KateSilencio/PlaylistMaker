@@ -2,8 +2,10 @@ package com.example.playlistmaker.player.domain.models
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 
 data class TracksData(
+    @SerializedName("trackId")
     val trackID: Int,
     val trackName: String,
     val artistName: String,

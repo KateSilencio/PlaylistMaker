@@ -7,7 +7,7 @@ import com.example.playlistmaker.player.domain.models.TracksData
 @Entity(tableName = "tracks_table")
 data class TrackEntity(
     @PrimaryKey
-    val trackId: Int,
+    val trackID: Int,
     val trackName: String,
     val artistName: String,
     val trackTimeMillis: Int,
@@ -17,12 +17,13 @@ data class TrackEntity(
     val primaryGenreName: String,
     val country: String,
     val previewUrl: String,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
+    val addedTime: Long
 )
 
 fun TracksData.toEntity(): TrackEntity{
     return TrackEntity(
-        trackId = trackID,
+        trackID = trackID,
         trackName = trackName,
         artistName = artistName,
         trackTimeMillis = trackTimeMillis,
@@ -32,13 +33,14 @@ fun TracksData.toEntity(): TrackEntity{
         primaryGenreName = primaryGenreName,
         country = country,
         previewUrl = previewUrl,
-        isFavorite = isFavorite
+        isFavorite = isFavorite,
+        addedTime = System.currentTimeMillis()
     )
 }
 
 fun TrackEntity.toTrackDomain(): TracksData{
     return TracksData(
-        trackID = trackId,
+        trackID = trackID,
         trackName = trackName,
         artistName = artistName,
         trackTimeMillis = trackTimeMillis,

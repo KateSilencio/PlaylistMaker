@@ -191,7 +191,11 @@ class SearchFragment : Fragment() {
             is SearchState.NothingFound -> showNothingFound()
             is SearchState.ConnectionError -> showConnectionError(state.error)
             is SearchState.TrackSearchResults -> showSearchResults(state.results)
-            is SearchState.TrackSearchHistory -> showSearchHistory(state.history)
+            is SearchState.TrackSearchHistory -> {
+                if (inputEditText.text.isEmpty() && inputEditText.hasFocus()) {
+                    showSearchHistory(state.history)
+                }
+            }
             else -> {/*Заглушка для дефолтного состояния*/}
         }
     }

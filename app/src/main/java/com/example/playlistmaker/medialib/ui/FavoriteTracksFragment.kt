@@ -7,17 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.example.playlistmaker.databinding.FragmentFavoriteBinding
 import com.example.playlistmaker.medialib.ui.presentation.FavoriteTracksViewModel
 import com.example.playlistmaker.medialib.ui.presentation.models.FavoriteTracksState
 import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.player.ui.MediaActivity
 import com.example.playlistmaker.search.ui.TracksAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoriteTracksFragment: Fragment() {
 
-    private val favoriteTracksViewModel by viewModels<FavoriteTracksViewModel>()
+    private val favoriteTracksViewModel by viewModel<FavoriteTracksViewModel>()
 
     private var _binding: FragmentFavoriteBinding?= null
     private val binding get() = _binding!! //доступ к объекту ViewBinding вызов геттера
