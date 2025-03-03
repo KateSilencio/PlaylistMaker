@@ -1,17 +1,24 @@
 package com.example.playlistmaker.player.ui.presenter
 
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.playlistmaker.medialib.domain.interactor.FavoriteTracksInteractor
 import com.example.playlistmaker.player.domain.interactor.MediaPlayerInteractor
+import com.example.playlistmaker.player.domain.mapper.TrackMapper
 import com.example.playlistmaker.player.domain.models.Track
 import com.example.playlistmaker.player.ui.models.MediaState
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MediaViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) : ViewModel() {
+class MediaViewModel(
+    private val mediaPlayerInteractor: MediaPlayerInteractor,
+    private val favoriteTracksInteractor: FavoriteTracksInteractor
+) : ViewModel() {
 
     companion object {
         private const val STATE_DEFAULT = 0
@@ -25,13 +32,12 @@ class MediaViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) :
 
     private var playerState = STATE_DEFAULT
 
-    //потоки
-    private lateinit var runnable: Runnable
-    val handler = Handler(Looper.getMainLooper())
     private val dateFormat = SimpleDateFormat("mm:ss", Locale.getDefault())
 
     private val mediaState = MutableLiveData<MediaState>()
     val mediaStateLive: LiveData<MediaState> = mediaState
+
+    private var progressTimeJob: Job? = null
 
     //*******************************************************************
     fun preparePlayer(track: Track) {
@@ -42,9 +48,6 @@ class MediaViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) :
         }
 
         mediaPlayerInteractor.setOnCompletionListener {
-            if (::runnable.isInitialized) {
-                handler.removeCallbacks(runnable)
-            }
             mediaState.value = mediaState.value?.copy(isPlaying = false, currentTime = "00:00")
             playerState = STATE_PREPARED
         }
@@ -65,36 +68,51 @@ class MediaViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) :
     fun pausePlayer() {
         val currentState = mediaState.value ?: MediaState()
         mediaPlayerInteractor.pauseMedia()
-        if (::runnable.isInitialized) {
-            handler.removeCallbacks(runnable)
-        }
+        stopProgressTime()
         mediaState.value = currentState.copy(isPlaying = false)
         playerState = STATE_PAUSED
+    }
+
+    fun onFavoriteClicked(){
+        val currentTrack = mediaState.value?.track?: return
+        viewModelScope.launch {
+            //var updatedTrack = currentTrack.copy(isFavorite = currentTrack.isFavorite)
+            if (currentTrack.isFavorite) {
+                // Меняем состояние isFavorite
+//                mediaState.value = mediaState.value
+//                    ?.copy(track = currentTrack.copy(isFavorite = false))
+                //updatedTrack = currentTrack.copy(isFavorite = false)
+                favoriteTracksInteractor.removeTrackFromFavorites(TrackMapper.convertToTracksData(currentTrack.copy(isFavorite = false)))
+            } else {
+                // Меняем состояние isFavorite
+//                mediaState.value = mediaState.value?.copy(track = currentTrack.copy(isFavorite = true))
+                //updatedTrack = currentTrack.copy(isFavorite = true)
+                favoriteTracksInteractor.addTrackToFavorites(TrackMapper.convertToTracksData(currentTrack.copy(isFavorite = true)))
+            }
+            // Меняем состояние isFavorite
+            mediaState.value = mediaState.value
+                ?.copy(track = currentTrack.copy(isFavorite = !currentTrack.isFavorite))
+        }
     }
 
     private fun startPlayer() {
         val currentState = mediaState.value ?: MediaState()
         mediaPlayerInteractor.startMedia()
         mediaState.value = currentState.copy(isPlaying = true)
-        startUpdateTimeRunnable()
         playerState = STATE_PLAYING
+        startUpdateTime()
     }
 
-    private fun startUpdateTimeRunnable() {
-        if (::runnable.isInitialized) {
-            handler.removeCallbacks(runnable)
-        }
-        runnable = object : Runnable {
-            override fun run() {
-                if (playerState == STATE_PLAYING) {
-                    val currentPosition = mediaPlayerInteractor.getCurrentPosition()
-                    mediaState.value =
+    private fun startUpdateTime() {
+        progressTimeJob = viewModelScope.launch {
+            while(playerState == STATE_PLAYING){
+                val currentPosition = mediaPlayerInteractor.getCurrentPosition()
+                mediaState.value =
                         mediaState.value?.copy(currentTime = dateFormat.format(currentPosition))
-                    handler.postDelayed(this, DELAY_SEC)
-                }
+                delay(DELAY_SEC)
             }
         }
-        handler.post(runnable)
+
     }
 
     fun releaseMedia() {
@@ -103,9 +121,10 @@ class MediaViewModel(private val mediaPlayerInteractor: MediaPlayerInteractor) :
 
     override fun onCleared() {
         super.onCleared()
-        if (::runnable.isInitialized) {
-            handler.removeCallbacksAndMessages(SEARCH_REQUEST_TOKEN)
-        }
         releaseMedia()
+    }
+
+    private fun stopProgressTime(){
+        progressTimeJob?.cancel()
     }
 }

@@ -2,6 +2,7 @@ package com.example.playlistmaker.search.ui
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.playlistmaker.R
 import com.example.playlistmaker.databinding.FragmentSearchBinding
 import com.example.playlistmaker.player.domain.models.TracksData
+import com.example.playlistmaker.player.ui.MediaActivity
 import com.example.playlistmaker.search.ui.presentation.SearchViewModel
 import com.example.playlistmaker.search.ui.presentation.models.SearchState
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.LinkedList
 
 class SearchFragment : Fragment() {
 
@@ -43,12 +44,12 @@ class SearchFragment : Fragment() {
 
     private lateinit var adapter: TracksAdapter
     private var adapterHistory: TracksAdapter? = null
-    private var trackListHistory = LinkedList<TracksData>()
     private val trackList = ArrayList<TracksData>()
 
     companion object {
         private var edit = ""
         private const val SEARCH_QUERY_KEY = "EditText"
+        private const val TRACK_KEY = "TRACK"
     }
 
     override fun onCreateView(
@@ -105,6 +106,13 @@ class SearchFragment : Fragment() {
             searchViewModel.onSaveTrackInHistory(track)
             searchedTracksView.isVisible = false
             recyclerView.isVisible = true
+            //переход на экран Media
+            searchViewModel.onTrackClick(track) {
+                val  context = requireContext()
+                val intent = Intent(context, MediaActivity::class.java)
+                intent.putExtra(TRACK_KEY,it)
+                context.startActivity(intent)
+            }
         }
 
         inputEditText.addTextChangedListener(object : TextWatcher {
@@ -183,7 +191,11 @@ class SearchFragment : Fragment() {
             is SearchState.NothingFound -> showNothingFound()
             is SearchState.ConnectionError -> showConnectionError(state.error)
             is SearchState.TrackSearchResults -> showSearchResults(state.results)
-            is SearchState.TrackSearchHistory -> showSearchHistory(state.history)
+            is SearchState.TrackSearchHistory -> {
+                if (inputEditText.text.isEmpty() && inputEditText.hasFocus()) {
+                    showSearchHistory(state.history)
+                }
+            }
             else -> {/*Заглушка для дефолтного состояния*/}
         }
     }
@@ -235,6 +247,17 @@ class SearchFragment : Fragment() {
         if (adapterHistory == null){
             adapterHistory = TracksAdapter(history)
             recyclerViewHistory.adapter = adapterHistory
+
+            adapterHistory?.setOnClickListener{ track->
+                //переход на экран Media
+                searchViewModel.onTrackClick(track) {
+                    val  context = requireContext()
+                    val intent = Intent(context, MediaActivity::class.java)
+                    intent.putExtra(TRACK_KEY,it)
+                    context.startActivity(intent)
+                }
+            }
+
         } else {
             adapterHistory?.updateTracks(history)
         }
