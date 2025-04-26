@@ -1,7 +1,11 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.medialib.domain.api.FavoriteTracksInteractor
+import com.example.playlistmaker.medialib.domain.api.PlaylistInteractor
+import com.example.playlistmaker.medialib.domain.filestore.FileInteractor
 import com.example.playlistmaker.medialib.domain.impl.FavoriteTracksInteractorImpl
-import com.example.playlistmaker.medialib.domain.interactor.FavoriteTracksInteractor
+import com.example.playlistmaker.medialib.domain.impl.FileInteractorImpl
+import com.example.playlistmaker.medialib.domain.impl.PlaylistInteractorImpl
 import com.example.playlistmaker.player.domain.interactor.MediaPlayerInteractor
 import com.example.playlistmaker.player.domain.interactor.MediaPlayerInteractorImpl
 import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
@@ -21,8 +25,8 @@ val domainModule = module {
 // ### для экрана поиска ###
     single<ExecutorService> { Executors.newCachedThreadPool() }
 
-    factory <SearchHistoryInteractor> { SearchHistoryInteractorImpl(historyRepository = get()) }
-    factory<TracksInteractor> { TracksInteractorImpl(repository = get())}
+    factory<SearchHistoryInteractor> { SearchHistoryInteractorImpl(historyRepository = get()) }
+    factory<TracksInteractor> { TracksInteractorImpl(repository = get()) }
 
 // ### для экрана настройки ###
     factory<SettingsInteractor> { SettingsInteractorImpl(settingsRepository = get()) }
@@ -32,6 +36,7 @@ val domainModule = module {
     factory<MediaPlayerInteractor> { MediaPlayerInteractorImpl(mediaPlayerRepository = get()) }
 
 // ### MediaLibrary ###
-    factory<FavoriteTracksInteractor>{ FavoriteTracksInteractorImpl(favoriteTracksRepository = get())}
-
+    factory<FavoriteTracksInteractor> { FavoriteTracksInteractorImpl(favoriteTracksRepository = get()) }
+    factory<FileInteractor> { FileInteractorImpl(fileRepository = get()) }
+    factory<PlaylistInteractor> {PlaylistInteractorImpl(playlistRepository = get(), fileInteractor = get()) }
 }

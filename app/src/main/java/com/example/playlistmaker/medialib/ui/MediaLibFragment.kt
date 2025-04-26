@@ -19,7 +19,7 @@ class MediaLibFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMediaLibBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -27,7 +27,8 @@ class MediaLibFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.viewPager.adapter = MediaLibPageAdapter(childFragmentManager, lifecycle)
+        val adapter = MediaLibPageAdapter(childFragmentManager, lifecycle)
+        binding.viewPager.adapter = adapter
 
         tabMediator = TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = if (position == 0) {

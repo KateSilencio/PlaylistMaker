@@ -3,7 +3,8 @@
     <!--Новый атрибут для фона не главного экрана приложения -->
     <declare-styleable name="ColorBackground">
         <attr name="nonMainScrBrd" format="color" />
-
+        <attr name="frameColor" format="color"/>
+        <attr name="snackbarColor" format="color"/>
     </declare-styleable>
 
 </resources>

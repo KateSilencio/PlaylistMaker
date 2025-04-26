@@ -4,7 +4,11 @@ import android.media.MediaPlayer
 import androidx.room.Room
 import com.example.playlistmaker.medialib.data.db.AppDatabase
 import com.example.playlistmaker.medialib.data.impl.FavoriteTracksRepositoryImpl
-import com.example.playlistmaker.medialib.domain.FavoriteTracksRepository
+import com.example.playlistmaker.medialib.data.impl.FileRepositoryImpl
+import com.example.playlistmaker.medialib.domain.api.FavoriteTracksRepository
+import com.example.playlistmaker.medialib.domain.api.PlaylistRepository
+import com.example.playlistmaker.medialib.domain.filestore.FileRepository
+import com.example.playlistmaker.medialib.data.impl.PlaylistRepositoryImpl
 import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.data.network.ITunesSearchAPI
@@ -65,5 +69,6 @@ val dataModule = module {
 
 // ### MediaLibrary ###
     single<FavoriteTracksRepository> { FavoriteTracksRepositoryImpl(get()) }
-
+    single<FileRepository>{FileRepositoryImpl(context = androidContext())}
+    single<PlaylistRepository> { PlaylistRepositoryImpl(get())  }
 }

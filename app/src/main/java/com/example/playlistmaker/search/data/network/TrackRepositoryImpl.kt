@@ -1,6 +1,6 @@
 package com.example.playlistmaker.search.data.network
 
-import com.example.playlistmaker.medialib.domain.FavoriteTracksRepository
+import com.example.playlistmaker.medialib.domain.api.FavoriteTracksRepository
 import com.example.playlistmaker.search.data.dto.ITunesResponse
 import com.example.playlistmaker.search.domain.api.TracksRepository
 import com.example.playlistmaker.search.domain.models.SearchResultNetwork

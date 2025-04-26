@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_new_playlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/medium_padding8"
+        android:paddingTop="@dimen/medium_padding8"
+        android:paddingEnd="@dimen/medium_padding8"
+        android:paddingBottom="@dimen/medium_padding8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_backward"
+        app:title="@string/new_playlist"
+        app:titleTextAppearance="@style/TitleText" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftBorder24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.06" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightBorder24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.94" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftBorder16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.04" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightBorder16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.96" />
+
+    <ImageView
+        android:id="@+id/playlist_cover"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/top_margin26"
+        android:background="@drawable/icon_with_border_draw"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@id/input_title_playlist"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/rightBorder24"
+
+        app:layout_constraintStart_toStartOf="@id/leftBorder24"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_new_playlist" />
+    <!-- app:layout_constraintHorizontal_bias="1.0" -->
+    <!--android:layout_marginTop="@dimen/top_margin32" -->
+    <!-- app:boxStrokeColor="?attr/frameColor"
+    android:background="@drawable/border_input_text"-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_title_playlist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/gap_media30"
+        app:boxBackgroundMode="outline"
+
+        app:boxStrokeColor="@color/text_search_color"
+        app:boxStrokeWidth="@dimen/gap_nav_items1"
+        app:hintAnimationEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/input_description_playlist"
+        app:layout_constraintEnd_toEndOf="@+id/rightBorder16"
+        app:layout_constraintStart_toStartOf="@id/leftBorder16"
+        app:layout_constraintTop_toBottomOf="@+id/playlist_cover">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_text_title"
+            style="@style/TextHintStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/name"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- android:layout_marginTop="@dimen/top_padding16" -->
+    <!-- app:boxStrokeColor="?attr/frameColor"
+    android:background="@drawable/border_input_text"-->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_description_playlist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/top_padding16"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/text_search_color"
+        app:boxStrokeWidth="@dimen/gap_nav_items1"
+        app:hintAnimationEnabled="true"
+        app:layout_constraintBottom_toTopOf="@+id/create_playlist_btn"
+        app:layout_constraintEnd_toEndOf="@+id/rightBorder16"
+        app:layout_constraintStart_toStartOf="@id/leftBorder16"
+        app:layout_constraintTop_toBottomOf="@+id/input_title_playlist">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/input_text_description"
+            style="@style/TextHintStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/description"
+            android:singleLine="true" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/create_playlist_btn"
+        style="@style/CreateBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/gap_media30"
+        android:layout_marginTop="@dimen/cover_size160"
+        android:paddingVertical="@dimen/img_end_padding12"
+        android:text="@string/create"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rightBorder16"
+        app:layout_constraintStart_toStartOf="@id/leftBorder16"
+        app:layout_constraintTop_toBottomOf="@+id/input_description_playlist" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--        app:boxCornerRadius="@dimen/additional_gap4"
+            app:boxCornerRadius="@dimen/additional_gap4"
+
+     -->

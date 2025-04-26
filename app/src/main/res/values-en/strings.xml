@@ -35,4 +35,18 @@
     <string name="new_playlist">New playlist</string>
     <string name="favorite_tracks">Favorites tracks</string>
     <string name="playlists">Playlists</string>
+
+    <string name="name">Name</string>
+    <string name="description">Description</string>
+    <string name="create">Create</string>
+    <string name="created_message">Playlist %s created</string>
+    <string name="playlist_creation_title">Finish creating the playlist?</string>
+    <string name="playlist_creation_message">All unsaved data will be lost</string>
+    <string name="cancel">Cancel</string>
+    <string name="finish">Finish</string>
+
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="added_to_playlist">Added to playlist %s</string>
+    <string name="already_in_playlist">Track already added to playlist %s</string>
+
 </resources>

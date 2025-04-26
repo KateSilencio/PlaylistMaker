@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="tracks_count">
+        <item quantity="one">1 track</item>
+        <item quantity="other">%d tracks</item>
+    </plurals>
+</resources>

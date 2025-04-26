@@ -9,6 +9,7 @@ class MediaLibPageAdapter(
     fragmentManager: FragmentManager,
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(fragmentManager, lifecycle) {
+
     override fun getItemCount(): Int {
         return 2
     }
@@ -17,7 +18,8 @@ class MediaLibPageAdapter(
         return if (position == 0) {
             FavoriteTracksFragment.newInstance()
         } else {
-            PlayistsFragment.newInstance()
+            PlaylistsFragment.newInstance()
         }
+
     }
 }

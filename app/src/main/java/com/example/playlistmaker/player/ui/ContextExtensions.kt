@@ -11,3 +11,11 @@ fun Context.dpToPx(dp: Float): Int {
         resources.displayMetrics
     ).toInt()
 }
+//перегрузка для Float
+fun Context.dpToPx(dp: Float, asFloat: Boolean = false): Float {
+    return TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        dp,
+        resources.displayMetrics
+    )
+}

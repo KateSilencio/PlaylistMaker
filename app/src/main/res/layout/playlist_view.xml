@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/additional_gap4"
+    app:layout_constraintWidth_default="percent"
+    app:layout_constraintWidth_percent="0.5">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/image_container"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/cover_size160"
+        app:cardCornerRadius="@dimen/medium_padding8"
+        app:cardElevation="0dp"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <ImageView
+        android:id="@+id/image_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_placeholder"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/playlist_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        style="@style/PlaylistInfoStyle"
+        android:layout_marginStart="@dimen/additional_gap4"
+        app:layout_constraintTop_toBottomOf="@+id/image_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/playlist_count"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginTop="@dimen/additional_gap4"
+        tools:text="Название плейлиста" />
+
+    <TextView
+        android:id="@+id/playlist_count"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:ellipsize="end"
+        android:maxLines="1"
+        style="@style/PlaylistInfoStyle"
+        android:layout_marginStart="@dimen/additional_gap4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/playlist_name"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="... треков" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--         app:layout_constraintWidth_default="wrap"
+app:layout_constraintVertical_chainStyle="packed"
+android:layout_weight = "1"
+
+    <ImageView
+        android:id="@+id/image_cover"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/cover_size160"
+        android:layout_marginTop="@dimen/img_end_padding12"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/playlist_name"
+        tools:src="@drawable/ic_placeholder"/>
+-->

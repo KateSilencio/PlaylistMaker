@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:title="@string/search"
-        app:titleTextAppearance="@style/TitleText"/>
+        app:titleTextAppearance="@style/TitleText" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -54,7 +54,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/nav_items_menu56">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -171,9 +172,9 @@
             <ProgressBar
                 android:layout_width="@dimen/size_img_albom45"
                 android:layout_height="@dimen/size_img_albom45"
-                android:layout_marginTop="@dimen/gap_top_progressbar140"
                 android:layout_gravity="center"
-                android:indeterminateTint="@color/background_main"/>
+                android:layout_marginTop="@dimen/gap_top_progressbar140"
+                android:indeterminateTint="@color/background_main" />
 
         </LinearLayout>
 
