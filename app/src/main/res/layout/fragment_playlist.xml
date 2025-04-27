@@ -21,7 +21,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/vert_padding20"
+        android:layout_marginHorizontal="@dimen/top_margin26"
         android:layout_marginBottom="@dimen/nav_items_menu56">
 
         <LinearLayout
@@ -55,12 +55,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            android:padding="@dimen/additional_gap4"
 
             android:visibility="gone" />
     </FrameLayout>
 </LinearLayout>
 
     <!-- android:visibility="gone"
+            android:padding="@dimen/additional_gap4"
 
     -->

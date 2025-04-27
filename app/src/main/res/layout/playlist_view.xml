@@ -5,13 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/additional_gap4"
+    android:layout_marginStart="@dimen/additional_gap4"
+    android:layout_marginEnd="@dimen/additional_gap4"
+    android:layout_marginTop="@dimen/top_padding16"
     app:layout_constraintWidth_default="percent"
     app:layout_constraintWidth_percent="0.5">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/image_container"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/cover_size160"
         android:layout_height="@dimen/cover_size160"
         app:cardCornerRadius="@dimen/medium_padding8"
         app:cardElevation="0dp"
@@ -33,7 +35,6 @@
         android:id="@+id/playlist_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         style="@style/PlaylistInfoStyle"
         android:layout_marginStart="@dimen/additional_gap4"
         app:layout_constraintTop_toBottomOf="@+id/image_container"
@@ -49,7 +50,6 @@
         android:id="@+id/playlist_count"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-
         android:ellipsize="end"
         android:maxLines="1"
         style="@style/PlaylistInfoStyle"

@@ -26,6 +26,7 @@ import com.example.playlistmaker.medialib.ui.presentation.models.PlaylistCreatio
 import com.example.playlistmaker.player.ui.MediaActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewPlaylistFragment : Fragment() {
@@ -60,12 +61,6 @@ class NewPlaylistFragment : Fragment() {
                 updateDataInViewModel()
             }
         }
-//    private val defaultColor by lazy {
-//        ContextCompat.getColor(requireContext(), R.color.text_search_color)
-//    }
-//    private val activeColor by lazy {
-//        ContextCompat.getColor(requireContext(), R.color.background_main)
-//    }
 
     // извлек переданные аргументы до создания фрагмента
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -131,19 +126,15 @@ class NewPlaylistFragment : Fragment() {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     updateDataInViewModel()
-                    hasTitle = !s.isNullOrEmpty()  //по умолчанию = false
+                    hasTitle = !s.isNullOrEmpty()
                     setButtonColor(hasTitle)
                     updateTitle(hasFocus())
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    //val hasText = !s.isNullOrEmpty()  //по умолчанию = false
-                    //titleTextChange(hasText)
                     updateTitle(hasFocus())
                 }
             })
-
-            //setOnFocusChangeListener { _, hasFocus -> updateTitle(hasFocus) }
         }
 
         // для поля "Описание"
@@ -167,7 +158,6 @@ class NewPlaylistFragment : Fragment() {
                     updateDescription(hasFocus())
                 }
             })
-            //setOnFocusChangeListener { _, hasFocus -> updateDescription(hasFocus) }
         }
 
         //выбор обложки
@@ -257,75 +247,28 @@ class NewPlaylistFragment : Fragment() {
         )
     }
 
-    private fun updateTitle(hasFocus: Boolean) {
-//        val hasText = !binding.inputTextTitle.text.isNullOrEmpty()
-//        val hasFocus = binding.inputTextTitle.hasFocus()
-
-//        val colorRes = if (hasTitle) {
-//            ContextCompat.getColor(requireContext(), R.color.background_main)
-//        } else {
-//            ContextCompat.getColor(requireContext(), R.color.text_search_color)
-//        }
-        val colorRes = when {
-            (hasTitle) -> ContextCompat.getColor(requireContext(), R.color.background_main)
-            else -> {
-                ContextCompat.getColor(requireContext(), R.color.text_search_color)
-                Log.d("AAA", "hasTitle $hasTitle  hasFocus $hasFocus ")
-            }
+    private fun updateColor(hasContent: Boolean, inputLayout: TextInputLayout) {
+        val colorRes = if (hasContent) {
+            R.color.background_main
+        } else {
+            R.color.text_search_color
         }
-        binding.inputTitlePlaylist.boxStrokeColor = colorRes
+        inputLayout.boxStrokeColor = ContextCompat.getColor(requireContext(), colorRes)
     }
 
-//    private fun titleTextChange(hasText: Boolean){
-//        //цвет рамки
-//        binding.inputTitlePlaylist.setBoxStrokeColorStateList(
-//            ColorStateList.valueOf(if (hasText) activeColor else defaultColor)
-//        )
-//    }
+    private fun updateTitle(hasFocus: Boolean) {
+        updateColor(hasTitle, binding.inputTitlePlaylist)
+    }
+
 
     private fun updateDescription(hasFocus: Boolean) {
-//        val hasText = !binding.inputTextDescription.text.isNullOrEmpty()
-//        val hasFocus = binding.inputTextDescription.hasFocus()
-
-//        val colorRes = if (hasDescription) {
-//            ContextCompat.getColor(requireContext(), R.color.background_main)
-//        } else {
-//            ContextCompat.getColor(requireContext(), R.color.text_search_color)
-//        }
-        val colorRes = when {
-            (hasTitle) -> ContextCompat.getColor(requireContext(), R.color.background_main)
-            else -> {
-                ContextCompat.getColor(requireContext(), R.color.text_search_color)
-                Log.d("AAA", "hasTitle $hasTitle  hasFocus $hasFocus ")
-            }
-        }
-
-        binding.inputDescriptionPlaylist.boxStrokeColor = colorRes
+        updateColor(hasDescription, binding.inputDescriptionPlaylist)
     }
 
-    //    private fun descriptionTextChange(hasText: Boolean){
-//        //цвет рамки
-//        binding.inputDescriptionPlaylist.setBoxStrokeColorStateList(
-//            ColorStateList.valueOf(if (hasText) activeColor else defaultColor)
-//        )
-//    }
     //Методы работы с загрузкой изображения
     private fun loadCoverImage(uri: Uri) {
 
         try {
-//            binding.playlistCover.setImageURI(uri)
-//            binding.playlistCover.scaleType = ImageView.ScaleType.CENTER_CROP
-
-//            binding.playlistCover.background = null
-//            Glide.with(binding.playlistCover)
-//                .load(uri)
-//                .apply(
-//                    RequestOptions()
-//                    .transform(RoundedCorners(binding.playlistCover.context.dpToPx(8f)))
-//                    .centerCrop())
-//                .into(binding.playlistCover)
-
-
             val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
             val drawable = ImageDecoder.decodeDrawable(source)
 
@@ -348,9 +291,6 @@ class NewPlaylistFragment : Fragment() {
 
     private fun handleBackNavigation() {
         if (calledFromActivity) {
-            // фрагмент был вызван из активности, закрываем его
-            //requireActivity().supportFragmentManager.popBackStack()
-
             parentFragmentManager.popBackStack()
             // Явно скрываем контейнер и показываем основной контент
             (requireActivity() as MediaActivity).apply {
