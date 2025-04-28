@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- пунктирная линия -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="@dimen/medium_padding8" />
+            <stroke
+                android:width="@dimen/gap_nav_items1"
+                android:color="@color/icon_search_color"
+                android:dashWidth="@dimen/gap_top_new_playlist_btn46"
+                android:dashGap="@dimen/gap_top_new_playlist_btn46" />
+            <solid android:color="@android:color/transparent" />
+        </shape>
+    </item>
+    <!-- иконка- заглушка-->
+    <item
+        android:width="@dimen/top_margin_image_search104"
+        android:height="@dimen/top_margin_image_search104"
+        android:drawable="@drawable/ic_add_cover_playlist"
+        android:gravity="center" />
+</layer-list>

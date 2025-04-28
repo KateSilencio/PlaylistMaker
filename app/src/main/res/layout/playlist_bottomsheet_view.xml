@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="?attr/nonMainScrBrd"
+    android:layout_height="wrap_content"
+    android:paddingStart="@dimen/img_start_padding12"
+    android:paddingVertical="@dimen/update_btn_padding6">
+
+    <ImageView
+        android:id="@+id/image_cover_recycler"
+        android:layout_width="@dimen/size_img_albom45"
+        android:layout_height="@dimen/size_img_albom45"
+        app:layout_constraintDimensionRatio="1:1"
+        android:scaleType="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_placeholder"/>
+
+    <TextView
+        android:id="@+id/playlist_name_recycler"
+        style="@style/TrackTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/update_btn_padding6"
+        android:layout_marginRight="@dimen/update_btn_padding6"
+        android:layout_marginTop="@dimen/medium_padding8"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/image_cover_recycler"
+        app:layout_constraintBottom_toTopOf="@id/count_tracks_recycler"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Название плейлиста" />
+
+    <TextView
+        android:id="@+id/count_tracks_recycler"
+        style="@style/SecondStrTrack"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/update_btn_padding6"
+        android:layout_marginRight="@dimen/update_btn_padding6"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginBottom="@dimen/update_btn_padding6"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toEndOf="@id/image_cover_recycler"
+        app:layout_constraintTop_toBottomOf="@id/playlist_name_recycler"
+        app:layout_constraintWidth_default="wrap"
+        tools:text="... треков" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

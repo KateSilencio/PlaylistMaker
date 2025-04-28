@@ -7,6 +7,8 @@
         <item name="colorSurface">@color/main_color</item>
         <item name="colorOnSurface">@color/white</item>
         <item name="nonMainScrBrd">@color/main_color</item>
+        <item name="frameColor">@color/white</item>
+        <item name="snackbarColor">@color/white</item>
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 </resources>

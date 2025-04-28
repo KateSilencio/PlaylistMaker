@@ -1,6 +1,6 @@
 package com.example.playlistmaker.search.data.sharedprefs
 
-import com.example.playlistmaker.medialib.domain.FavoriteTracksRepository
+import com.example.playlistmaker.medialib.domain.api.FavoriteTracksRepository
 import com.example.playlistmaker.player.domain.models.TracksData
 import com.example.playlistmaker.search.domain.datastore.DataStoreFunRepository
 import com.example.playlistmaker.search.domain.datastore.SearchHistoryLogicRepository

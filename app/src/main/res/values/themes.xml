@@ -5,8 +5,11 @@
         <item name="colorSurface">@color/background_main</item>
         <item name="colorOnSurface">@color/main_color</item>
         <item name="nonMainScrBrd">@color/white</item>
+        <item name="frameColor">@color/icon_search_color</item>
+        <item name="snackbarColor">@color/main_color</item>
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />
 </resources>
+<!-- Theme.Material3.DayNight.NoActionBar-->

@@ -127,4 +127,20 @@
         <item name="tabTextColor">?attr/colorOnSurface</item>
     </style>
 
+    <style name="TextHintStyle">
+        <item name="android:textSize">@dimen/sizetext_points16sp</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
+
+    <style name="SnackbarTextStyle">
+        <item name="android:textColor">@color/main_color</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/size_update_btn_text14sp</item>
+    </style>
+
+    <style name="PlaylistInfoStyle">
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/botnavview_text_size12</item>
+        <item name="android:textColorHint">@color/white</item>
+    </style>
 </resources>

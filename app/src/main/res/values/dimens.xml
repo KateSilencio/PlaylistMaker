@@ -36,4 +36,9 @@
     <dimen name="nav_items_menu56">56dp</dimen>
     <dimen name="gap_nav_items1">1dp</dimen>
     <dimen name="botnavview_text_size12">12sp</dimen>
+
+    <dimen name="top_margin26">26dp</dimen>
+    <dimen name="top_margin32">32dp</dimen>
+    <dimen name="cover_size160">160dp</dimen>
+    <dimen name="bottom_sheet_size300">300dp</dimen>
 </resources>

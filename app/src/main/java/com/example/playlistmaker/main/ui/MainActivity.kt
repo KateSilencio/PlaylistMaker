@@ -2,6 +2,7 @@ package com.example.playlistmaker.main.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.playlistmaker.R
@@ -24,6 +25,14 @@ class MainActivity : AppCompatActivity() {
 
         val navController = navHostFragment.navController
         bottomNavView.setupWithNavController(navController)
+
+        // Слушатель изменения направления (чтобы убрать из newPlaylistFragment)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when(destination.id) {
+                R.id.newPlaylistFragment -> bottomNavView.isVisible = false
+                else -> bottomNavView.isVisible = true
+            }
+        }
 
         // Cлушатель для управления отступами
         binding.mainFragmentContainerView.setOnApplyWindowInsetsListener { gap, insets ->
