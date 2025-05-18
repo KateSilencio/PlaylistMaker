@@ -56,7 +56,7 @@ class PlaylistScreenFragment : Fragment() {
 
         //кнопка назад
         binding.toolbarPlaylistScreen.setNavigationOnClickListener {
-            findNavController().some()
+            findNavController().navigateUp()
         }
 
         val playlist =

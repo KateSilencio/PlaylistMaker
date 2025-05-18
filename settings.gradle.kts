@@ -11,6 +11,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+
+    versionCatalogs {
+        create("libs") {
+            version("kotlin", "1.9.22")
+            version("nav", "2.7.7")
+        }
+    }
 }
 
 rootProject.name = "Playlist Maker"
