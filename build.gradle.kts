@@ -10,7 +10,8 @@ buildscript {
         google()
     }
     dependencies {
-        val kotlin_version = "1.9.22"
+        //val kotlin_version = "1.9.22"
+        val kotlin_version = "2.1.20"
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.7.7")
         classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
     }
