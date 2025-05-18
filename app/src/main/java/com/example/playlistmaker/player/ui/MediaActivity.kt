@@ -40,7 +40,7 @@ import java.util.Locale
 class MediaActivity : AppCompatActivity() {
 
     companion object {
-        private const val TRACK_KEY = "TRACK"
+        const val TRACK_KEY = "TRACK"
     }
 
     private val mediaViewModel by viewModel<MediaViewModel>()

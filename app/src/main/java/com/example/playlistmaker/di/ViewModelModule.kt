@@ -1,6 +1,7 @@
 package com.example.playlistmaker.di
 
 import com.example.playlistmaker.medialib.ui.presentation.FavoriteTracksViewModel
+import com.example.playlistmaker.medialib.ui.presentation.PlaylistScreenViewModel
 import com.example.playlistmaker.medialib.ui.presentation.PlaylistShowViewModel
 import com.example.playlistmaker.medialib.ui.presentation.PlaylistsViewModel
 import com.example.playlistmaker.player.ui.presenter.MediaViewModel
@@ -38,6 +39,10 @@ val viewModelModule = module {
 
     viewModel {
         PlaylistShowViewModel(playlistInteractor = get())
+    }
+
+    viewModel {
+        PlaylistScreenViewModel(playlistInteractor = get(), playlistShareInteractor = get())
     }
 
 }

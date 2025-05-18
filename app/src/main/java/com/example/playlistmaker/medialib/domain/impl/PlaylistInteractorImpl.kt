@@ -53,4 +53,37 @@ class PlaylistInteractorImpl(
     override suspend fun isTrackInPlaylist(trackId: Int, playlistId: Long): Boolean {
         return playlistRepository.isTrackInPlaylist(trackId, playlistId)
     }
+
+    //*******************************************************************
+    override fun getPlaylistById(id: Long): Flow<Playlist?> {
+        return playlistRepository.getPlaylistById(id)
+            .map { entity -> entity?.let { PlaylistMapper.map(it) } }
+    }
+
+    //суммируем длительность всех треков в плейлисте
+    override suspend fun getPlaylistDuration(trackIds: List<Long>): Long {
+        val tracks = playlistRepository.getTracksForPlaylist(trackIds)
+        return tracks.sumOf { it.trackTimeMillis.toLong() }
+    }
+
+    override suspend fun getPlaylistEntityById(id: Long): PlaylistEntity? {
+        return playlistRepository.getPlaylistEntityById(id)
+    }
+
+    //для показа треков в плейлисте
+    override suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long) {
+        withContext(Dispatchers.IO) {
+            playlistRepository.removeTrackFromPlaylist(playlistId, trackId)
+
+            //если трек не исп в др плейлистах -> удаляем из таблицы
+            if (!playlistRepository.isTrackInAnyPlaylist(trackId)) {
+                playlistRepository.removeTrackFromTable(trackId)
+            }
+        }
+    }
+
+    // получаем список треков по их id из БД
+    override suspend fun getTracksForPlaylist(trackIds: List<Long>): List<Track> {
+        return playlistRepository.getTracksForPlaylist(trackIds)
+    }
 }

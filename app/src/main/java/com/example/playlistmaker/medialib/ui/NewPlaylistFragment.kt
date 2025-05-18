@@ -31,7 +31,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewPlaylistFragment : Fragment() {
 
-    //новый экземпляр `NewPlaylistFragment` передаем аргументы через Bundle
+    //новый экземпляр NewPlaylistFragment передаем аргументы через Bundle
     companion object {
         private const val ARG_CALLED_FROM_ACTIVITY = "called_from_activity"
 
@@ -219,10 +219,6 @@ class NewPlaylistFragment : Fragment() {
             snackbar.setText(getString(R.string.created_message, playlistName))
         }
         snackbar.show()
-//        Toast.makeText(
-//            requireContext(),
-//            getString(R.string.created_message,playlistName),
-//            Toast.LENGTH_LONG).show()
     }
 
     private fun updateDataInViewModel(){

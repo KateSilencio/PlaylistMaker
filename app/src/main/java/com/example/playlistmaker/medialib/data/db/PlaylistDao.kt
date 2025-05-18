@@ -23,4 +23,14 @@ interface PlaylistDao {
     @Update
     suspend fun updatePlaylist(playlist: PlaylistEntity)
 
+    //****************************************************
+    //постоянное наблюдение за изменениями плейлиста
+    @Query("SELECT * FROM playlists_table WHERE playlistId = :id")
+    fun getPlaylistByIdFlow(id: Long): Flow<PlaylistEntity>
+
+    //для списка треков в плейлисте
+    //для синхронной проверки всех плейлистов
+    @Query("SELECT * FROM playlists_table")
+    suspend fun getAllPlaylistsSync(): List<PlaylistEntity>
+
 }

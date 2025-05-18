@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -49,6 +50,16 @@ class PlaylistsFragment: Fragment() {
         binding.playlistsRecycler.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = this@PlaylistsFragment.adapter
+        }
+
+        adapter.setOnPlaylistClickListener { playlist ->
+//            val action = PlaylistsFragmentDirections
+//                .actionPlaylistsFragmentToPlaylistScreenFragment(playlist)
+//            parentFragment?.findNavController()?.navigate(action)
+            parentFragment?.findNavController()?.navigate(
+                R.id.action_mediaLibFragment_to_playlistScreenFragment,
+                bundleOf("playlist" to playlist)
+            )
         }
 
         playlistShowViewModel.showPlaylistLiveData.observe(viewLifecycleOwner) { state ->

@@ -3,6 +3,7 @@ package com.example.playlistmaker.medialib.data.impl
 import com.example.playlistmaker.medialib.data.db.AppDatabase
 import com.example.playlistmaker.medialib.data.model.PlaylistEntity
 import com.example.playlistmaker.medialib.data.model.toPlaylistTrackEntity
+import com.example.playlistmaker.medialib.data.model.toTrack
 import com.example.playlistmaker.medialib.domain.api.PlaylistRepository
 import com.example.playlistmaker.player.domain.models.Track
 import com.google.gson.Gson
@@ -38,7 +39,7 @@ class PlaylistRepositoryImpl(private val appDatabase: AppDatabase): PlaylistRepo
 
         // Создаём обновлённую версию плейлиста
         val updatedPlaylist = updatedTrackIds?.let {
-            currentPlaylist?.copy(
+            currentPlaylist.copy(
                 tracksJson = Gson().toJson(updatedTrackIds),
                 trackCount = it.size
             )
@@ -55,5 +56,52 @@ class PlaylistRepositoryImpl(private val appDatabase: AppDatabase): PlaylistRepo
         val playlist = appDatabase.playlistDao().getPlaylistById(playlistId)
         // есть ли трек в плейлисте
         return playlist?.getTrackIds()?.contains(trackId.toLong()) ?: false
+    }
+
+    //**********************************************************************
+    override fun getPlaylistById(id: Long): Flow<PlaylistEntity> {
+        return appDatabase.playlistDao().getPlaylistByIdFlow(id)
+    }
+
+    override suspend fun getTracksForPlaylist(trackIds: List<Long>): List<Track> {
+        //получаем треки по id
+        val trackEntities = appDatabase.trackInPlaylistDao().getTracksByIds(trackIds)
+        //entity в домен модель track
+        return trackEntities.map { it.toTrack() }
+    }
+
+    override suspend fun getPlaylistEntityById(id: Long): PlaylistEntity? {
+        return appDatabase.playlistDao().getPlaylistById(id)
+    }
+
+    // для показа треков в плейлисте
+    //удаление трека из плейлиста с обновл ids
+    override suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long) {
+        // текущий плейлист
+        val playlist = appDatabase.playlistDao().getPlaylistById(playlistId) ?: return
+
+        // обновляем список треков, удаляем трек
+        val updatedTrackIds = playlist.getTrackIds().toMutableList().apply {
+            remove(trackId)
+        }
+
+        // обновляем плейлист
+        val updatedPlaylist = playlist.copy(
+            tracksJson = Gson().toJson(updatedTrackIds),
+            trackCount = updatedTrackIds.size
+        )
+        appDatabase.playlistDao().updatePlaylist(updatedPlaylist)
+    }
+
+    //есть ли трек в любом плейлисте
+    override suspend fun isTrackInAnyPlaylist(trackId: Long): Boolean {
+        // получаем все плейлисты и проверяем наличие трека
+        val playlists = appDatabase.playlistDao().getAllPlaylistsSync()
+        return playlists.any { it.getTrackIds().contains(trackId) }
+    }
+
+    //удаление трека из табл треков (трек нигде не использ)
+    override suspend fun removeTrackFromTable(trackId: Long) {
+        appDatabase.trackInPlaylistDao().deleteTrack(trackId.toInt())
     }
 }

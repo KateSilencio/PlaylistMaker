@@ -17,10 +17,19 @@
         tools:layout="@layout/fragment_media_lib">
         <action
             android:id="@+id/action_mediaLibFragment_to_playlistsFragment"
-            app:destination="@id/playlistsFragment"/>
+            app:destination="@id/playlistsFragment" />
         <action
             android:id="@+id/action_mediaLibFragment_to_newPlaylistFragment"
-            app:destination="@id/newPlaylistFragment"/>
+            app:destination="@id/newPlaylistFragment" />
+
+        <action
+            android:id="@+id/action_mediaLibFragment_to_playlistScreenFragment"
+            app:destination="@id/playlistScreenFragment">
+            <argument
+                android:name="playlist"
+                app:argType="com.example.playlistmaker.medialib.domain.model.Playlist"
+                app:nullable="false" />
+        </action>
     </fragment>
 
     <fragment
@@ -34,13 +43,19 @@
         android:name="com.example.playlistmaker.medialib.ui.PlaylistsFragment"
         android:label="fragment_playlists"
         tools:layout="@layout/fragment_playlist">
-        <action
-            android:id="@+id/action_playlistsFragment_to_newPlaylistFragment"
-            app:destination="@id/newPlaylistFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/newPlaylistFragment"
         android:name="com.example.playlistmaker.medialib.ui.NewPlaylistFragment"
         android:label="fragment_new_playlist"
         tools:layout="@layout/fragment_new_playlist" />
+
+    <fragment
+        android:id="@+id/playlistScreenFragment"
+        android:name="com.example.playlistmaker.medialib.ui.PlaylistScreenFragment"
+        android:label="fragment_playlist_screen"
+        tools:layout="@layout/fragment_playlist_screen">
+
+    </fragment>
 </navigation>

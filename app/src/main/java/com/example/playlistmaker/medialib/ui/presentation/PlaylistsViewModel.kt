@@ -9,7 +9,10 @@ import com.example.playlistmaker.medialib.domain.api.PlaylistInteractor
 import com.example.playlistmaker.medialib.ui.presentation.models.PlaylistCreationState
 import kotlinx.coroutines.launch
 
-class PlaylistsViewModel(private val playlistInteractor: PlaylistInteractor): ViewModel() {
+class PlaylistsViewModel(
+    private val playlistInteractor: PlaylistInteractor,
+
+): ViewModel() {
 
     //состояние плейлиста
     private val creationState = MutableLiveData<PlaylistCreationState>()

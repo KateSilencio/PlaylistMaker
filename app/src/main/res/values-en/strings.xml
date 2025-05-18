@@ -7,7 +7,7 @@
 
     <string name="settings_sc_screen">Settings</string>
     <string name="theme">Dark theme</string>
-    <string name="share">Share app</string>
+    <string name="share_app">Share app</string>
     <string name="write_support">Write to support</string>
     <string name="agreement">User agreement</string>
 
@@ -49,4 +49,11 @@
     <string name="added_to_playlist">Added to playlist %s</string>
     <string name="already_in_playlist">Track already added to playlist %s</string>
 
+    <string name="delete_track_title">Delete track</string>
+    <string name="delete_track_message">Are you sure you want to remove the track from the playlist?</string>
+    <string name="delete">Delete</string>
+    <string name="empty_playlist_share_message">There is no track list in this playlist that can be shared</string>
+    <string name="share">Share</string>
+    <string name="edit_info">Edit information</string>
+    <string name="delete_playlist">Delete playlist</string>
 </resources>

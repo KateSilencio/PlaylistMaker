@@ -4,4 +4,9 @@
         <item quantity="one">1 track</item>
         <item quantity="other">%d tracks</item>
     </plurals>
+
+    <plurals name="minutes_count">
+        <item quantity="one">1 minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
 </resources>

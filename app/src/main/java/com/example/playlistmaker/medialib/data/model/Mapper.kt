@@ -50,4 +50,21 @@ fun TrackEntity.toTrackDomain(): TracksData {
         previewUrl = previewUrl,
         true
     )
+
+}
+//**************************************
+fun TrackInPlaylistEntity.toTrack(): Track {
+    return Track(
+        trackId = this.trackID,
+        trackName = this.trackName,
+        artistName = this.artistName,
+        trackTimeMillis = this.trackTimeMillis,
+        artworkUrl = this.artworkUrl100,
+        collectionName = this.collectionName,
+        releaseDate = this.releaseDate,
+        primaryGenreName = this.primaryGenreName,
+        country = this.country,
+        previewUrl = this.previewUrl,
+        isFavorite = this.isFavorite
+    )
 }

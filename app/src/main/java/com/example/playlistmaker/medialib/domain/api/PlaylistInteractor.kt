@@ -21,4 +21,16 @@ interface PlaylistInteractor {
     suspend fun addTrackToPlaylist(track: Track, playlist: PlaylistEntity): Boolean
 
     suspend fun isTrackInPlaylist(trackId: Int, playlistId: Long): Boolean
+
+    //********************************************
+    fun getPlaylistById(id: Long): Flow<Playlist?>
+
+    suspend fun getPlaylistDuration(trackIds: List<Long>): Long
+
+    suspend fun getPlaylistEntityById(id: Long): PlaylistEntity?
+
+    //для показа треков в плейлисте
+    suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
+
+    suspend fun getTracksForPlaylist(trackIds: List<Long>): List<Track>
 }
