@@ -90,6 +90,7 @@ class PlaylistScreenViewModel(
         }
     }
 
+    // подлелиться плейлистом
     fun executeShare() {
         when (val currentState = _shareState.value) {
             is PlaylistShareState.WithTracks -> {
@@ -99,4 +100,10 @@ class PlaylistScreenViewModel(
         }
     }
 
+    //удаление плейлиста
+    fun deletePlaylist(playlistId: Long) {
+        viewModelScope.launch {
+            playlistInteractor.deletePlaylist(playlistId)
+        }
+    }
 }

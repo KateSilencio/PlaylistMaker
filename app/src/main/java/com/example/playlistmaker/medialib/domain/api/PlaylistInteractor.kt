@@ -33,4 +33,6 @@ interface PlaylistInteractor {
     suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
 
     suspend fun getTracksForPlaylist(trackIds: List<Long>): List<Track>
+
+    suspend fun deletePlaylist(playlistId: Long)
 }

@@ -1,6 +1,7 @@
 package com.example.playlistmaker.medialib.domain.impl
 
 import android.net.Uri
+import android.util.Log
 import com.example.playlistmaker.medialib.data.model.PlaylistEntity
 import com.example.playlistmaker.medialib.domain.api.PlaylistInteractor
 import com.example.playlistmaker.medialib.domain.api.PlaylistRepository
@@ -85,5 +86,21 @@ class PlaylistInteractorImpl(
     // получаем список треков по их id из БД
     override suspend fun getTracksForPlaylist(trackIds: List<Long>): List<Track> {
         return playlistRepository.getTracksForPlaylist(trackIds)
+    }
+
+    override suspend fun deletePlaylist(playlistId: Long) {
+        withContext(Dispatchers.IO) {
+            playlistRepository.deletePlaylist(playlistId)
+
+            val playlist = playlistRepository.getPlaylistEntityById(playlistId)
+            // Удаляем файл обложки, если он существует
+            playlist?.coverPath?.let { path ->
+                try {
+                    fileInteractor.deleteImage(path)
+                } catch (e: Exception) {
+                    Log.e("Error", "Error deleting cover image", e)
+                }
+            }
+        }
     }
 }

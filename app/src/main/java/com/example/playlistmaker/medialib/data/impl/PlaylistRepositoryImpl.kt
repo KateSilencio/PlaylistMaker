@@ -104,4 +104,23 @@ class PlaylistRepositoryImpl(private val appDatabase: AppDatabase): PlaylistRepo
     override suspend fun removeTrackFromTable(trackId: Long) {
         appDatabase.trackInPlaylistDao().deleteTrack(trackId.toInt())
     }
+    //удаление плейлиста
+    override suspend fun deletePlaylist(playlistId: Long) {
+        // получаем плейлист
+        val playlist = appDatabase.playlistDao().getPlaylistById(playlistId) ?: return
+
+        // получаем ID треков
+        val trackIds = playlist.getTrackIds()
+
+        // удаляем плейлист
+        appDatabase.playlistDao().deletePlaylist(playlistId)
+
+        // проверяем каждый трек исп ли он в др плейлистах
+        // если не исп - удаляем
+        trackIds.forEach { trackId ->
+            if (!appDatabase.playlistDao().isTrackInAnyPlaylist(trackId)) {
+                appDatabase.trackInPlaylistDao().deleteTrack(trackId.toInt())
+            }
+        }
+    }
 }

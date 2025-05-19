@@ -3,7 +3,8 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("androidx.navigation.safeargs.kotlin")
-    kotlin("kapt")
+    //kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -48,31 +49,35 @@ android {
 
 dependencies {
 
-    configurations.all {
-        resolutionStrategy {
-            force("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.22")
-            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
-            force("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            force("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
-            force("androidx.test.ext:junit:1.2.1")
-        }
-    }
-    implementation ("org.jetbrains.kotlinx:kotlinx-uuid:0.9.0")
+//    configurations.all {
+//        resolutionStrategy {
+//            force("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
+//            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.22")
+//            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
+//            force("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
+//            force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+//            force("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
+//            force("androidx.test.ext:junit:1.2.1")
+//        }
+//    }
+    //implementation ("org.jetbrains.kotlinx:kotlinx-uuid:0.9.0")
     //implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
     //implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
+
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.21")
 
     implementation("androidx.media3:media3-test-utils:1.7.1")
     val room_version = "2.7.1"
     implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
+    //kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
 
     val nav_version = "2.9.0"
     implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     implementation ("androidx.fragment:fragment-ktx:1.8.6")
     implementation ("androidx.viewpager2:viewpager2:1.1.0")
 
@@ -89,8 +94,8 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.1")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:3.0.0")
+    implementation("com.squareup.retrofit2:retrofit:3.0.0")
     implementation("com.google.code.gson:gson:2.13.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
@@ -99,5 +104,6 @@ dependencies {
         exclude(group = "com.android.support")
     }
     //kapt("com.github.bumptech.glide:compiler:4.16.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    //annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+    ksp("com.github.bumptech.glide:compiler:4.16.0")
 }

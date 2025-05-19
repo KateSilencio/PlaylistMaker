@@ -84,6 +84,12 @@ class PlaylistScreenFragment : Fragment() {
             }
         })
 
+        //пункт удалить плейлист
+        binding.root.findViewById<TextView>(R.id.delete_menu_item).setOnClickListener {
+            showDeletePlaylistDialog()
+            hideMenu()
+        }
+
 // ****************************************************************************
         //инициализация BottomSheet список пока такая
         bottomSheetListBehavior = BottomSheetBehavior.from(binding.tracksPlaylistContent).apply {
@@ -162,6 +168,25 @@ class PlaylistScreenFragment : Fragment() {
                 screenViewModel.executeShare()
             }
         }
+    }
+
+    //показ диалога для удаления плейлиста
+    private fun showDeletePlaylistDialog() {
+        val playlist = screenViewModel.playlistScrLive.value ?: return
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.delete_playlist))
+            .setMessage(getString(R.string.delete_playlist_message,playlist.title))
+            .setNegativeButton(getString(R.string.no)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                // удаляем плейлист и возвращаемся на экран медиатеки
+                screenViewModel.deletePlaylist(playlist.id)
+                findNavController().popBackStack()
+                dialog.dismiss()
+            }
+            .show()
     }
 
     //показ сообщения при пустом плейлисте
