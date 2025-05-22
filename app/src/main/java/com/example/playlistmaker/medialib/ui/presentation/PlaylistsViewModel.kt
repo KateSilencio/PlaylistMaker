@@ -10,8 +10,7 @@ import com.example.playlistmaker.medialib.ui.presentation.models.PlaylistCreatio
 import kotlinx.coroutines.launch
 
 class PlaylistsViewModel(
-    private val playlistInteractor: PlaylistInteractor,
-
+    private val playlistInteractor: PlaylistInteractor
 ): ViewModel() {
 
     //состояние плейлиста

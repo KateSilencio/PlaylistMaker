@@ -123,4 +123,9 @@ class PlaylistRepositoryImpl(private val appDatabase: AppDatabase): PlaylistRepo
             }
         }
     }
+
+    //Редактировать плейлист
+    override suspend fun updatePlaylist(playlist: PlaylistEntity) {
+        appDatabase.playlistDao().updatePlaylist(playlist)
+    }
 }

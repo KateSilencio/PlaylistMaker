@@ -29,7 +29,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewPlaylistFragment : Fragment() {
+open class NewPlaylistFragment : Fragment() {
 
     //новый экземпляр NewPlaylistFragment передаем аргументы через Bundle
     companion object {
@@ -47,12 +47,12 @@ class NewPlaylistFragment : Fragment() {
     private var calledFromActivity: Boolean = false
 
     private val playlistViewModel by viewModel<PlaylistsViewModel>()
-    private lateinit var binding: FragmentNewPlaylistBinding
+    protected lateinit var binding: FragmentNewPlaylistBinding
     private var hasTitle = false
     private var hasDescription = false
 
 
-    private var selectedImageUri: Uri? = null
+    protected var selectedImageUri: Uri? = null
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             uri?.let {
@@ -262,7 +262,7 @@ class NewPlaylistFragment : Fragment() {
     }
 
     //Методы работы с загрузкой изображения
-    private fun loadCoverImage(uri: Uri) {
+    protected fun loadCoverImage(uri: Uri) {
 
         try {
             val source = ImageDecoder.createSource(requireContext().contentResolver, uri)

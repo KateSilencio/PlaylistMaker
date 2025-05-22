@@ -29,10 +29,16 @@ interface PlaylistInteractor {
 
     suspend fun getPlaylistEntityById(id: Long): PlaylistEntity?
 
-    //для показа треков в плейлисте
     suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
 
     suspend fun getTracksForPlaylist(trackIds: List<Long>): List<Track>
 
     suspend fun deletePlaylist(playlistId: Long)
+
+    suspend fun updatePlaylist(
+        playlistId: Long,
+        title: String,
+        description: String?,
+        coverUri: Uri?
+    )
 }

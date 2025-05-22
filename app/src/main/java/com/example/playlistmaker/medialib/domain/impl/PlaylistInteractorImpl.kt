@@ -103,4 +103,36 @@ class PlaylistInteractorImpl(
             }
         }
     }
+
+    //редактировать плейлист
+    override suspend fun updatePlaylist(
+        playlistId: Long,
+        title: String,
+        description: String?,
+        coverUri: Uri?
+    ) {
+        withContext(Dispatchers.IO) {
+            val currentPlaylist = playlistRepository.getPlaylistEntityById(playlistId) ?: return@withContext
+
+            // Если есть старая обложка и
+            // или новая обложка сущ-т или старая отличается от новой
+            if (currentPlaylist.coverPath != null &&
+                (coverUri != null || currentPlaylist.coverPath != coverUri?.toString())) {
+                // Удаляем старую обложку
+                fileInteractor.deleteImage(currentPlaylist.coverPath)
+            }
+            //сохр новую обложку если есть
+            val coverPath = coverUri?.let {
+                fileInteractor.saveImage(it)
+            }
+            //создаем новую версию плейлиста на основе текущего
+            val updatedPlaylist = currentPlaylist.copy(
+                title = title,
+                description = description,
+                coverPath = coverPath
+            )
+            //сохраняем изменения
+            playlistRepository.updatePlaylist(updatedPlaylist)
+        }
+    }
 }

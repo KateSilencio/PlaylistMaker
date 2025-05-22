@@ -166,7 +166,7 @@
         android:background="@drawable/bottom_sheet_background"
         android:orientation="vertical"
         android:paddingTop="@dimen/img_start_padding12"
-        android:visibility="gone"
+
         app:behavior_peekHeight="0dp"
         app:layout_anchor="@id/bottom_sheet_anchor"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -199,6 +199,7 @@
         android:background="@drawable/bottom_sheet_background"
         android:orientation="vertical"
         android:visibility="visible"
+        android:paddingTop="@dimen/btn_backward24"
         app:behavior_hideable="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 

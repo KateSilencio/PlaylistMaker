@@ -59,5 +59,7 @@
     <string name="delete_playlist_message">Do you want to delete a playlist %s?</string>
     <string name="no">No</string>
     <string name="yes">"Yes"</string>
+    <string name="edit_playlist">Edit</string>
+    <string name="save">Save</string>
 
 </resources>

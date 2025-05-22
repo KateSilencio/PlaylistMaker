@@ -47,22 +47,18 @@ android {
     }
 }
 
-dependencies {
+kotlin {
+    sourceSets {
+        debug {
+            kotlin.srcDir("build/generated/ksp/debug/kotlin")
+        }
+        release {
+            kotlin.srcDir("build/generated/ksp/release/kotlin")
+        }
+    }
+}
 
-//    configurations.all {
-//        resolutionStrategy {
-//            force("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
-//            force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.22")
-//            force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
-//            force("org.jetbrains.kotlin:kotlin-reflect:1.9.22")
-//            force("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-//            force("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
-//            force("androidx.test.ext:junit:1.2.1")
-//        }
-//    }
-    //implementation ("org.jetbrains.kotlinx:kotlinx-uuid:0.9.0")
-    //implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
-    //implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.22")
+dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.21")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.21")

@@ -58,5 +58,7 @@
     <string name="delete_playlist_message">Хотите удалить плейлист %s?</string>
     <string name="no">Нет</string>
     <string name="yes">"Да"</string>
+    <string name="edit_playlist">Редактировать</string>
+    <string name="save">Сохранить</string>
 
 </resources>

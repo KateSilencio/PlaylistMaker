@@ -56,6 +56,22 @@
         android:name="com.example.playlistmaker.medialib.ui.PlaylistScreenFragment"
         android:label="fragment_playlist_screen"
         tools:layout="@layout/fragment_playlist_screen">
+        <action
+            android:id="@+id/action_playlistScreenFragment_to_editPlaylistFragment"
+            app:destination="@id/editPlaylistFragment">
+            <argument
+                android:name="playlist"
+                app:argType="com.example.playlistmaker.medialib.domain.model.Playlist" />
+        </action>
+    </fragment>
 
+    <fragment
+        android:id="@+id/editPlaylistFragment"
+        android:name="com.example.playlistmaker.medialib.ui.EditPlaylistFragment"
+        android:label="EditPlaylistFragment"
+        tools:layout="@layout/fragment_new_playlist">
+        <argument
+            android:name="playlist"
+            app:argType="com.example.playlistmaker.medialib.domain.model.Playlist" />
     </fragment>
 </navigation>

@@ -80,7 +80,7 @@ class PlaylistScreenFragment : Fragment() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 // Анимация затемнения
-                menuOverlay.alpha = slideOffset.coerceAtLeast(0f)
+                //menuOverlay.alpha = slideOffset.coerceAtLeast(0f)
             }
         })
 
@@ -151,6 +151,17 @@ class PlaylistScreenFragment : Fragment() {
         // кн меню Поделиться
         menuBottomSheet.findViewById<TextView>(R.id.share_menu_item).setOnClickListener {
             screenViewModel.prepareShareContent()
+            hideMenu()
+        }
+        //кн Редактировать информацию
+        binding.root.findViewById<TextView>(R.id.edit_menu_item).setOnClickListener {
+            screenViewModel.playlistScrLive.value?.let { playlist ->
+                findNavController().navigate(
+                    R.id.action_playlistScreenFragment_to_editPlaylistFragment,
+                    //bundleOf("playlist" to playlist)
+                    EditPlaylistFragmentArgs(playlist).toBundle()
+                )
+            }
             hideMenu()
         }
 
@@ -267,21 +278,6 @@ class PlaylistScreenFragment : Fragment() {
 
                 //работа с размером bottomsheet
                 setupBottomSheetMaxHeight()
-//
-//                //разворачиваем bottomsheet
-//                binding.tracksPlaylistContent.post {
-//                    bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                }
-
-
-//                binding.tracksPlaylistContent.post {
-                //setupBottomSheetMaxHeight()
-
-                // Раскрытие с задержкой EXPANDED
-//                    binding.tracksPlaylistContent.postDelayed({
-//                        bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
-//                    }, 100)
-                //               }
 
                 // Обработка долгого нажатия для удаления трека
                 tracksAdapter.onLongClickListener = { track ->
@@ -365,6 +361,7 @@ class PlaylistScreenFragment : Fragment() {
 
 // показать меню
 private fun showMenu() {
+    menuOverlay.visibility = View.VISIBLE
     // Заполняем информацию о плейлисте в шапке
     val playlist = screenViewModel.playlistScrLive.value
     playlist?.let {
@@ -385,13 +382,14 @@ private fun showMenu() {
 
     // Показываем меню BottomSheet
     menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-    menuOverlay.isVisible = true
+
     menuOverlay.setOnClickListener { hideMenu() }
 }
 
     private fun hideMenu() {
+        menuOverlay.visibility = View.GONE
         menuBottomSheetBehavior.state = BottomSheetBehavior.STATE_HIDDEN
-        menuOverlay.isVisible = false
+        //menuOverlay.isVisible = false
     }
 
     override fun onDestroyView() {

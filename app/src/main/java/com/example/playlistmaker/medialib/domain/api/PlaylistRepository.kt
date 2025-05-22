@@ -20,7 +20,6 @@ interface PlaylistRepository {
 
     suspend fun getPlaylistEntityById(id: Long): PlaylistEntity?
 
-    //для показа треков в плейлисте
     suspend fun removeTrackFromPlaylist(playlistId: Long, trackId: Long)
 
     suspend fun isTrackInAnyPlaylist(trackId: Long): Boolean
@@ -28,4 +27,6 @@ interface PlaylistRepository {
     suspend fun removeTrackFromTable(trackId: Long)
 
     suspend fun deletePlaylist(playlistId: Long)
+
+    suspend fun updatePlaylist(playlist: PlaylistEntity)
 }
