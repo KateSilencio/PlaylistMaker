@@ -159,7 +159,6 @@ class MediaActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
                 }
-
                 else -> {}
             }
         }
@@ -192,8 +191,6 @@ class MediaActivity : AppCompatActivity() {
 
     //Обработка кнопки Назад
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == android.R.id.home) finish()
-//        return true
 
         if (item.itemId == android.R.id.home) {
             onBackPressedDispatcher.onBackPressed()
@@ -211,7 +208,6 @@ class MediaActivity : AppCompatActivity() {
         super.onDestroy()
         mediaViewModel.releaseMedia()
     }
-
     //------------------------------------------------------------------------
     //BottomSheet с плейлистами
     private fun showBottomSheet() {
@@ -247,13 +243,13 @@ class MediaActivity : AppCompatActivity() {
     private fun hideBottomSheet() {
         val bottomSheet = findViewById<LinearLayout>(R.id.playlists_bottom_sheet)
         val overlay = findViewById<View>(R.id.overlay)
-        val fragment = findViewById<FrameLayout>(R.id.fragment_container)
+        //val fragment = findViewById<FrameLayout>(R.id.fragment_container)
 
         val behavior = BottomSheetBehavior.from(bottomSheet)
         behavior.state = BottomSheetBehavior.STATE_HIDDEN
         //скрыть затемнение
         overlay.isVisible = false
-        fragment.isVisible = false
+        //fragment.isVisible = false
     }
 
     private fun loadPlaylistsRecycler() {
@@ -265,9 +261,6 @@ class MediaActivity : AppCompatActivity() {
         //адаптер с пустым списком
         val adapter = PlaylistBottomSheetAdapter(emptyList()).apply {
             onPlaylistClick = { playlist ->
-//                mediaViewModel.mediaStateLive.value?.track?.let { track ->
-//                    mediaViewModel.playlistSelected(playlist, track)
-//                }
                 //смотрим есть ли трек в плейлисте
                 mediaViewModel.mediaStateLive.value?.track?.let { track ->
                     lifecycleScope.launch {
@@ -301,13 +294,13 @@ class MediaActivity : AppCompatActivity() {
         newPlaylistBtn.setOnClickListener {
             hideBottomSheet()
             // Навигация
+            //findNavController(R.id.fragment_container).navigate(R.id.newPlaylistFragment)
             findViewById<ConstraintLayout>(R.id.container).isVisible = false
+            findViewById<FrameLayout>(R.id.fragment_container).isVisible = true
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, NewPlaylistFragment.newInstance(true))
                 .addToBackStack(null)
                 .commit()
-
-            findViewById<FrameLayout>(R.id.fragment_container).isVisible = true
         }
         mediaViewModel.loadPlaylists()
     }

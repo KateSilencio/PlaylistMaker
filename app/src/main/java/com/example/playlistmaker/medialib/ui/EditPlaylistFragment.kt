@@ -45,12 +45,18 @@ class EditPlaylistFragment : NewPlaylistFragment() {
         }
         //переопределяем кн Создать
         binding.createPlaylistBtn.setOnClickListener {
+            //смотрим изменилась ли обложка
+            val currentCoverUri = args.playlist.coverUri?.toUri()
+            val coverToSave = if (selectedImageUri != currentCoverUri) {
+                selectedImageUri
+            } else {
+                null
+            }
             viewModel.savePlaylist(
                 binding.inputTextTitle.text.toString(),
                 binding.inputTextDescription.text?.toString(),
-                selectedImageUri
+                coverToSave
             )
-            //findNavController().navigateUp()
         }
 
         viewModel.saveResultLiveData.observe(viewLifecycleOwner) { success ->

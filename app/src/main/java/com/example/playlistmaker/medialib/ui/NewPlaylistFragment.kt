@@ -51,7 +51,6 @@ open class NewPlaylistFragment : Fragment() {
     private var hasTitle = false
     private var hasDescription = false
 
-
     protected var selectedImageUri: Uri? = null
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -173,8 +172,6 @@ open class NewPlaylistFragment : Fragment() {
             viewLifecycleOwner,
             backPressedCallback
         )
-
-
     }
     //работа с диалогом
     private fun showDiscardDialog(){
@@ -287,8 +284,8 @@ open class NewPlaylistFragment : Fragment() {
 
     private fun handleBackNavigation() {
         if (calledFromActivity) {
-            parentFragmentManager.popBackStack()
-            // Явно скрываем контейнер и показываем основной контент
+            requireActivity().supportFragmentManager.popBackStack()
+//            // скрываем контейнер и показываем основной контент
             (requireActivity() as MediaActivity).apply {
                 findViewById<FrameLayout>(R.id.fragment_container).isVisible = false
                 findViewById<ConstraintLayout>(R.id.container).isVisible = true

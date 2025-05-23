@@ -119,20 +119,6 @@ class PlaylistScreenFragment : Fragment() {
             //state = BottomSheetBehavior.STATE_COLLAPSED
         }
 // **************************************************************************
-        //инициализацция recycler и adapter для списка треков
-//        tracksAdapter = TracksAdapter(mutableListOf()).apply {
-//            setOnClickListener { track ->
-//                // переход в аудиоплеер
-//                val intent = Intent(requireContext(), MediaActivity::class.java).apply {
-//                    putExtra(MediaActivity.TRACK_KEY, track)
-//                }
-//                startActivity(intent)
-//            }
-//        }
-//        binding.tracksInPlaylistRecycler.apply {
-//            adapter = tracksAdapter
-//            layoutManager = LinearLayoutManager(requireContext())
-//        }
 
         //кнопка поделиться
         binding.sharePlaylist.setOnClickListener {
@@ -158,7 +144,6 @@ class PlaylistScreenFragment : Fragment() {
             screenViewModel.playlistScrLive.value?.let { playlist ->
                 findNavController().navigate(
                     R.id.action_playlistScreenFragment_to_editPlaylistFragment,
-                    //bundleOf("playlist" to playlist)
                     EditPlaylistFragmentArgs(playlist).toBundle()
                 )
             }
@@ -213,9 +198,6 @@ class PlaylistScreenFragment : Fragment() {
             getString(R.string.empty_playlist_share_message),
             Snackbar.LENGTH_LONG
         ).apply {
-//            setBackgroundTint(
-//                ContextCompat.getColor(requireContext(), R.color.snackbar_background)
-//            )
             animationMode = Snackbar.ANIMATION_MODE_FADE
         }.show()
     }

@@ -114,16 +114,16 @@ class PlaylistInteractorImpl(
         withContext(Dispatchers.IO) {
             val currentPlaylist = playlistRepository.getPlaylistEntityById(playlistId) ?: return@withContext
 
-            // Если есть старая обложка и
-            // или новая обложка сущ-т или старая отличается от новой
-            if (currentPlaylist.coverPath != null &&
-                (coverUri != null || currentPlaylist.coverPath != coverUri?.toString())) {
-                // Удаляем старую обложку
-                fileInteractor.deleteImage(currentPlaylist.coverPath)
-            }
-            //сохр новую обложку если есть
-            val coverPath = coverUri?.let {
-                fileInteractor.saveImage(it)
+            val coverPath = when {
+                // Если передана новая обложка
+                coverUri != null -> {
+                    // удаляем старую, если она есть
+                    currentPlaylist.coverPath?.let { fileInteractor.deleteImage(it) }
+                    // сохраняем новую
+                    coverUri?.let { fileInteractor.saveImage(it) }
+                }
+                // coverUri == null не меняем обложку
+                else -> currentPlaylist.coverPath
             }
             //создаем новую версию плейлиста на основе текущего
             val updatedPlaylist = currentPlaylist.copy(
