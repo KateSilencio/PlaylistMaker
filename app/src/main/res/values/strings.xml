@@ -60,5 +60,6 @@
     <string name="yes">"Да"</string>
     <string name="edit_playlist">Редактировать</string>
     <string name="save">Сохранить</string>
+    <string name="playlist_empty">Плейлист пуст</string>
 
 </resources>

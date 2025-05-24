@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.navigation.fragment.findNavController
@@ -43,6 +44,12 @@ class EditPlaylistFragment : NewPlaylistFragment() {
         binding.toolbarNewPlaylist.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+        //системная кн Назад
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            editBackPressedCallback
+        )
+
         //переопределяем кн Создать
         binding.createPlaylistBtn.setOnClickListener {
             //смотрим изменилась ли обложка
@@ -73,5 +80,11 @@ class EditPlaylistFragment : NewPlaylistFragment() {
             .into(binding.playlistCover)
 
         binding.playlistCover.background = ContextCompat.getDrawable(requireContext(), R.drawable.rounded_corners)
+    }
+    //Системная Назад - закрытие без диалога
+    private val editBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            findNavController().navigateUp()
+        }
     }
 }

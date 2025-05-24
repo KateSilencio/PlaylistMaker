@@ -238,8 +238,6 @@ class PlaylistScreenFragment : Fragment() {
         // Подписка на список треков
         screenViewModel.tracksLive.observe(viewLifecycleOwner) { tracks ->
             if (tracks.isNotEmpty()) {
-
-
                 tracksAdapter = TracksAdapter(mutableListOf()).apply {
                     setOnClickListener { track ->
                         // переход в аудиоплеер
@@ -268,6 +266,7 @@ class PlaylistScreenFragment : Fragment() {
                 }
             } else {
                 binding.tracksPlaylistContent.isVisible = false
+                binding.emptyPlaylistMessage.isVisible = true
                 bottomSheetListBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }

@@ -147,10 +147,26 @@
             android:src="@drawable/ic_menu"
             app:layout_constraintStart_toEndOf="@+id/share_playlist"
             app:layout_constraintTop_toBottomOf="@+id/minutes_playlist_screen" />
+
+        <TextView
+            android:id="@+id/empty_playlist_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/top_padding16"
+            android:padding="@dimen/medium_padding8"
+            android:text="@string/playlist_empty"
+            android:textColor="@color/main_color"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size18"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/rightBorder16"
+            app:layout_constraintStart_toStartOf="@id/leftBorder16"
+            app:layout_constraintTop_toBottomOf="@id/share_playlist" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--********************************************************** -->
-
+    <!-- Bottom Sheet для списка треков -->
     <View
         android:id="@+id/bottom_sheet_anchor"
         android:layout_width="0dp"
@@ -166,7 +182,6 @@
         android:background="@drawable/bottom_sheet_background"
         android:orientation="vertical"
         android:paddingTop="@dimen/img_start_padding12"
-
         app:behavior_peekHeight="0dp"
         app:layout_anchor="@id/bottom_sheet_anchor"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
@@ -198,8 +213,8 @@
         android:layout_gravity="bottom"
         android:background="@drawable/bottom_sheet_background"
         android:orientation="vertical"
-        android:visibility="visible"
         android:paddingTop="@dimen/btn_backward24"
+        android:visibility="visible"
         app:behavior_hideable="true"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -219,8 +234,8 @@
 
         <TextView
             android:id="@+id/delete_menu_item"
-            android:layout_marginBottom="@dimen/margin110"
             style="@style/MenuItemStyle"
+            android:layout_marginBottom="@dimen/margin110"
             android:text="@string/delete_playlist" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
