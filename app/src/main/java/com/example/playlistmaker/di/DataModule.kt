@@ -5,10 +5,12 @@ import androidx.room.Room
 import com.example.playlistmaker.medialib.data.db.AppDatabase
 import com.example.playlistmaker.medialib.data.impl.FavoriteTracksRepositoryImpl
 import com.example.playlistmaker.medialib.data.impl.FileRepositoryImpl
+import com.example.playlistmaker.medialib.data.impl.PlaylistRepositoryImpl
+import com.example.playlistmaker.medialib.data.impl.shareplaylist.PlaylistShareNavigationRepositoryImpl
 import com.example.playlistmaker.medialib.domain.api.FavoriteTracksRepository
 import com.example.playlistmaker.medialib.domain.api.PlaylistRepository
+import com.example.playlistmaker.medialib.domain.api.shareplaylist.PlaylistShareNavigationRepository
 import com.example.playlistmaker.medialib.domain.filestore.FileRepository
-import com.example.playlistmaker.medialib.data.impl.PlaylistRepositoryImpl
 import com.example.playlistmaker.player.data.MediaPlayerRepositoryImpl
 import com.example.playlistmaker.player.domain.MediaPlayerRepository
 import com.example.playlistmaker.search.data.network.ITunesSearchAPI
@@ -71,4 +73,6 @@ val dataModule = module {
     single<FavoriteTracksRepository> { FavoriteTracksRepositoryImpl(get()) }
     single<FileRepository>{FileRepositoryImpl(context = androidContext())}
     single<PlaylistRepository> { PlaylistRepositoryImpl(get())  }
+//### SharePlaylist
+    single<PlaylistShareNavigationRepository> { PlaylistShareNavigationRepositoryImpl(context = androidContext()) }
 }

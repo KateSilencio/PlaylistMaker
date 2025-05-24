@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="ButtonStyleMainScr" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
@@ -170,6 +169,16 @@
         <item name="android:fontFamily">@font/ys_display_regular</item>
         <item name="android:textSize">@dimen/botnavview_text_size12</item>
         <item name="android:textColorHint">@color/icon_color</item>
+    </style>
+
+    <style name="MenuItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/sizetext_points16sp</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+        <item name="android:paddingVertical">@dimen/vert_padding20</item>
+        <item name="android:paddingStart">@dimen/img_start_padding12</item>
     </style>
 
 </resources>

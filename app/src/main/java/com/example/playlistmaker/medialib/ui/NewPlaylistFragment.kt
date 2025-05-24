@@ -29,9 +29,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class NewPlaylistFragment : Fragment() {
+open class NewPlaylistFragment : Fragment() {
 
-    //новый экземпляр `NewPlaylistFragment` передаем аргументы через Bundle
+    //новый экземпляр NewPlaylistFragment передаем аргументы через Bundle
     companion object {
         private const val ARG_CALLED_FROM_ACTIVITY = "called_from_activity"
 
@@ -47,12 +47,11 @@ class NewPlaylistFragment : Fragment() {
     private var calledFromActivity: Boolean = false
 
     private val playlistViewModel by viewModel<PlaylistsViewModel>()
-    private lateinit var binding: FragmentNewPlaylistBinding
+    protected lateinit var binding: FragmentNewPlaylistBinding
     private var hasTitle = false
     private var hasDescription = false
 
-
-    private var selectedImageUri: Uri? = null
+    protected var selectedImageUri: Uri? = null
     private val pickMedia =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             uri?.let {
@@ -173,8 +172,6 @@ class NewPlaylistFragment : Fragment() {
             viewLifecycleOwner,
             backPressedCallback
         )
-
-
     }
     //работа с диалогом
     private fun showDiscardDialog(){
@@ -219,10 +216,6 @@ class NewPlaylistFragment : Fragment() {
             snackbar.setText(getString(R.string.created_message, playlistName))
         }
         snackbar.show()
-//        Toast.makeText(
-//            requireContext(),
-//            getString(R.string.created_message,playlistName),
-//            Toast.LENGTH_LONG).show()
     }
 
     private fun updateDataInViewModel(){
@@ -266,7 +259,7 @@ class NewPlaylistFragment : Fragment() {
     }
 
     //Методы работы с загрузкой изображения
-    private fun loadCoverImage(uri: Uri) {
+    protected fun loadCoverImage(uri: Uri) {
 
         try {
             val source = ImageDecoder.createSource(requireContext().contentResolver, uri)
@@ -291,8 +284,8 @@ class NewPlaylistFragment : Fragment() {
 
     private fun handleBackNavigation() {
         if (calledFromActivity) {
-            parentFragmentManager.popBackStack()
-            // Явно скрываем контейнер и показываем основной контент
+            requireActivity().supportFragmentManager.popBackStack()
+//            // скрываем контейнер и показываем основной контент
             (requireActivity() as MediaActivity).apply {
                 findViewById<FrameLayout>(R.id.fragment_container).isVisible = false
                 findViewById<ConstraintLayout>(R.id.container).isVisible = true

@@ -21,6 +21,9 @@ class TracksAdapter(
     }*/
 
     private var onTrackClick: (TracksData) -> Unit = {}
+    //долгое нажатие
+    var onLongClickListener: (TracksData) -> Unit = {}
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TracksViewHolder {
         return TracksViewHolder(
             LayoutInflater.from(parent.context)
@@ -49,6 +52,11 @@ class TracksAdapter(
 //                context.startActivity(intent)
 //            }
             onTrackClick(tracks[position])
+        }
+        //долгое нажатие
+        holder.itemView.setOnLongClickListener {
+            onLongClickListener(tracks[position])
+            true
         }
     }
 

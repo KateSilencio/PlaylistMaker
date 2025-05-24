@@ -43,4 +43,18 @@ class FileRepositoryImpl (private val context: Context) : FileRepository {
                 outputStream?.close()
             }
         }
+
+    override suspend fun deleteImage(path: String): Boolean = withContext(Dispatchers.IO) {
+        try {
+            val file = File(path)
+            if (file.exists()) {
+                file.delete()
+                true
+            } else {
+                false
+            }
+        } catch (e: Exception) {
+            false
+        }
+    }
 }
