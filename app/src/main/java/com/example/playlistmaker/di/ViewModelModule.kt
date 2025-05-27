@@ -1,6 +1,9 @@
 package com.example.playlistmaker.di
 
+import com.example.playlistmaker.medialib.domain.model.Playlist
+import com.example.playlistmaker.medialib.ui.presentation.EditPlaylistViewModel
 import com.example.playlistmaker.medialib.ui.presentation.FavoriteTracksViewModel
+import com.example.playlistmaker.medialib.ui.presentation.PlaylistScreenViewModel
 import com.example.playlistmaker.medialib.ui.presentation.PlaylistShowViewModel
 import com.example.playlistmaker.medialib.ui.presentation.PlaylistsViewModel
 import com.example.playlistmaker.player.ui.presenter.MediaViewModel
@@ -40,4 +43,14 @@ val viewModelModule = module {
         PlaylistShowViewModel(playlistInteractor = get())
     }
 
+    viewModel {
+        PlaylistScreenViewModel(playlistInteractor = get(), playlistShareInteractor = get())
+    }
+// ### Фрагмент Редактировать плейлист ###
+    viewModel { (playlist: Playlist) ->
+        EditPlaylistViewModel(
+            playlistInteractor = get(),
+            playlist = playlist
+        )
+    }
 }

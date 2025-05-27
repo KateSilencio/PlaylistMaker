@@ -6,6 +6,7 @@ object PlaylistMapper {
         return Playlist(
             id = playlistEntity.playlistId,
             title = playlistEntity.title,
+            description = playlistEntity.description,
             coverUri = playlistEntity.coverPath,
             trackCount = playlistEntity.trackCount
         )

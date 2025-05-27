@@ -2,10 +2,12 @@ package com.example.playlistmaker.di
 
 import com.example.playlistmaker.medialib.domain.api.FavoriteTracksInteractor
 import com.example.playlistmaker.medialib.domain.api.PlaylistInteractor
+import com.example.playlistmaker.medialib.domain.api.shareplaylist.PlaylistShareInteractor
 import com.example.playlistmaker.medialib.domain.filestore.FileInteractor
 import com.example.playlistmaker.medialib.domain.impl.FavoriteTracksInteractorImpl
 import com.example.playlistmaker.medialib.domain.impl.FileInteractorImpl
 import com.example.playlistmaker.medialib.domain.impl.PlaylistInteractorImpl
+import com.example.playlistmaker.medialib.domain.impl.shareplaylist.PlaylistShareInteractorImpl
 import com.example.playlistmaker.player.domain.interactor.MediaPlayerInteractor
 import com.example.playlistmaker.player.domain.interactor.MediaPlayerInteractorImpl
 import com.example.playlistmaker.search.domain.api.SearchHistoryInteractor
@@ -39,4 +41,6 @@ val domainModule = module {
     factory<FavoriteTracksInteractor> { FavoriteTracksInteractorImpl(favoriteTracksRepository = get()) }
     factory<FileInteractor> { FileInteractorImpl(fileRepository = get()) }
     factory<PlaylistInteractor> {PlaylistInteractorImpl(playlistRepository = get(), fileInteractor = get()) }
+// ### SharePlaylist ###
+    factory<PlaylistShareInteractor> { PlaylistShareInteractorImpl(playlistShareNavigationRepository = get())  }
 }

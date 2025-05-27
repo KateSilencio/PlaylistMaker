@@ -46,10 +46,4 @@ class MediaLibFragment : Fragment() {
             tabMediator.detach()
         }
     }
-
-    //Обработка кнопки Назад
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        if (item.itemId == android.R.id.home) finish()
-//        return true
-//    }
 }

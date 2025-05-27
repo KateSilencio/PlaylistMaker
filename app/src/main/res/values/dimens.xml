@@ -41,4 +41,7 @@
     <dimen name="top_margin32">32dp</dimen>
     <dimen name="cover_size160">160dp</dimen>
     <dimen name="bottom_sheet_size300">300dp</dimen>
+
+    <dimen name="text_size18">18sp</dimen>
+    <dimen name="margin110">110dp</dimen>
 </resources>

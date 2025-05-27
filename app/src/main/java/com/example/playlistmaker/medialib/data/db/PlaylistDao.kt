@@ -23,4 +23,23 @@ interface PlaylistDao {
     @Update
     suspend fun updatePlaylist(playlist: PlaylistEntity)
 
+    //****************************************************
+    //постоянное наблюдение за изменениями плейлиста
+    @Query("SELECT * FROM playlists_table WHERE playlistId = :id")
+    fun getPlaylistByIdFlow(id: Long): Flow<PlaylistEntity>
+
+    //для списка треков в плейлисте
+    //для синхронной проверки всех плейлистов
+    @Query("SELECT * FROM playlists_table")
+    suspend fun getAllPlaylistsSync(): List<PlaylistEntity>
+
+    //удаление плейлиста
+    @Query("DELETE FROM playlists_table WHERE playlistId = :playlistId")
+    suspend fun deletePlaylist(playlistId: Long)
+
+    //для удаления треков при удалении плейлиста если трек нигде не используется
+    //находим первый совпадающий trackId трек, LIKE - подстрока
+    @Query("SELECT EXISTS(SELECT 1 FROM playlists_table WHERE tracksJson LIKE '%' || :trackId || '%')")
+    suspend fun isTrackInAnyPlaylist(trackId: Long): Boolean
+
 }
